@@ -1,0 +1,25 @@
+.section {
+  padding: var(--sp-xl) 0 var(--sp-section);
+}
+
+.header {
+  margin-bottom: var(--sp-xl);
+}
+
+.body {
+  max-width: 60ch;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-2xl);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

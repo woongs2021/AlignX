@@ -1,0 +1,53 @@
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.header {
+  margin-bottom: var(--sp-2xl);
+}
+
+.diagramWrap {
+  overflow-x: auto;
+}
+
+.diagram {
+  width: 100%;
+  min-width: 640px;
+  height: auto;
+}
+
+.box {
+  fill: var(--soft);
+}
+
+.box[data-final='true'] {
+  fill: var(--primary);
+}
+
+.label {
+  fill: var(--fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.label[data-final='true'] {
+  fill: var(--on-primary);
+}
+
+.number {
+  fill: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.arrow {
+  stroke: var(--stroke-strong);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.arrowHead {
+  fill: var(--stroke-strong);
+}

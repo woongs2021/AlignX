@@ -1,0 +1,117 @@
+.hero {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* --bg 기반 라디얼 딤 — 헤드라인 배후를 중심으로 짙어지고 가장자리로 갈수록 옅어진다.
+   텍스트 가독성 확보용이며 그림자는 쓰지 않는다. */
+.dim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, var(--bg) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.headline {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--sp-sm);
+  padding: 0 var(--sp-gutter);
+  pointer-events: none;
+}
+
+.headline > * {
+  pointer-events: auto;
+}
+
+.eyebrow {
+  color: var(--primary);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.titleEn {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-display-1);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+.titleKr {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-2);
+  color: var(--fg);
+}
+
+.lead {
+  margin-top: var(--sp-sm);
+  max-width: 42ch;
+  font-size: var(--t-lead);
+  color: var(--fg-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-sm);
+  margin-top: var(--sp-lg);
+}
+
+.scrollHint {
+  position: absolute;
+  left: 50%;
+  bottom: var(--sp-xl);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xs);
+  color: var(--fg-muted);
+}
+
+.scrollHintTrack {
+  position: relative;
+  width: 2px;
+  height: 24px;
+  overflow: hidden;
+  background: var(--stroke);
+}
+
+.scrollHintDot {
+  position: absolute;
+  inset: 0;
+  background: var(--primary);
+  animation: scroll-hint-flow 1.6s ease-in-out infinite;
+}
+
+@keyframes scroll-hint-flow {
+  0% {
+    transform: translateY(-100%);
+  }
+  60% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollHintDot {
+    animation: none;
+  }
+}

@@ -1,0 +1,6 @@
+.section {
+  padding: var(--sp-xl) 0 var(--sp-section);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+}

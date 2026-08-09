@@ -1,0 +1,171 @@
+.top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2xl);
+}
+
+@media (min-width: 768px) {
+  .top {
+    grid-template-columns: minmax(200px, 280px) 1fr;
+  }
+}
+
+.scoreBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.score {
+  line-height: 0.9;
+}
+
+.scoreMax {
+  font-size: var(--t-kr-3);
+  color: var(--fg-muted);
+}
+
+.grade {
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.previewThumb {
+  margin-top: var(--sp-md);
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--stroke);
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.barRow {
+  border-radius: var(--r-md);
+}
+
+.barRow[open] {
+  background: var(--soft);
+}
+
+.barSummary {
+  display: grid;
+  grid-template-columns: 2ch 1fr auto 3ch;
+  align-items: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-sm);
+  cursor: pointer;
+  list-style: none;
+}
+
+.barSummary::-webkit-details-marker {
+  display: none;
+}
+
+.barSummary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.barNumber {
+  font-family: var(--font-display);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.barLabel {
+  font-size: var(--t-body-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barTrack {
+  width: 140px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--stroke);
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .barTrack {
+    width: 80px;
+  }
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--r-pill);
+}
+
+.barFill[data-tone='primary'] {
+  background: var(--primary);
+}
+.barFill[data-tone='soft'] {
+  background: var(--mid);
+}
+.barFill[data-tone='mute'] {
+  background: var(--mute);
+}
+
+.barScore {
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  text-align: right;
+}
+
+.barComment {
+  padding: 0 var(--sp-sm) var(--sp-sm) calc(2ch + var(--sp-sm));
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.lists {
+  margin-top: var(--sp-2xl);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+}
+
+@media (min-width: 768px) {
+  .lists {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.listTitle {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-sm);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+  font-size: var(--t-body-sm);
+}
+
+.actions {
+  margin-top: var(--sp-2xl);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+}
+
+.limitNote {
+  margin-top: var(--sp-lg);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}

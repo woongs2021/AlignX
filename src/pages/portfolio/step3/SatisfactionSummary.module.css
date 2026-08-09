@@ -1,0 +1,67 @@
+.section {
+  padding: var(--sp-xl) 0;
+}
+
+.note {
+  margin-bottom: var(--sp-lg);
+}
+
+.gauges {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+  max-width: 480px;
+}
+
+.gaugeRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.gaugeLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-body-sm);
+  font-weight: 500;
+}
+
+.gaugeScore {
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+}
+
+.gaugeCells {
+  display: flex;
+  gap: 4px;
+}
+
+.cell {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--r-xs);
+  background: var(--stroke);
+}
+
+.cell[data-filled='true'] {
+  background: var(--primary);
+}
+
+.review {
+  margin-top: var(--sp-xl);
+}
+
+.reviewLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-sm);
+}
+
+.reviewText {
+  white-space: pre-wrap;
+  font-size: var(--t-body-sm);
+}

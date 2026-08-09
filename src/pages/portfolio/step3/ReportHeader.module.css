@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--sp-lg);
+  padding: var(--sp-section) 0 var(--sp-xl);
+}
+
+.title {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-2);
+  font-weight: 400;
+}
+
+.meta {
+  margin-top: var(--sp-xs);
+}

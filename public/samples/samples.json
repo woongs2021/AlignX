@@ -1,0 +1,82 @@
+[
+  {
+    "id": "001",
+    "company": "카카오",
+    "field": "UX디자인",
+    "preview": "001.jpg",
+    "pageCount": 21,
+    "sourceFile": "001_카카오_UX디자인.pdf"
+  },
+  {
+    "id": "002",
+    "company": "롯데",
+    "field": "UX디자인",
+    "preview": "002.jpg",
+    "pageCount": 22,
+    "sourceFile": "002_롯데_UX디자인.pdf"
+  },
+  {
+    "id": "003",
+    "company": "카카오",
+    "field": "브랜드디자인",
+    "preview": "003.jpg",
+    "pageCount": 42,
+    "sourceFile": "003_카카오_브랜드디자인.pdf"
+  },
+  {
+    "id": "004",
+    "company": "중견기업",
+    "field": "UX디자인",
+    "preview": "004.jpg",
+    "pageCount": 30,
+    "sourceFile": "004_중견기업_UX디자인.pdf"
+  },
+  {
+    "id": "005",
+    "company": "배민",
+    "field": "UX디자인",
+    "preview": "005.jpg",
+    "pageCount": 18,
+    "sourceFile": "005_배민_UX디자인.pdf"
+  },
+  {
+    "id": "006",
+    "company": "라인",
+    "field": "UX디자인",
+    "preview": "006.jpg",
+    "pageCount": 18,
+    "sourceFile": "006_라인_UX디자인.pdf"
+  },
+  {
+    "id": "007",
+    "company": "쿠팡",
+    "field": "브랜드디자인",
+    "preview": "007.jpg",
+    "pageCount": 43,
+    "sourceFile": "007_쿠팡_브랜드디자인.pdf"
+  },
+  {
+    "id": "008",
+    "company": "중견기업",
+    "field": "UX디자인",
+    "preview": "008.jpg",
+    "pageCount": 22,
+    "sourceFile": "008_중견기업_UX디자인.pdf"
+  },
+  {
+    "id": "009",
+    "company": "SK",
+    "field": "UX디자인",
+    "preview": "009.jpg",
+    "pageCount": 19,
+    "sourceFile": "009_SK_UX디자인.pdf"
+  },
+  {
+    "id": "010",
+    "company": "엔터",
+    "field": "UX디자인",
+    "preview": "010.jpg",
+    "pageCount": 20,
+    "sourceFile": "010_엔터_UX디자인.pdf"
+  }
+]

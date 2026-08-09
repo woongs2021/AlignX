@@ -1,0 +1,39 @@
+/* 콘텐츠 원칙 유틸리티 — 전 페이지 공통 (Plans/03-layout-navigation.md §6). */
+
+/* 콘텐츠 컨테이너 — width:'full' PageShell 안에서 섹션마다 중앙 정렬 폭을 준다. */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--sp-gutter);
+}
+
+/* 본문 최대 폭 68ch — 넓은 컨테이너 안에서도 읽기 줄 길이를 제한한다. */
+.prose {
+  max-width: 68ch;
+}
+
+/* 카드 그리드 3-up(데스크톱)/2-up(태블릿)/1-up(모바일) — 카드 크기는 유지하고 컬럼 수만 줄인다. */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 이미지 캡션 — 항상 캡션을 붙인다는 원칙의 기본 스타일. */
+.figure-caption {
+  margin-top: var(--sp-xs);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}

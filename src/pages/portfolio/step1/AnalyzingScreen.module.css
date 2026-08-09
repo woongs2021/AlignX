@@ -1,0 +1,155 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: minmax(240px, 360px) 1fr;
+  }
+}
+
+.previewWrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-frame);
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+  font-size: var(--t-caption);
+}
+
+.scanLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--primary);
+  animation: scan-sweep 2.4s linear infinite;
+}
+
+@keyframes scan-sweep {
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.stage {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+.stageMark {
+  position: relative;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--mute);
+  color: var(--mute);
+  font-size: var(--t-caption);
+}
+
+.stage[data-status='done'] .stageMark {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.stage[data-status='active'] .stageMark {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.pulseDots {
+  display: flex;
+  gap: 2px;
+}
+
+.pulseDots span {
+  width: 3px;
+  height: 3px;
+  border-radius: var(--r-pill);
+  background: var(--primary);
+  animation: dot-pulse 1s var(--ease-out) infinite;
+}
+
+.pulseDots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.pulseDots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.stageLabel {
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.stage[data-status='done'] .stageLabel,
+.stage[data-status='active'] .stageLabel {
+  color: var(--fg);
+}
+
+.footer {
+  margin-top: var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.footerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy {
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.elapsed {
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}

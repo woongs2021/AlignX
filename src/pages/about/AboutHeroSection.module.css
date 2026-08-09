@@ -1,0 +1,25 @@
+.section {
+  position: relative;
+  padding: var(--sp-section) 0;
+  overflow: hidden;
+}
+
+.colorBlock {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 60%;
+  height: 140%;
+  background: var(--tint);
+  border-radius: var(--r-frame);
+  z-index: -1;
+}
+
+.title {
+  position: relative;
+  margin-top: var(--sp-sm);
+  font-family: var(--font-body);
+  font-size: var(--t-kr-1);
+  font-weight: 400;
+  max-width: 20ch;
+}

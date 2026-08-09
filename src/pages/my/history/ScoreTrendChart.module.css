@@ -1,0 +1,48 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+}
+
+.chart[data-orientation='vertical'] {
+  max-width: 280px;
+}
+
+.line {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 2;
+}
+
+.axisLabel {
+  fill: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.hitArea {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.hitArea:focus-visible {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  outline: none;
+}
+
+.node {
+  fill: var(--primary);
+  stroke: var(--bg);
+  stroke-width: 2;
+}
+
+.readout {
+  margin: 0;
+}

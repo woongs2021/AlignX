@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko" data-theme="cool">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- GitHub Pages 딥링크 복원 — public/404.html이 쿼리로 인코딩해 넘긴 원래 경로를 React
+         마운트/라우터 판독 전에 되돌린다 (Plans/13-deploy-docs.md §3). -->
+    <script>
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlignX — 데이터로 검증하는 합격 포트폴리오</title>
+    <meta
+      name="description"
+      content="AI 10대 원칙 분석과 현직 멘토 검증을 한 번에. 디자인 포트폴리오를 3단계로 진단하는 데모 서비스입니다."
+    />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="AlignX — 데이터로 검증하는 합격 포트폴리오" />
+    <meta
+      property="og:description"
+      content="AI 10대 원칙 분석과 현직 멘토 검증을 한 번에. 디자인 포트폴리오를 3단계로 진단합니다."
+    />
+    <meta property="og:image" content="https://woongs2021.github.io/AlignX/og.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://woongs2021.github.io/AlignX/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- FOUC 방지 — React 마운트 전에 동기 실행되어야 한다 (Plans/02-design-tokens.md §5.1) -->
+    <script>
+      (function () {
+        try {
+          var s = JSON.parse(localStorage.getItem('alignx.v1') || '{}');
+          var m = s && s.state && s.state.mode;
+          if (m !== 'light' && m !== 'dark') {
+            m = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.dataset.mode = m;
+        } catch (e) {
+          document.documentElement.dataset.mode = 'light';
+        }
+      })();
+    </script>
+
+    <!-- preload는 이 2개만 — Medium/Bold까지 preload하면 초기 대역폭 800KB로 LCP가 나빠진다 -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/Pretendard-Regular.subset.woff2"
+    />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Montserrat-latin.woff2" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+.section {
+  background: var(--tint);
+  padding: var(--sp-section) 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-2xl);
+}
+
+.lead {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-2);
+  line-height: 1.5;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stats > * {
+  text-align: left;
+}

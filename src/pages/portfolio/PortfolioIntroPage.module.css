@@ -1,0 +1,79 @@
+.page {
+  padding: var(--sp-section) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2xl);
+}
+
+.header {
+  max-width: 60ch;
+}
+
+.lead {
+  margin-top: var(--sp-md);
+  font-size: var(--t-lead);
+  color: var(--fg-muted);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 768px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.stepCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.stepThumb {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--r-tile);
+  overflow: hidden;
+}
+
+.stepMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.stepTitle {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-3);
+  font-weight: 500;
+}
+
+.requirements {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.requirementsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+}

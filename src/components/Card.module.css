@@ -1,0 +1,18 @@
+.card {
+  background: var(--bg);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r-tile);
+  padding: var(--sp-xl);
+}
+
+.soft {
+  background: var(--soft);
+  border-color: transparent;
+  color: var(--fg);
+}
+
+.deep {
+  background: var(--deep);
+  border-color: transparent;
+  color: var(--on-primary);
+}

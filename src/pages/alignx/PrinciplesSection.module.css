@@ -1,0 +1,61 @@
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.header {
+  margin-bottom: var(--sp-2xl);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.cardHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-sm);
+}
+
+.number {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-display-3);
+  color: var(--primary);
+  line-height: 1;
+}
+
+.titleKr {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-3);
+  font-weight: 500;
+}
+
+.titleEn {
+  color: var(--fg-muted);
+}
+
+.description {
+  font-size: var(--t-body-sm);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rowLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-caption);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.rowText {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}

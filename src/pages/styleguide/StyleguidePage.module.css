@@ -1,0 +1,50 @@
+.page {
+  padding: var(--sp-xl);
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100dvh;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--sp-xl);
+  margin-top: var(--sp-xl);
+}
+
+.panel {
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r-frame);
+  padding: var(--sp-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.panelLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-meta);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+  align-items: center;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-sm);
+}
+
+.cards > * {
+  padding: var(--sp-md);
+  font-size: var(--t-caption);
+}

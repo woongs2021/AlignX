@@ -1,0 +1,27 @@
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.band {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-radius: var(--r-frame);
+  padding: var(--sp-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-xl);
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .band {
+    padding: 64px;
+  }
+}
+
+.headline {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-1);
+  font-weight: 400;
+}

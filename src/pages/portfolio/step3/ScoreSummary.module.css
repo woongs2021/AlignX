@@ -1,0 +1,25 @@
+.section {
+  padding: var(--sp-xl) 0;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (min-width: 768px) {
+  .tiles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.finalValue {
+  line-height: 0.9;
+}
+
+.gapNote {
+  margin-top: var(--sp-md);
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}

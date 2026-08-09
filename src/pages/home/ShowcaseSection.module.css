@@ -1,0 +1,99 @@
+.section {
+  padding: var(--sp-section) 0;
+}
+
+.header {
+  margin-bottom: var(--sp-2xl);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2xl);
+  padding: var(--sp-2xl);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2xl);
+}
+
+@media (min-width: 768px) {
+  .top {
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    align-items: center;
+  }
+}
+
+.scoreBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.scoreLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-primary) 70%, transparent);
+}
+
+/* weight 700 — 이 페이지에서 임팩트 모먼트는 여기 한 곳뿐이다 (04 §6) */
+.score {
+  line-height: 0.9;
+}
+
+.grade {
+  font-size: var(--t-body-sm);
+  color: color-mix(in srgb, var(--on-primary) 70%, transparent);
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 9ch 1fr 2ch;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.barLabel {
+  font-size: var(--t-caption);
+  color: color-mix(in srgb, var(--on-primary) 70%, transparent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barTrack {
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--on-primary) 20%, transparent);
+}
+
+.barFill {
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--on-primary);
+}
+
+.barScore {
+  font-size: var(--t-caption);
+  text-align: right;
+}
+
+.quote {
+  margin: 0;
+  padding-top: var(--sp-xl);
+  border-top: 1px solid color-mix(in srgb, var(--on-primary) 20%, transparent);
+  font-size: var(--t-body-sm);
+  font-style: normal;
+  color: color-mix(in srgb, var(--on-primary) 70%, transparent);
+}

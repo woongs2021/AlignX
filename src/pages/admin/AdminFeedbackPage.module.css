@@ -1,0 +1,196 @@
+.backLink {
+  margin: var(--sp-lg) 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+  padding-bottom: var(--sp-2xl);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    align-items: start;
+  }
+
+  .left {
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    max-height: calc(100vh - 120px); /* dvh 미지원 브라우저 폴백 */
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.previewCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.previewImgButton {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  padding: 0;
+  background: var(--soft);
+  cursor: pointer;
+}
+
+.previewImgButton img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sectionLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-sm);
+}
+
+.studentName {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--t-kr-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+}
+
+.quote {
+  margin: 0;
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.reviewText {
+  font-size: var(--t-body-sm);
+  white-space: pre-wrap;
+}
+
+.stageStatus {
+  font-family: var(--font-display);
+  font-size: var(--t-kr-3);
+  font-weight: 300;
+}
+
+.stageActions {
+  display: flex;
+  gap: var(--sp-sm);
+  margin-top: var(--sp-sm);
+}
+
+.stageList {
+  margin-top: var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.stageList li[data-status='done'] {
+  color: var(--mid);
+}
+
+.stageList li[data-status='active'] {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.principleList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.principleRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.principleLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  font-size: var(--t-body-sm);
+}
+
+.principleNum {
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+}
+
+.errorText {
+  font-size: var(--t-caption);
+  color: var(--warning);
+  margin-top: var(--sp-xs);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+.slider {
+  flex: 1;
+}
+
+.scoreValue {
+  font-family: var(--font-display);
+  font-size: var(--t-kr-3);
+  min-width: 3ch;
+  text-align: right;
+}
+
+.mentorOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.mentorOption {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  font-size: var(--t-body-sm);
+}
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+.modalImg {
+  width: 100%;
+  border-radius: var(--r-md);
+}

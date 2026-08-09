@@ -1,0 +1,48 @@
+.root {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 8rem;
+  background: var(--soft);
+  text-align: center;
+  padding: var(--sp-lg);
+}
+
+.fallbackLabel {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-3);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.lqip,
+.full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lqip {
+  filter: blur(12px);
+  transform: scale(1.05);
+}
+
+.full {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.full.isLoaded {
+  opacity: 1;
+}

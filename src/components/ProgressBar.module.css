@@ -1,0 +1,31 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.label {
+  font-size: var(--t-meta);
+  color: var(--fg-muted);
+}
+
+/* 탭 영역 상하 16px 확장 — 박스 전체 높이는 6px(시각) + 14px×2(터치)이고,
+   배경은 background-clip: content-box로 가운데 6px 띠에만 그려 시각 높이를 유지한다. */
+.track {
+  position: relative;
+  height: calc(6px + 2 * var(--sp-md));
+  padding-block: var(--sp-md);
+  border-radius: var(--r-pill);
+  background: var(--stroke);
+  background-clip: content-box;
+}
+
+.fill {
+  position: absolute;
+  top: var(--sp-md);
+  left: 0;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--primary);
+  transition: width var(--dur-base) var(--ease-out);
+}

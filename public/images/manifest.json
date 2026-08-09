@@ -1,0 +1,22 @@
+{
+  "hero": [
+    { "src": "hero/01", "alt": "와콤 태블릿으로 와이어프레임을 스케치하는 UX 디자이너", "ratio": "16:10" },
+    { "src": "hero/02", "alt": "일러스트가 담긴 북 커버 디자인 목업", "ratio": "16:10" },
+    { "src": "hero/03", "alt": "취업 준비 진행률을 보여주는 모바일 앱 UI", "ratio": "16:10" },
+    { "src": "hero/04", "alt": "핀테크 대시보드 UX 케이스 스터디가 담긴 태블릿 화면", "ratio": "16:10" },
+    { "src": "hero/05", "alt": "포트폴리오를 함께 검토하는 팀 회의 일러스트", "ratio": "16:10" },
+    { "src": "hero/06", "alt": "자기계발 메시지를 담은 옥외 광고 빌보드 목업", "ratio": "16:10" },
+    { "src": "hero/07", "alt": "여러 모니터로 데이터를 분석하는 개발자", "ratio": "16:10" },
+    { "src": "hero/08", "alt": "자전거 그래픽이 프린트된 티셔츠 브랜드 디자인", "ratio": "16:10" },
+    { "src": "hero/09", "alt": "기하학적 패턴의 음료 캔 패키지 디자인", "ratio": "16:10" },
+    { "src": "hero/10", "alt": "포트폴리오 웹사이트가 열린 노트북 목업", "ratio": "16:10" }
+  ],
+  "thumbs": {
+    "portfolio-intro": { "src": "thumbs/03", "alt": "포트폴리오 업로드 안내" },
+    "step1-loading": { "src": "thumbs/04", "alt": "AI 분석 진행" },
+    "step2-mentor": { "src": "thumbs/05", "alt": "멘토 검증" },
+    "step3-report": { "src": "thumbs/06", "alt": "통합 리포트" },
+    "alignx-model": { "src": "thumbs/07", "alt": "AlignX 모델 구조" },
+    "about-team": { "src": "thumbs/08", "alt": "팀 소개" }
+  }
+}

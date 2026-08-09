@@ -1,0 +1,58 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-lg) var(--sp-gutter);
+}
+
+.topRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-lg);
+}
+
+.menuLink {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-2);
+  font-weight: 400;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menuLink:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}

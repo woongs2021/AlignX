@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlignX</title>
+    <!--
+      GitHub Pages는 정적 서버라 /AlignX/portfolio/analyze 같은 딥링크를 직접 열면 404를 준다.
+      이 파일이 그 404 응답으로 대신 서빙된다 — 경로를 쿼리 문자열로 인코딩해 index.html로 넘기면
+      index.html의 복원 스크립트가 원래 경로로 되돌린다 (Plans/13-deploy-docs.md §3).
+    -->
+    <script>
+      (function () {
+        var seg = 1; // 저장소 경로 세그먼트 수 — https://woongs2021.github.io/AlignX/ 는 1
+        var l = window.location;
+        l.replace(
+          l.protocol +
+            '//' +
+            l.hostname +
+            (l.port ? ':' + l.port : '') +
+            l.pathname.split('/').slice(0, 1 + seg).join('/') +
+            '/?/' +
+            l.pathname
+              .slice(1)
+              .split('/')
+              .slice(seg)
+              .join('/')
+              .replace(/&/g, '~and~') +
+            (l.search ? '&' + l.search.slice(1) : '') +
+            l.hash,
+        );
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

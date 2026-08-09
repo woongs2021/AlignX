@@ -1,0 +1,11 @@
+.wrap {
+  padding: var(--sp-section) 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-sm);
+}
+
+.title {
+  font-weight: 500;
+}

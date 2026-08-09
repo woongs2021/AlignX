@@ -2,10 +2,15 @@
 .claude/
 node_modules/
 dist/
+coverage/
 *.local
 
-# 대용량 원본 에셋 — 계획 단계에서는 커밋하지 않는다.
-# Phase 01 에셋 파이프라인 착수 시 정책에 따라 처리 (Plans/00-overview.md §9, Plans/13-deploy-docs.md 참고)
-Thumbnails/
+# 에셋별 커밋 정책 (Plans/01-setup-infra.md §3.5 — 서로 다르다, 혼동 주의)
+# 이미지: 원본(Thumbnails/) 커밋, 산출물은 gitignore — CI가 sharp로 매번 재생성
+# PDF 샘플: 원본(Portfolio-samples/) gitignore, 산출물(public/samples/)은 커밋 — 원본이 CI에 없어도 빌드 성공해야 함
+# 폰트: 원본(Font/) gitignore, 산출물(public/fonts/)은 커밋 — 변환 결과 불변
 Portfolio-samples/
 Font/
+public/images/hero/
+public/images/thumbs/
+public/images/**/*-blur.webp

@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-lg);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-2xl);
+}
+
+.title {
+  margin-top: var(--sp-sm);
+  font-weight: 500;
+}

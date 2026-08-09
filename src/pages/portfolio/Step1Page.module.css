@@ -1,0 +1,29 @@
+.page {
+  padding: var(--sp-section) 0;
+}
+
+.validating {
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+}
+
+.errorBox {
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-lg);
+  text-align: center;
+  padding: var(--sp-2xl);
+  border: 2px dashed var(--warning);
+  border-radius: var(--r-frame);
+}
+
+.errorMessage {
+  color: var(--fg);
+  font-size: var(--t-body-sm);
+}

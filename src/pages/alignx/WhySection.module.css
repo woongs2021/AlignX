@@ -1,0 +1,25 @@
+.section {
+  padding: var(--sp-section) 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.body {
+  font-size: var(--t-body);
+  color: var(--fg-muted);
+  margin-top: var(--sp-lg);
+}
+
+.thumb {
+  aspect-ratio: 16 / 10;
+  border-radius: var(--r-tile);
+  overflow: hidden;
+}

@@ -1,0 +1,89 @@
+.stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(220px, 30vw, 360px);
+  overflow: hidden;
+}
+
+/* --soft 색면 블록 3개 — 그라디언트 대신 색면 이동으로 깊이를 만든다 (디자인 시스템 §Don't) */
+.block {
+  position: absolute;
+  background: var(--soft);
+  opacity: 0.5;
+  border-radius: var(--r-lg);
+  animation: block-drift 12s ease-in-out infinite;
+}
+
+.block1 {
+  width: 40%;
+  height: 60%;
+  left: 5%;
+  top: 10%;
+  animation-delay: 0s;
+}
+
+.block2 {
+  width: 30%;
+  height: 40%;
+  right: 10%;
+  top: 30%;
+  animation-delay: -4s;
+}
+
+.block3 {
+  width: 25%;
+  height: 50%;
+  left: 35%;
+  bottom: 5%;
+  animation-delay: -8s;
+}
+
+@keyframes block-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6%, -4%);
+  }
+}
+
+.logo {
+  position: relative;
+  width: min(320px, 60%);
+  height: auto;
+  color: var(--fg);
+}
+
+.shape {
+  fill: currentColor;
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-opacity: 1;
+  stroke-width: 1.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    logo-draw 1.2s var(--ease-out) forwards,
+    logo-fill 400ms ease forwards;
+  animation-delay: 0s, 1.2s;
+}
+
+@keyframes logo-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-fill {
+  from {
+    fill-opacity: 0;
+    stroke-opacity: 1;
+  }
+  to {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+}

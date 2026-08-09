@@ -1,0 +1,20 @@
+.tile {
+  background: var(--bg);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r-tile);
+  padding: var(--sp-xl);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--t-display-3);
+  line-height: 1;
+  color: var(--fg);
+}
+
+.label {
+  margin-top: var(--sp-sm);
+  font-size: var(--t-meta);
+  color: var(--fg-muted);
+}

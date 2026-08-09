@@ -3,9 +3,20 @@
 **데이터로 검증하는 합격 포트폴리오**
 AI 10대 원칙 분석과 현직 멘토 검증을 한 번에 — 디자인 포트폴리오를 3단계로 진단하는 웹 서비스.
 
-> **현재 상태: 📋 계획 완료 · 코드 미착수**
-> `Plans/` 에 Phase 00–13 구현 계획이 작성되어 있다. 구현은 [Phase 01](Plans/01-setup-infra.md) 부터 시작한다.
-> 배포 후 이 문서에 라이브 링크와 스크린샷이 추가된다 ([Phase 13 §6](Plans/13-deploy-docs.md)).
+> **현재 상태: Phase 00–13 구현 완료.**
+> **배포:** https://woongs2021.github.io/AlignX/
+> `main` 브랜치에 push되면 GitHub Actions가 자동으로 재배포한다. 상세 계획은 `Plans/`.
+
+---
+
+## 스크린샷
+
+<!-- TODO: 배포 후 실제 화면 캡처로 교체 — HOME 히어로 / 1단계 분석 결과 / 3단계 통합 리포트.
+     이 초안은 브라우저를 직접 띄울 수 없는 환경에서 작성돼 실제 캡처를 대신 첨부하지 못했다. -->
+
+| HOME 히어로 | 1단계 분석 결과 | 3단계 통합 리포트 |
+|---|---|---|
+| _배포 후 추가 예정_ | _배포 후 추가 예정_ | _배포 후 추가 예정_ |
 
 ---
 
@@ -218,17 +229,20 @@ public/images/
 
 ## 배포 (GitHub Pages)
 
-`main` 브랜치에 push하면 GitHub Actions가 lint → test → build → deploy를 수행한다.
+`main` 브랜치에 push하면 `.github/workflows/deploy.yml`이 `npm run assets` → `lint` → `test` →
+`build` → `deploy` 순서로 실행된다. 검수를 통과하지 못한 코드는 이 파이프라인 자체가 막는다.
 
 ```
-https://{OWNER}.github.io/{REPO}/
+https://woongs2021.github.io/AlignX/
 ```
 
 **설정**
 1. 저장소 Settings → Pages → Source = **GitHub Actions**
-2. `vite.config.ts` 의 `base` 를 저장소명과 일치시킨다 (`/AlignX-dev/`)
-3. `public/.nojekyll` 유지 — 없으면 Vite 산출물이 404가 난다
-4. `public/404.html` SPA 리다이렉트 심으로 딥링크 지원
+2. `vite.config.ts` 의 `base`(`/AlignX/`)와 `src/router.tsx` 의 `BASENAME`이 저장소명과 일치해야
+   한다 — 배포 후 흰 화면이나 전 에셋 404가 난다면 이 둘부터 확인한다
+3. `public/.nojekyll` 유지 — 없으면 Jekyll이 Vite의 `_`로 시작하는 산출물을 무시해 404가 난다
+4. `public/404.html` + `index.html`의 복원 스크립트가 SPA 딥링크(`/portfolio/analyze` 등 직접
+   접속·새로고침)를 지원한다
 
 자세한 절차: [Phase 13](Plans/13-deploy-docs.md)
 
@@ -237,11 +251,12 @@ https://{OWNER}.github.io/{REPO}/
 ## 디렉터리 구조
 
 ```
-AlignX-dev/
-├─ Plans/                  # 구현 계획 (Phase 00–13)
+AlignX/
+├─ .github/workflows/      # GitHub Pages 배포 워크플로
+├─ Plans/                  # 구현 계획 (Phase 00–13) + reports/ 검수 산출물
 ├─ public/
 │  ├─ fonts/  images/  samples/
-│  ├─ 404.html  .nojekyll
+│  ├─ 404.html  .nojekyll  robots.txt
 ├─ scripts/                # 에셋 최적화
 ├─ src/
 │  ├─ styles/              # tokens.css — hex가 존재하는 유일한 파일
@@ -280,9 +295,9 @@ AlignX-dev/
 
 ---
 
-## 착수 전 확인이 필요한 사항
+## 계획 단계에서 정리한 쟁점
 
-계획 단계에서 원문 요구가 갈리거나 에셋이 비어 있는 지점을 정리했다. 답변이 없으면 괄호 안 가정으로 진행한다.
+원문 요구가 갈리거나 에셋이 비어 있던 지점을 계획 단계에서 정리하고 아래 가정으로 구현했다.
 
 | # | 쟁점 | 가정 |
 |---|---|---|
@@ -291,9 +306,13 @@ AlignX-dev/
 | 3 | "무한으로 넓게 퍼지는" 히어로 해석 | 무한 가로 마퀴 + 스크롤 확산 (대안 B안 병기) |
 | 4 | MY 이력 분석 해금 "n회" | **3회** |
 | 5 | AlignX AI 영상 에셋 미제공 | 로고 SVG 모션으로 대체, `<video>` 슬롯 유지 |
-| ~~6~~ | ~~폰트 바이너리 부재 (P0)~~ | ✅ **해결** — Montserrat Variable TTF · Pretendard woff2 전 세트 확보 |
+| 6 | 폰트 바이너리 부재 (P0) | ✅ **해결** — Montserrat Variable TTF · Pretendard woff2 전 세트 확보 |
 
-**현재 P0 블로커 없음.** [Phase 01](Plans/01-setup-infra.md) 부터 착수 가능하다.
+## 남은 작업 (배포 후 후속)
+
+- [ ] OG 이미지(`public/og.png`, 1200×630) 제작 — 현재 메타태그는 경로만 참조하고 있어 이미지 없이는 링크 미리보기에 썸네일이 뜨지 않는다
+- [ ] 실기기(iOS Safari·Android Chrome) 확인, 배포본 기준 Lighthouse 재측정 — `Plans/reports/lighthouse.md`·`a11y-axe.md` 참고
+- [ ] 스크린샷 3장 촬영 후 위 섹션 교체
 
 ---
 

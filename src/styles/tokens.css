@@ -1,0 +1,139 @@
+/*
+ * 디자인 토큰 — 이 프로젝트에서 hex 리터럴이 존재하는 유일한 파일이다.
+ * 다른 모든 CSS/TSX는 여기 정의된 var(--...) 만 참조한다.
+ * 원본: ../../woongdesignv2.md, Plans/02-design-tokens.md §2, §4
+ */
+
+:root {
+  /* 모드 인지 서피스 — [data-mode] 로 스왑 */
+  --bg: #fcfcff;
+  --fg: #010102;
+  --fg-muted: rgba(1, 1, 2, 0.6);
+  --stroke: rgba(1, 1, 2, 0.16); /* 원본 0.4 → 웹 카드 테두리엔 과해 0.16으로 이탈 (§2.3) */
+  --stroke-strong: rgba(1, 1, 2, 0.4);
+
+  /* 시맨틱 */
+  --warning: #ff105c;
+  --on-primary: #fcfcff; /* primary/deep 배경 위 텍스트 */
+
+  /* 간격 */
+  --sp-xs: 8px;
+  --sp-sm: 10px;
+  --sp-md: 14px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-2xl: 48px;
+  --sp-section: clamp(56px, 8vw, 80px);
+  --sp-gutter: clamp(20px, 5vw, 56px);
+
+  /* 라운드 */
+  --r-xs: 4px;
+  --r-tag: 5px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-frame: 24px;
+  --r-tile: 28px;
+  --r-pill: 999px;
+
+  --container: 1280px;
+
+  /* 모션 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 480ms;
+}
+
+[data-mode='dark'] {
+  --bg: #010102;
+  --fg: #fcfcff;
+  --fg-muted: rgba(252, 252, 255, 0.6);
+  --stroke: rgba(252, 252, 255, 0.16);
+  --stroke-strong: rgba(252, 252, 255, 0.4);
+}
+
+/* 4개 톤 세트 — 컴포넌트는 세트 이름을 모른다. var(--primary) 만 참조하면 라우트에 따라 자동으로 바뀐다. */
+/*
+ * 각 세트는 --cta 를 함께 정의한다 — on-primary(흰 텍스트)를 올릴 CTA 배경 전용 토큰이다.
+ * 기본값은 --primary 이지만, mint·warm 은 primary 위 흰 텍스트가 4.5:1 미달(2.24:1 / 4.38:1,
+ * scripts/contrast-check.mjs 실측)이라 §2.4 규정대로 --mid 로 강등했다. --primary 자체는
+ * 차트·프로그레스바 등 텍스트가 얹히지 않는 용도에 그대로 쓰인다.
+ */
+[data-theme='cool'] {
+  --primary: #4065f8;
+  --soft: #a1d0f6;
+  --mid: #16427c;
+  --deep: #001c33;
+  --tint: #caf7ff;
+  --accent: #9747ff;
+  --mute: #a8bfc1;
+  --cta: var(--primary);
+}
+
+[data-theme='mint'] {
+  --primary: #10c19f;
+  --soft: #a6e6d4;
+  --mid: #156e5c;
+  --deep: #04221c;
+  --tint: #d4f7ec;
+  --accent: #00e0be;
+  --mute: #aec4bb;
+  --cta: var(--mid);
+}
+
+[data-theme='warm'] {
+  --primary: #b85c4f;
+  --soft: #c8847d;
+  --mid: #754039;
+  --deep: #771b0e;
+  --tint: #eedcd6;
+  --accent: #8c3124;
+  --mute: #a38e85;
+  --cta: var(--mid);
+}
+
+[data-theme='violet'] {
+  --primary: #b14d92;
+  --soft: #c896c0;
+  --mid: #6a2a55;
+  --deep: #4c1039;
+  --tint: #efdcec;
+  --accent: #9b2774;
+  --mute: #a38aa0;
+  --cta: var(--primary);
+}
+
+/* 다크 모드 채도 보정 (§2.3) — 라이트 기준 hex를 그대로 쓰면 soft/tint가 눈부시게 뜬다. */
+[data-mode='dark'] [data-theme='cool'] {
+  --soft: color-mix(in oklab, #a1d0f6 34%, var(--bg));
+  --tint: color-mix(in oklab, #caf7ff 20%, var(--bg));
+  --deep: color-mix(in oklab, #001c33 60%, var(--bg));
+}
+
+[data-mode='dark'] [data-theme='mint'] {
+  --soft: color-mix(in oklab, #a6e6d4 34%, var(--bg));
+  --tint: color-mix(in oklab, #d4f7ec 20%, var(--bg));
+  --deep: color-mix(in oklab, #04221c 60%, var(--bg));
+}
+
+[data-mode='dark'] [data-theme='warm'] {
+  --soft: color-mix(in oklab, #c8847d 34%, var(--bg));
+  --tint: color-mix(in oklab, #eedcd6 20%, var(--bg));
+  --deep: color-mix(in oklab, #771b0e 60%, var(--bg));
+}
+
+[data-mode='dark'] [data-theme='violet'] {
+  --soft: color-mix(in oklab, #c896c0 34%, var(--bg));
+  --tint: color-mix(in oklab, #efdcec 20%, var(--bg));
+  --deep: color-mix(in oklab, #4c1039 60%, var(--bg));
+}
+
+/* 라우트 톤 전환(00 §6.1) · 모드 토글(§5.2) 공용 트랜지션. transition: all 은 레이아웃 저크를 유발해 금지. */
+.mode-transition,
+.mode-transition * {
+  transition:
+    color var(--dur-base) var(--ease-out),
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}

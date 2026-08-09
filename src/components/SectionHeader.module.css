@@ -1,0 +1,13 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.eyebrow {
+  color: var(--mid);
+}
+
+.title {
+  color: var(--fg);
+}

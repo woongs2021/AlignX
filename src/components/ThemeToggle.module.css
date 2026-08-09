@@ -1,0 +1,22 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: var(--soft);
+  border-color: var(--stroke-strong);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

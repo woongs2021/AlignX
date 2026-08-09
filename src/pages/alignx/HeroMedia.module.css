@@ -1,0 +1,36 @@
+.video {
+  width: 100%;
+  height: auto;
+  border-radius: var(--r-frame);
+}
+
+.posterButton {
+  position: relative;
+  width: 100%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--r-frame);
+  overflow: hidden;
+}
+
+.posterImg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.playLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--deep) 40%, transparent);
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

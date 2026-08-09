@@ -1,0 +1,23 @@
+.section {
+  padding: var(--sp-section) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xl);
+}
+
+.headline {
+  max-width: 60ch;
+}
+
+.titleKr {
+  font-family: var(--font-body);
+  font-size: var(--t-kr-1);
+  font-weight: 400;
+  margin-top: var(--sp-sm);
+}
+
+.lead {
+  margin-top: var(--sp-md);
+  font-size: var(--t-lead);
+  color: var(--fg-muted);
+}

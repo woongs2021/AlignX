@@ -1,0 +1,8 @@
+.banner {
+  margin: 0;
+  padding: var(--sp-sm) var(--sp-gutter);
+  background: var(--warning);
+  color: var(--on-primary);
+  font-size: var(--t-body-sm);
+  text-align: center;
+}

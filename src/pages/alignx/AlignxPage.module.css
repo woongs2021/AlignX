@@ -1,0 +1,15 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-2xl);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr 200px;
+  }
+}
+
+.content {
+  min-width: 0;
+}
