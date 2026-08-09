@@ -1,0 +1,11 @@
+.DS_Store
+.claude/
+node_modules/
+dist/
+*.local
+
+# 대용량 원본 에셋 — 계획 단계에서는 커밋하지 않는다.
+# Phase 01 에셋 파이프라인 착수 시 정책에 따라 처리 (Plans/00-overview.md §9, Plans/13-deploy-docs.md 참고)
+Thumbnails/
+Portfolio-samples/
+Font/
