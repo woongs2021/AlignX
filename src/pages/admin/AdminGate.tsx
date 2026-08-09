@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { SectionHeader } from '@/components/SectionHeader';
+import { Card } from '@/components/Card';
+import { Button } from '@/components/Button';
 import { useAppStore } from '@/store/useAppStore';
 import { ADMIN_PASSWORD, ADMIN_MAX_ATTEMPTS, ADMIN_LOCKOUT_MS } from '@/data/constants';
 import styles from './AdminGate.module.css';
@@ -21,8 +24,8 @@ function EyeOffIcon() {
   );
 }
 
-/** ADMIN 암호 게이트 — `--deep` 풀스크린 카드. 이 화면은 데모용 구분 장치일 뿐 실제 접근
- * 통제가 아니다(Plans/10-admin.md §0). */
+/** ADMIN 암호 게이트 — 다른 탭과 동일한 페이지 레이아웃(SectionHeader + Card)을 쓴다.
+ * 이 화면은 데모용 구분 장치일 뿐 실제 접근 통제가 아니다(Plans/10-admin.md §0). */
 export function AdminGate() {
   const unlockAdmin = useAppStore((s) => s.unlockAdmin);
   const [password, setPassword] = useState('');
@@ -100,11 +103,10 @@ export function AdminGate() {
   }
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.card}>
-        <span className="label">ADMIN</span>
-        <h1 className={styles.title}>관리자 인증</h1>
+    <div className={`container ${styles.page}`}>
+      <SectionHeader eyebrow="ADMIN" title="관리자 인증" />
 
+      <Card className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.fieldRow}>
             <input
@@ -133,9 +135,9 @@ export function AdminGate() {
             </button>
           </div>
 
-          <button type="submit" className={styles.submit} disabled={isLocked}>
+          <Button type="submit" variant="primary" disabled={isLocked} className={styles.submit}>
             확인
-          </button>
+          </Button>
 
           <p role="alert" aria-live="polite" className={styles.status}>
             {isLocked
@@ -145,9 +147,9 @@ export function AdminGate() {
                 : ''}
           </p>
         </form>
+      </Card>
 
-        <p className={styles.notice}>이 화면은 데모용 구분 장치입니다. 실제 접근 통제가 아닙니다.</p>
-      </div>
+      <p className={styles.notice}>이 화면은 데모용 구분 장치입니다. 실제 접근 통제가 아닙니다.</p>
     </div>
   );
 }

@@ -1,31 +1,15 @@
-.screen {
-  min-height: 100vh; /* dvh 미지원 브라우저 폴백 */
-  min-height: 100dvh; /* 모바일 주소창 접힘/펼침에 대응 */
-  background: var(--deep);
-  color: var(--on-primary);
+.page {
+  padding: var(--sp-section) 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--sp-xl);
+  flex-direction: column;
+  gap: var(--sp-2xl);
+  max-width: 480px;
 }
 
 .card {
-  width: 100%;
-  max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-sm);
-}
-
-.card .label {
-  color: var(--soft);
-}
-
-.title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: var(--t-display-3);
-  margin-bottom: var(--sp-lg);
+  gap: var(--sp-lg);
 }
 
 .form {
@@ -40,19 +24,20 @@
 
 .input {
   width: 100%;
-  height: 56px;
-  padding: 0 56px 0 18px;
+  height: 48px;
+  padding: 14px 56px 14px 18px;
+  border: 1px solid var(--stroke);
   border-radius: var(--r-md);
-  border: 1px solid rgba(252, 252, 255, 0.24);
-  background: rgba(252, 252, 255, 0.06);
-  color: var(--on-primary);
-  font-family: var(--font-mono);
-  font-size: var(--t-body);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--on-primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 .input[aria-invalid='true'] {
@@ -60,7 +45,7 @@
 }
 
 .input::placeholder {
-  color: rgba(252, 252, 255, 0.5);
+  color: var(--fg-muted);
 }
 
 .eyeButton {
@@ -75,29 +60,22 @@
   justify-content: center;
   border: none;
   background: none;
-  color: var(--on-primary);
+  color: var(--fg-muted);
   cursor: pointer;
   border-radius: var(--r-sm);
 }
 
+.eyeButton:hover {
+  color: var(--fg);
+}
+
 .eyeButton:focus-visible {
-  outline: 2px solid var(--on-primary);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 .submit {
-  height: 48px;
-  border-radius: var(--r-md);
-  border: none;
-  background: var(--primary);
-  color: var(--on-primary);
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  align-self: flex-start;
 }
 
 .status {
@@ -107,7 +85,6 @@
 }
 
 .notice {
-  margin-top: var(--sp-lg);
   font-size: var(--t-caption);
-  color: rgba(252, 252, 255, 0.6);
+  color: var(--fg-muted);
 }
