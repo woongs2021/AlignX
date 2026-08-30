@@ -3,6 +3,10 @@
 }
 
 .header {
+  margin-bottom: var(--sp-lg);
+}
+
+.body {
   margin-bottom: var(--sp-xl);
 }
 
@@ -16,6 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--sp-lg);
   padding: var(--sp-lg);
   border: 1px solid var(--stroke);
   border-radius: var(--r-lg);
@@ -24,4 +29,8 @@
 .itemTitle {
   font-family: var(--font-body);
   font-weight: 500;
+}
+
+.itemDesc {
+  margin-top: 2px;
 }

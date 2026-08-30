@@ -38,12 +38,17 @@ function makeReportData(overrides: Partial<{ name: string; requestNote: string; 
       name: overrides.name ?? '홍길동',
       topic: '커머스 앱 리디자인',
       requestNote: overrides.requestNote ?? '요청사항입니다 10자 이상 작성합니다',
-      survey: { satisfaction: 6, motivation: 5, outcome: 7 },
-      review: overrides.review ?? '후기입니다 10자 이상 작성합니다',
       submittedAt: new Date().toISOString(),
     },
     mentorStages: null,
     mentorFeedback,
+    finalReview: {
+      satisfaction: 6,
+      motivation: 5,
+      outcome: 7,
+      review: overrides.review ?? '후기입니다 10자 이상 작성합니다',
+      submittedAt: new Date().toISOString(),
+    },
   };
   const report = buildReportData(attempt);
   if (!report) throw new Error('테스트 픽스처 조립 실패');

@@ -7,7 +7,6 @@ import { Modal } from '@/components/Modal';
 import { useAppStore } from '@/store/useAppStore';
 import { gradeFromScore } from '@/data/principles';
 import type { Attempt, MentorRequest } from '@/types';
-import { ScaleField } from './ScaleField';
 import styles from './MentorRequestForm.module.css';
 
 const NAME_MIN = 2;
@@ -17,27 +16,17 @@ const TOPIC_MAX = 60;
 const REQUEST_NOTE_MIN = 10;
 const REQUEST_NOTE_MAX = 500;
 const REQUEST_NOTE_WARN_AT = 480;
-const REVIEW_MIN = 10;
-const REVIEW_MAX = 1000;
 
 type Draft = {
   name: string;
   topic: string;
   requestNote: string;
-  satisfaction: number | null;
-  motivation: number | null;
-  outcome: number | null;
-  review: string;
 };
 
 const EMPTY_DRAFT: Draft = {
   name: '',
   topic: '',
   requestNote: '',
-  satisfaction: null,
-  motivation: null,
-  outcome: null,
-  review: '',
 };
 
 function draftKey(attemptId: string): string {
@@ -61,7 +50,6 @@ function validate(draft: Draft): Errors {
   const name = draft.name.trim();
   const topic = draft.topic.trim();
   const requestNote = draft.requestNote.trim();
-  const review = draft.review.trim();
 
   if (name.length < NAME_MIN || name.length > NAME_MAX) {
     errors.name = `이름은 ${NAME_MIN}~${NAME_MAX}자로 입력해주세요.`;
@@ -72,30 +60,17 @@ function validate(draft: Draft): Errors {
   if (requestNote.length < REQUEST_NOTE_MIN || requestNote.length > REQUEST_NOTE_MAX) {
     errors.requestNote = `요청 사항은 ${REQUEST_NOTE_MIN}~${REQUEST_NOTE_MAX}자로 입력해주세요.`;
   }
-  if (draft.satisfaction == null) errors.satisfaction = '교육 만족도를 선택해주세요.';
-  if (draft.motivation == null) errors.motivation = '동기부여 정도를 선택해주세요.';
-  if (draft.outcome == null) errors.outcome = '학습성과를 선택해주세요.';
-  if (review.length < REVIEW_MIN || review.length > REVIEW_MAX) {
-    errors.review = `교육 후기는 ${REVIEW_MIN}~${REVIEW_MAX}자로 입력해주세요.`;
-  }
   return errors;
 }
 
-const FIELD_ORDER: (keyof Draft)[] = [
-  'name',
-  'topic',
-  'requestNote',
-  'satisfaction',
-  'motivation',
-  'outcome',
-  'review',
-];
+const FIELD_ORDER: (keyof Draft)[] = ['name', 'topic', 'requestNote'];
 
 type MentorRequestFormProps = {
   attempt: Attempt;
 };
 
-/** 2단계 제출 양식 — 1단계 파일 자동 첨부(교체 불가) + 5개 필수 영역 (Plans/06-portfolio-step2.md §2). */
+/** 2단계 제출 양식 — 1단계 파일 자동 첨부(교체 불가) + 이름/주제/요청사항 3개 필수 항목만 받는다.
+ * 교육 만족도·주관식 후기는 3단계 리포트 확인 후 "최종 포트폴리오 제출"에서 별도로 받는다. */
 export function MentorRequestForm({ attempt }: MentorRequestFormProps) {
   const setMentorRequest = useAppStore((s) => s.setMentorRequest);
 
@@ -136,12 +111,6 @@ export function MentorRequestForm({ attempt }: MentorRequestFormProps) {
       name: draft.name.trim(),
       topic: draft.topic.trim(),
       requestNote: draft.requestNote.trim(),
-      survey: {
-        satisfaction: draft.satisfaction ?? 0,
-        motivation: draft.motivation ?? 0,
-        outcome: draft.outcome ?? 0,
-      },
-      review: draft.review.trim(),
       submittedAt: new Date().toISOString(),
     };
     setMentorRequest(attempt.id, request);
@@ -228,82 +197,28 @@ export function MentorRequestForm({ attempt }: MentorRequestFormProps) {
         )}
       </div>
 
-      <div className={styles.scales}>
-        <div ref={(el: HTMLDivElement | null) => { fieldRefs.current.satisfaction = el; }}>
-          <ScaleField
-            legend="교육 만족도"
-            name="satisfaction"
-            value={draft.satisfaction}
-            onChange={(v) => update('satisfaction', v)}
-            leftAnchor="전혀 그렇지 않다"
-            rightAnchor="매우 그렇다"
-            error={errors.satisfaction}
-          />
-        </div>
-        <div ref={(el: HTMLDivElement | null) => { fieldRefs.current.motivation = el; }}>
-          <ScaleField
-            legend="동기부여"
-            name="motivation"
-            value={draft.motivation}
-            onChange={(v) => update('motivation', v)}
-            leftAnchor="전혀 그렇지 않다"
-            rightAnchor="매우 그렇다"
-            error={errors.motivation}
-          />
-        </div>
-        <div ref={(el: HTMLDivElement | null) => { fieldRefs.current.outcome = el; }}>
-          <ScaleField
-            legend="학습성과"
-            name="outcome"
-            value={draft.outcome}
-            onChange={(v) => update('outcome', v)}
-            leftAnchor="전혀 그렇지 않다"
-            rightAnchor="매우 그렇다"
-            error={errors.outcome}
-          />
-        </div>
-      </div>
-
-      <div className={styles.field} ref={(el: HTMLDivElement | null) => { fieldRefs.current.review = el; }}>
-        <label htmlFor="mentor-review">주관식 교육 후기</label>
-        <Textarea
-          id="mentor-review"
-          placeholder="수업에서 가장 도움이 된 점, 아쉬웠던 점을 자유롭게 적어주세요."
-          value={draft.review}
-          onChange={(e) => update('review', e.target.value)}
-          maxLength={REVIEW_MAX}
-          aria-invalid={errors.review ? 'true' : undefined}
-          aria-describedby={errors.review ? 'mentor-review-error' : undefined}
-        />
-        {errors.review && (
-          <p id="mentor-review-error" className={styles.errorText} role="alert">
-            {errors.review}
-          </p>
-        )}
-      </div>
-
       <div className={styles.submitRow}>
         <Button variant="primary" onClick={handleSubmitClick}>
-          최종 포트폴리오 제출
+          멘토 검증 요청하기
         </Button>
       </div>
 
       <Modal
         isOpen={confirmOpen}
         onClose={() => setConfirmOpen(false)}
-        title="제출하시겠습니까?"
+        title="멘토 검증을 요청할까요?"
         actions={
           <div className={styles.modalActions}>
             <Button variant="secondary" onClick={() => setConfirmOpen(false)}>
               취소
             </Button>
             <Button variant="primary" onClick={handleConfirmSubmit}>
-              제출
+              요청
             </Button>
           </div>
         }
       >
-        제출 후에는 수정할 수 없습니다. 진행할까요?
+        요청 후에는 수정할 수 없습니다. 진행할까요?
       </Modal>
     </div>
   );

@@ -4,8 +4,8 @@ import { revealContainer, revealItem, useReveal } from '@/layout/useReveal';
 import styles from './ValueSection.module.css';
 
 const STATS = [
-  { value: '10', label: 'VISUAL & UX PRINCIPLES' },
-  { value: '3', label: 'AI → MENTOR → REPORT' },
+  { value: '10', label: 'VERIFICATION PRINCIPLES' },
+  { value: '3', label: 'AI → MENTOR → DEPLOY' },
   { value: '90초', label: 'AVERAGE ANALYSIS' },
 ];
 
@@ -22,8 +22,8 @@ export function ValueSection() {
         animate={revealed ? 'visible' : 'hidden'}
       >
         <motion.p variants={revealItem} className={`prose ${styles.lead}`}>
-          AlignX는 AI의 객관적인 10대 원칙 분석과 현직 디자이너 멘토의 실전 피드백을 한 번에 더해,
-          포트폴리오가 놓치기 쉬운 지점까지 짚어드립니다.
+          AlignX는 AI의 객관적인 10대 원칙 분석과 각 분야 현직 실무 멘토의 실전 피드백을 한 번에 더해,
+          기획자부터 디자이너, 코드리뷰까지 — 포트폴리오가 놓치기 쉬운 지점까지 짚어드립니다.
         </motion.p>
 
         <motion.div variants={revealItem} className={styles.stats}>

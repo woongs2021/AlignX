@@ -47,25 +47,32 @@ export function SubmissionPreview({ attempt, isSample, onOpenPreview }: Submissi
       </Card>
 
       {attempt.mentorRequest && (
-        <>
-          <Card>
-            <p className={styles.sectionLabel}>요청사항</p>
-            <blockquote className={styles.quote}>{attempt.mentorRequest.requestNote}</blockquote>
-          </Card>
+        <Card>
+          <p className={styles.sectionLabel}>요청사항</p>
+          <blockquote className={styles.quote}>{attempt.mentorRequest.requestNote}</blockquote>
+        </Card>
+      )}
 
+      {attempt.finalReview ? (
+        <>
           <Card>
             <p className={styles.sectionLabel}>만족도 응답</p>
             <p className="meta">
-              만족 {attempt.mentorRequest.survey.satisfaction} / 동기 {attempt.mentorRequest.survey.motivation} / 성과{' '}
-              {attempt.mentorRequest.survey.outcome}
+              만족 {attempt.finalReview.satisfaction} / 동기 {attempt.finalReview.motivation} / 성과{' '}
+              {attempt.finalReview.outcome}
             </p>
           </Card>
 
           <Card>
             <p className={styles.sectionLabel}>교육 후기</p>
-            <p className={styles.reviewText}>{attempt.mentorRequest.review}</p>
+            <p className={styles.reviewText}>{attempt.finalReview.review}</p>
           </Card>
         </>
+      ) : (
+        <Card>
+          <p className={styles.sectionLabel}>만족도 · 교육 후기</p>
+          <p className="meta">아직 최종 포트폴리오를 제출하지 않았습니다.</p>
+        </Card>
       )}
     </>
   );

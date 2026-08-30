@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
 import styles from './ThemeToggle.module.css';
 
@@ -37,18 +38,22 @@ function MoonIcon() {
   );
 }
 
-/** 라이트/다크 토글 — 배치는 Phase 03 TopNav의 몫이다. */
+/** 라이트/다크 토글 — 배치는 Phase 03 TopNav의 몫이다.
+ * HOME에서는 토글 자체를 비활성화한다 — 이미 다크 모드였다면 HOME도 다크 모드로 그대로 보이되,
+ * HOME 화면에서 전환만 막는다(모드 자체를 강제로 바꾸지는 않음). 나머지 탭은 그대로 유지. */
 export function ThemeToggle() {
   const isDark = useAppStore((s) => s.mode === 'dark');
   const toggleMode = useAppStore((s) => s.toggleMode);
+  const isHome = useLocation().pathname === '/';
 
   return (
     <button
       type="button"
       className={styles.toggle}
       onClick={toggleMode}
+      disabled={isHome}
       aria-pressed={isDark}
-      aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+      aria-label={isHome ? '이 화면에서는 다크 모드 전환을 사용할 수 없습니다' : isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
     >
       {isDark ? <MoonIcon /> : <SunIcon />}
     </button>

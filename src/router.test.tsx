@@ -45,7 +45,7 @@ describe('AppRouter — 라우트 스텁 렌더', () => {
   it('/alignx → AlignX AI', async () => {
     renderAt('/alignx');
     expect(
-      await screen.findByRole('heading', { level: 1, name: '포트폴리오를 읽는 10개의 눈' }),
+      await screen.findByRole('heading', { level: 1, name: '모든 직무를 읽는 10개의 눈' }),
     ).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe('AppRouter — 라우트 스텁 렌더', () => {
   it('/about → ABOUT', async () => {
     renderAt('/about');
     expect(
-      await screen.findByRole('heading', { level: 1, name: '데이터로 만드는 합격 포트폴리오' }),
+      await screen.findByRole('heading', { level: 1, name: '데이터로 만드는, 모두의 합격 포트폴리오' }),
     ).toBeInTheDocument();
   });
 

@@ -47,7 +47,7 @@
 .thumbFallback {
   padding: 0 var(--sp-md);
   font-size: var(--t-caption);
-  color: var(--fg-muted);
+  color: var(--fg);
   text-align: center;
   overflow-wrap: anywhere;
 }

@@ -30,7 +30,8 @@ function step2Status(attempt: Attempt): StageStatus {
   return 'ready';
 }
 function step3Status(attempt: Attempt): StageStatus {
-  return attempt.mentorFeedback ? 'done' : 'locked';
+  if (!attempt.mentorFeedback) return 'locked';
+  return attempt.finalReview ? 'done' : 'active';
 }
 
 function toneOf(score: number): 'primary' | 'soft' | 'mute' {
@@ -190,12 +191,13 @@ function ReportCard({ attempt, status, isActive }: { attempt: Attempt; status: S
     <Card className={styles.card}>
       <p className={styles.cardTitle}>③ 통합 리포트</p>
       {status === 'locked' && <p className="meta">멘토 검증 완료 후 열립니다.</p>}
-      {status === 'done' && attempt.ai && attempt.mentorFeedback && (
+      {(status === 'active' || status === 'done') && attempt.ai && attempt.mentorFeedback && (
         <>
           <p className={styles.cardScore}>
             {computeFinalScore(attempt.ai.totalScore, attempt.mentorFeedback.mentorScore)}
             <span className={styles.cardScoreMax}> / 100</span>
           </p>
+          {status === 'active' && <p className="meta">리포트를 확인하고 최종 제출해주세요.</p>}
           {isActive ? (
             <Button variant="ghost" className={styles.cardAction} onClick={() => navigate('/portfolio/report')}>
               리포트 보기 →

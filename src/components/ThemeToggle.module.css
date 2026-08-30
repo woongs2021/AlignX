@@ -20,3 +20,13 @@
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
+.toggle:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.toggle:disabled:hover {
+  background: transparent;
+  border-color: var(--stroke);
+}

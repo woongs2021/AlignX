@@ -16,8 +16,9 @@ export function ProblemSection() {
       <section className={`container ${styles.section}`}>
         <SectionHeader eyebrow="THE PROBLEM" title="포트폴리오는 있는데, 피드백이 없다" className={styles.header} />
         <p className={styles.body}>
-          취업 준비생 대부분은 포트폴리오를 여러 번 고쳐 쓰면서도 무엇이 부족한지 구체적으로 들을 기회가
-          많지 않습니다. 아래 수치는 그 체감을 보여주기 위한 예시입니다.
+          기획자든, 마케터든, 디자이너든 — 취업 준비생 대부분은 포트폴리오를 여러 번 고쳐 쓰면서도
+          무엇이 부족한지 구체적으로 들을 기회가 많지 않습니다. 아래 수치는 그 체감을 보여주기 위한
+          예시입니다.
         </p>
         <div className={styles.stats}>
           {STATS.map((stat) => (

@@ -53,8 +53,8 @@
 }
 
 .node[data-selected='true'] .nodeCircle {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--cta);
+  border-color: var(--cta);
   color: var(--on-primary);
 }
 

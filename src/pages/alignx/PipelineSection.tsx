@@ -2,7 +2,7 @@ import { SectionHeader } from '@/components/SectionHeader';
 import { SectionAnchor } from '@/layout/SectionAnchor';
 import styles from './PipelineSection.module.css';
 
-const STAGES = ['문서 파싱', '레이아웃 추출', '시각 토큰 추출', '내러티브 파싱', '스코어링'];
+const STAGES = ['문서 파싱', '구조 추출', '표현 요소 추출', '내러티브 파싱', '스코어링'];
 
 const BOX_WIDTH = 140;
 const BOX_HEIGHT = 70;

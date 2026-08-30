@@ -1,0 +1,44 @@
+.section {
+  padding: var(--sp-xl) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.note {
+  margin-top: calc(var(--sp-xs) * -1);
+}
+
+.scales {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-lg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+  max-width: 560px;
+}
+
+.field label {
+  font-size: var(--t-body-sm);
+  font-weight: 500;
+}
+
+.errorText {
+  font-size: var(--t-caption);
+  color: var(--warning);
+}
+
+.counterRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--sp-sm);
+  justify-content: flex-end;
+}

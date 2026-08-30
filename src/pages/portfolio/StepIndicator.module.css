@@ -61,14 +61,14 @@
 }
 
 .node[data-status='done'] .nodeCircle {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--cta);
+  border-color: var(--cta);
   color: var(--on-primary);
 }
 
 .node[data-status='active'] .nodeCircle {
   border-color: var(--primary);
-  color: var(--primary);
+  color: var(--accent-text);
   position: relative;
 }
 

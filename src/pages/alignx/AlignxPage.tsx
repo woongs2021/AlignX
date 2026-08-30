@@ -5,8 +5,7 @@ import { WhySection } from './WhySection';
 import { PrinciplesSection } from './PrinciplesSection';
 import { PipelineSection } from './PipelineSection';
 import { HumanInLoopSection } from './HumanInLoopSection';
-import { LimitsSection } from './LimitsSection';
-import { RoadmapSection } from './RoadmapSection';
+import { AlignxFaqSection } from './AlignxFaqSection';
 import { AlignxCtaSection } from './AlignxCtaSection';
 import styles from './AlignxPage.module.css';
 
@@ -15,8 +14,7 @@ const TOC_ITEMS = [
   { id: 'principles', label: 'PRINCIPLES' },
   { id: 'how', label: 'HOW' },
   { id: 'human', label: 'HUMAN IN THE LOOP' },
-  { id: 'limits', label: 'LIMITS' },
-  { id: 'roadmap', label: 'ROADMAP' },
+  { id: 'faq', label: 'FAQ' },
 ];
 
 /** AlignX AI — mint 톤(00 §6.1 라우트 매핑으로 자동 적용), 우측 sticky 목차 (Plans/08-alignx-about.md §A). */
@@ -38,8 +36,7 @@ export function AlignxPage() {
             <PrinciplesSection />
             <PipelineSection />
             <HumanInLoopSection />
-            <LimitsSection />
-            <RoadmapSection />
+            <AlignxFaqSection />
           </div>
           <TableOfContents items={TOC_ITEMS} />
         </div>

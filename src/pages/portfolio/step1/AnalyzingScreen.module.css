@@ -87,7 +87,7 @@
 
 .stage[data-status='active'] .stageMark {
   border-color: var(--primary);
-  color: var(--primary);
+  color: var(--accent-text);
 }
 
 .pulseDots {

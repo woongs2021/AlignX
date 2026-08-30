@@ -4,7 +4,7 @@
 import { generateAnalysis } from '@/features/analysis/dummyEngine';
 import { generateMentorFeedback } from '@/features/mentor/dummyFeedback';
 import { STAGE_CONFIG } from '@/features/mentor/simulator';
-import type { Attempt, MentorStage } from '@/types';
+import type { Attempt, FinalReview, MentorStage } from '@/types';
 
 export const SAMPLE_ID_PREFIX = 'sample_';
 
@@ -92,10 +92,20 @@ export function buildSampleAttempt(student: SampleStudent): Attempt {
           name: student.name,
           topic: student.topic,
           requestNote: '전체적인 완성도와 개선 방향을 자유롭게 봐주세요.',
-          survey: { satisfaction: 6, motivation: 6, outcome: 6 },
-          review: '실습 위주로 준비하며 많이 배웠습니다. 냉정한 피드백 부탁드립니다.',
           submittedAt,
         };
+
+  // '완료' 스냅샷은 최종 제출(리포트 확인 후 후기)까지 마친 상태를 나타낸다.
+  const finalReview: FinalReview | null =
+    student.baseStatus === 'completed'
+      ? {
+          satisfaction: 6,
+          motivation: 6,
+          outcome: 6,
+          review: '실습 위주로 준비하며 많이 배웠습니다. 냉정한 피드백 부탁드립니다.',
+          submittedAt,
+        }
+      : null;
 
   const attempt: Attempt = {
     id: SAMPLE_ID_PREFIX + student.id,
@@ -119,6 +129,7 @@ export function buildSampleAttempt(student: SampleStudent): Attempt {
             ? buildStaticStages(STAGE_CONFIG.length - 1, submittedAt)
             : null,
     mentorFeedback: null,
+    finalReview,
   };
 
   if (student.baseStatus === 'completed') {

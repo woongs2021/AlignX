@@ -26,8 +26,6 @@ function makeMentorRequest(overrides: Partial<MentorRequest> = {}): MentorReques
     name: '홍길동',
     topic: '커머스 앱 리디자인',
     requestNote: '레이아웃과 그리드 위주로 봐주세요. 10자 이상입니다.',
-    survey: { satisfaction: 6, motivation: 5, outcome: 7 },
-    review: '실습 위주 커리큘럼이 특히 도움이 됐습니다. 10자 이상 작성합니다.',
     submittedAt: new Date().toISOString(),
     ...overrides,
   };

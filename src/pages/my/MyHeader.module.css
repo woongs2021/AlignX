@@ -11,3 +11,14 @@
   margin-top: var(--sp-sm);
   font-weight: 500;
 }
+
+.actions {
+  display: flex;
+  gap: var(--sp-sm);
+}
+
+.modalActions {
+  display: flex;
+  gap: var(--sp-sm);
+  justify-content: flex-end;
+}

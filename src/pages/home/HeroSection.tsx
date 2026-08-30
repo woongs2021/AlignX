@@ -23,9 +23,11 @@ function HeroHeadline({ opacity }: { opacity: number | MotionValue<number> }) {
       <span className={`label ${styles.eyebrow}`}>ALIGNX</span>
       <h1 className={styles.title}>
         <span className={styles.titleEn}>PORTFOLIO</span>
-        <span className={styles.titleKr}>데이터로 검증하는 합격 포트폴리오</span>
+        <span className={styles.titleKr}>데이터로 검증하는, 모든 직무의 포트폴리오</span>
       </h1>
-      <p className={styles.lead}>AI 10대 원칙 분석과 현직 멘토 검증을 한 번에.</p>
+      <p className={styles.lead}>
+        기획자·PM·마케터·디자이너, 그리고 코드리뷰까지 — AlignX가 1차로, 현직 멘토가 2차로 검증합니다.
+      </p>
       <div className={styles.actions}>
         <Button variant="primary" onClick={() => navigate('/portfolio')}>
           포트폴리오 분석 시작

@@ -22,7 +22,7 @@
   font-family: var(--font-display);
   font-weight: 300;
   font-size: var(--t-display-3);
-  color: var(--primary);
+  color: var(--accent-text);
   line-height: 1;
 }
 
@@ -52,7 +52,7 @@
   font-size: var(--t-caption);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--mid);
+  color: var(--accent-text);
 }
 
 .rowText {

@@ -33,7 +33,7 @@ export function SolutionSection() {
         >
           <motion.div variants={revealItem}>
             <Card variant="soft" className={styles.column}>
-              <p className={styles.columnTitle}>AI 분석</p>
+              <p className={styles.columnTitle}>1차 · AlignX 검증</p>
               <ul className={styles.list}>
                 {AI_POINTS.map((point) => (
                   <li key={point}>{point}</li>
@@ -43,7 +43,7 @@ export function SolutionSection() {
           </motion.div>
           <motion.div variants={revealItem}>
             <Card variant="soft" className={styles.column}>
-              <p className={styles.columnTitle}>멘토 검증</p>
+              <p className={styles.columnTitle}>2차 · 멘토 검증</p>
               <ul className={styles.list}>
                 {MENTOR_POINTS.map((point) => (
                   <li key={point}>{point}</li>

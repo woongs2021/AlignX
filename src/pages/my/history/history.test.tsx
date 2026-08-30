@@ -16,8 +16,6 @@ function makeMentorRequest(overrides: Partial<MentorRequest> = {}): MentorReques
     name: '홍길동',
     topic: '커머스 앱 리디자인',
     requestNote: '요청사항입니다 10자 이상 작성합니다',
-    survey: { satisfaction: 5, motivation: 5, outcome: 5 },
-    review: '후기입니다 10자 이상 작성합니다',
     submittedAt: new Date().toISOString(),
     ...overrides,
   };
@@ -68,7 +66,7 @@ describe('MyHistoryPage — 완료 회차 3개', () => {
   it('10개 원칙이 전부 변화표에 표시된다', async () => {
     // 데스크톱 표 + 모바일 카드 스택이 CSS로만 전환되고 둘 다 DOM엔 존재하므로 getAllByText를 쓴다.
     renderAt('/my/history');
-    expect(await screen.findAllByText('시각적 위계')).not.toHaveLength(0);
+    expect(await screen.findAllByText('정보 위계')).not.toHaveLength(0);
     expect(screen.getAllByText('결과 · 임팩트 증명').length).toBeGreaterThan(0);
   });
 
