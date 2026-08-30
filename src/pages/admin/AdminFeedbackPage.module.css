@@ -115,7 +115,7 @@
 }
 
 .stageList li[data-status='done'] {
-  color: var(--mid);
+  color: var(--accent-text);
 }
 
 .stageList li[data-status='active'] {

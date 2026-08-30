@@ -23,7 +23,14 @@ export type MentorRequest = {
   name: string;
   topic: string;
   requestNote: string; // 멘토에게 요청하는 사항
-  survey: { satisfaction: number; motivation: number; outcome: number }; // 각 1–7
+  submittedAt: string;
+};
+
+// 3단계 리포트 확인 후 "최종 포트폴리오 제출" 시 남기는 응답 — 2단계 제출과는 별도 시점이다.
+export type FinalReview = {
+  satisfaction: number; // 1–7
+  motivation: number; // 1–7
+  outcome: number; // 1–7
   review: string; // 주관식 교육 후기
   submittedAt: string;
 };
@@ -61,6 +68,7 @@ export type Attempt = {
   mentorRequest: MentorRequest | null;
   mentorStages: MentorStage[] | null;
   mentorFeedback: MentorFeedback | null;
+  finalReview: FinalReview | null;
 };
 
 export type Mode = 'light' | 'dark';

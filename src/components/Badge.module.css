@@ -16,7 +16,7 @@
 }
 
 .tone {
-  background: var(--primary);
+  background: var(--cta);
   color: var(--on-primary);
 }
 

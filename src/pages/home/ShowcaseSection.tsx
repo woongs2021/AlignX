@@ -69,7 +69,7 @@ export function ShowcaseSection() {
               </div>
 
               <blockquote className={styles.quote}>
-                “레이아웃 위계가 명확해지니 리포트 전체의 설득력이 달라졌어요.” — 김민 멘토
+                “정보 위계가 명확해지니 문서 전체의 설득력이 달라졌어요.” — 김민 멘토
               </blockquote>
             </Card>
           </motion.div>

@@ -5,6 +5,7 @@ import type {
   AiAnalysis,
   AppState,
   Attempt,
+  FinalReview,
   MentorFeedback,
   MentorRequest,
   MentorStage,
@@ -95,6 +96,7 @@ type Actions = {
   advanceMentorStage: (id: string) => void;
   setMentorStages: (id: string, stages: MentorStage[]) => void;
   setMentorFeedback: (id: string, fb: MentorFeedback) => void;
+  setFinalReview: (id: string, review: FinalReview) => void;
   deleteAttempt: (id: string) => void;
   unlockAdmin: () => void;
   lockAdmin: () => void;
@@ -131,6 +133,7 @@ export const useAppStore = create<Store>()(
             mentorRequest: null,
             mentorStages: null,
             mentorFeedback: null,
+            finalReview: null,
           };
           let attempts = [newAttempt, ...state.attempts];
           if (attempts.length > PREVIEW_DROP_THRESHOLD) {
@@ -193,6 +196,12 @@ export const useAppStore = create<Store>()(
               ? { ...a, mentorFeedback: fb, status: 'completed', currentStep: 3 }
               : a,
           ),
+        }));
+      },
+
+      setFinalReview: (id, review) => {
+        set((state) => ({
+          attempts: state.attempts.map((a) => (a.id === id ? { ...a, finalReview: review } : a)),
         }));
       },
 

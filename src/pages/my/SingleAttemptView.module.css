@@ -19,12 +19,12 @@
   padding: var(--sp-xs) var(--sp-sm);
   border-radius: var(--r-pill);
   background: var(--soft);
-  color: var(--fg-muted);
+  color: var(--fg);
 }
 
 .stepperItem[data-status='done'],
 .stepperItem[data-status='active'] {
-  background: var(--primary);
+  background: var(--cta);
   color: var(--on-primary);
 }
 

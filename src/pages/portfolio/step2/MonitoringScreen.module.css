@@ -66,14 +66,14 @@
 }
 
 .stageItem[data-status='done'] .node {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--cta);
+  border-color: var(--cta);
   color: var(--on-primary);
 }
 
 .stageItem[data-status='active'] .node {
   border-color: var(--primary);
-  color: var(--primary);
+  color: var(--accent-text);
   position: relative;
 }
 
@@ -155,11 +155,11 @@
 
 .workingCopy {
   font-size: var(--t-body-sm);
-  color: var(--fg-muted);
+  color: var(--fg);
 }
 
 .doneCard {
-  background: var(--primary);
+  background: var(--cta);
   color: var(--on-primary);
   border-radius: var(--r-frame);
   padding: var(--sp-xl);

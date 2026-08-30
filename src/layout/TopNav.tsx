@@ -47,7 +47,9 @@ export function TopNav() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  [styles.tab, isActive && styles.tabActive].filter(Boolean).join(' ')
+                  [styles.tab, item.to === '/alignx' && styles.tabNatural, isActive && styles.tabActive]
+                    .filter(Boolean)
+                    .join(' ')
                 }
               >
                 {item.label}

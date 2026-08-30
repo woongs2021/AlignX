@@ -56,8 +56,6 @@ describe('2단계 자동 임시저장', () => {
       name: '홍길동',
       topic: '커머스 앱 리디자인',
       requestNote: '요청사항 10자 이상 작성합니다',
-      survey: { satisfaction: 5, motivation: 5, outcome: 5 },
-      review: '후기입니다 10자 이상 작성합니다',
       submittedAt: new Date().toISOString(),
     });
 

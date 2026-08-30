@@ -94,7 +94,7 @@
   font-weight: 500;
   font-size: var(--t-caption);
   letter-spacing: 0.08em;
-  color: var(--mid);
+  color: var(--accent-text);
   margin-bottom: var(--sp-xs);
 }
 

@@ -16,10 +16,10 @@ const DARK = {
 };
 
 const THEMES = {
-  cool: { primary: '#4065F8', soft: '#A1D0F6', mid: '#16427C', deep: '#001C33', tint: '#CAF7FF' },
-  mint: { primary: '#10C19F', soft: '#A6E6D4', mid: '#156E5C', deep: '#04221C', tint: '#D4F7EC' },
-  warm: { primary: '#B85C4F', soft: '#C8847D', mid: '#754039', deep: '#771B0E', tint: '#EEDCD6' },
-  violet: { primary: '#B14D92', soft: '#C896C0', mid: '#6A2A55', deep: '#4C1039', tint: '#EFDCEC' },
+  cool: { primary: '#4065F8', soft: '#A1D0F6', mid: '#16427C', deep: '#001C33', tint: '#CAF7FF', mute: '#A8BFC1' },
+  mint: { primary: '#10C19F', soft: '#A6E6D4', mid: '#156E5C', deep: '#04221C', tint: '#D4F7EC', mute: '#AEC4BB' },
+  warm: { primary: '#B85C4F', soft: '#C8847D', mid: '#754039', deep: '#771B0E', tint: '#EEDCD6', mute: '#A38E85' },
+  violet: { primary: '#B14D92', soft: '#C896C0', mid: '#6A2A55', deep: '#4C1039', tint: '#EFDCEC', mute: '#A38AA0' },
 };
 
 // tokens.css --cta 와 동일 — mint/warm 은 primary 위 흰 텍스트가 미달이라 mid로 강등했다.
@@ -153,6 +153,22 @@ for (const theme of Object.keys(THEMES)) {
   check(`fg on ${theme}.soft (dark)`, 4.5, rgbFromHex(DARK.fg), adj.soft);
   check(`fg on ${theme}.tint (light)`, 4.5, rgbFromHex(LIGHT.fg), rgbFromHex(t.tint));
   check(`fg on ${theme}.tint (dark)`, 4.5, rgbFromHex(DARK.fg), adj.tint);
+}
+
+// 5) --accent-text on --bg (라이트=mid, 다크=soft 원본) — 색 텍스트 직접 노출 케이스
+for (const theme of Object.keys(THEMES)) {
+  const t = THEMES[theme];
+  check(`accent-text(mid) on ${theme}.bg (light)`, 4.5, rgbFromHex(t.mid), rgbFromHex(LIGHT.bg));
+  check(`accent-text(soft-raw) on ${theme}.bg (dark)`, 4.5, rgbFromHex(t.soft), rgbFromHex(DARK.bg));
+}
+
+// 6) --mute on --bg / --tint, 라이트=50% --fg 믹스, 다크=원본
+for (const theme of Object.keys(THEMES)) {
+  const t = THEMES[theme];
+  const lightMute = colorMixOklab(t.mute, 50, LIGHT.fg);
+  check(`mute(darkened) on ${theme}.bg (light)`, 4.5, lightMute, rgbFromHex(LIGHT.bg));
+  check(`mute(darkened) on ${theme}.tint (light)`, 4.5, lightMute, rgbFromHex(t.tint));
+  check(`mute(raw) on ${theme}.bg (dark)`, 4.5, rgbFromHex(t.mute), rgbFromHex(DARK.bg));
 }
 
 let anyFail = false;

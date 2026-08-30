@@ -9,11 +9,6 @@ function renderAt(path: string) {
   return render(<AppRouter />);
 }
 
-function fillScale(legend: string, point: number) {
-  const group = screen.getByRole('radiogroup', { name: legend });
-  fireEvent.click(within(group).getByLabelText(`${point}점`));
-}
-
 beforeEach(() => {
   localStorage.clear();
   useAppStore.getState().resetAll();
@@ -43,16 +38,10 @@ describe('2단계 → 3단계 통합 흐름', () => {
       fireEvent.change(screen.getByLabelText('멘토에게 요청하는 사항'), {
         target: { value: '레이아웃과 그리드 위주로 봐주세요. 10자 이상입니다.' },
       });
-      fillScale('교육 만족도', 6);
-      fillScale('동기부여', 5);
-      fillScale('학습성과', 7);
-      fireEvent.change(screen.getByLabelText('주관식 교육 후기'), {
-        target: { value: '실습 위주 커리큘럼이 특히 도움이 됐습니다. 10자 이상 작성합니다.' },
-      });
 
-      fireEvent.click(screen.getByRole('button', { name: '최종 포트폴리오 제출' }));
-      const dialog = await screen.findByRole('dialog', { name: '제출하시겠습니까?' });
-      fireEvent.click(within(dialog).getByRole('button', { name: '제출' }));
+      fireEvent.click(screen.getByRole('button', { name: '멘토 검증 요청하기' }));
+      const dialog = await screen.findByRole('dialog', { name: '멘토 검증을 요청할까요?' });
+      fireEvent.click(within(dialog).getByRole('button', { name: '요청' }));
 
       // monitoring 화면으로 전환
       await screen.findByText(/홍길동님의 포트폴리오를 멘토들이 검증하고 있습니다/);
@@ -77,7 +66,7 @@ describe('2단계 → 3단계 통합 흐름', () => {
       expect(screen.getByText('FINAL — 가중 평균 (AI 50% + 멘토 50%)')).toBeInTheDocument();
 
       // 10개 원칙 전부 표시
-      expect(screen.getAllByText('Visual Hierarchy').length).toBeGreaterThan(0);
+      expect(screen.getAllByText('Information Hierarchy').length).toBeGreaterThan(0);
       expect(screen.getAllByText('Outcome & Impact').length).toBeGreaterThan(0);
 
       // 요청사항이 리포트에 인용된다

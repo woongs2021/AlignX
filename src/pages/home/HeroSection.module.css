@@ -32,7 +32,7 @@
 }
 
 .eyebrow {
-  color: var(--primary);
+  color: var(--accent-text);
 }
 
 .title {

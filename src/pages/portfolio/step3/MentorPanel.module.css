@@ -19,7 +19,7 @@
   font-size: var(--t-caption);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--mid);
+  color: var(--accent-text);
 }
 
 .cards {

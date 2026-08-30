@@ -25,7 +25,7 @@
   font-family: var(--font-display);
   font-weight: 500;
   font-size: var(--t-kr-3);
-  color: var(--primary);
+  color: var(--accent-text);
   text-decoration: none;
 }
 

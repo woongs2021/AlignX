@@ -34,7 +34,7 @@
   justify-content: center;
   background: var(--soft);
   font-size: var(--t-caption);
-  color: var(--fg-muted);
+  color: var(--fg);
   text-align: center;
 }
 

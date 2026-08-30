@@ -202,11 +202,15 @@ export function buildReportHtml(report: ReportData): string {
     </div>
 
     <h2>만족도 응답 요약</h2>
-    <p class="meta">아래는 평가 결과가 아니라, 2단계 제출 시 본인이 직접 남긴 응답입니다.</p>
+    ${
+      report.survey && report.review != null
+        ? `<p class="meta">아래는 평가 결과가 아니라, 최종 포트폴리오 제출 시 본인이 직접 남긴 응답입니다.</p>
     ${satisfactionGauge('교육 만족도', report.survey.satisfaction)}
     ${satisfactionGauge('동기부여', report.survey.motivation)}
     ${satisfactionGauge('학습성과', report.survey.outcome)}
-    <p>${escapeHtml(report.review)}</p>
+    <p>${escapeHtml(report.review)}</p>`
+        : `<p class="meta">아직 최종 포트폴리오를 제출하지 않았습니다.</p>`
+    }
 
     <footer>
       AlignX 포트폴리오 분석 리포트 · 생성 ${generatedAt} · AI 분석 결과는 참고 지표이며 최종 판단은 사용자에게 있습니다.

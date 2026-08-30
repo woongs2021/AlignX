@@ -1,10 +1,15 @@
 /* 콘텐츠 원칙 유틸리티 — 전 페이지 공통 (Plans/03-layout-navigation.md §6). */
 
-/* 콘텐츠 컨테이너 — width:'full' PageShell 안에서 섹션마다 중앙 정렬 폭을 준다. */
+/* 콘텐츠 컨테이너 — width:'full' PageShell 안에서 섹션마다 중앙 정렬 폭을 준다.
+ * 좌우 거터만 준다는 뜻을 명확히 하려고 shorthand 대신 longhand를 쓴다 — shorthand(padding: 0
+ * var(--sp-gutter))는 top/bottom도 암묵적으로 0으로 선언해버려서, 같은 요소에 세로 padding을
+ * 주려는 페이지별 클래스(예: .page { padding: var(--sp-section) 0 })와 부딪힌다. 두 규칙 다
+ * shorthand면 번들링 순서에 따라 승자가 페이지마다 달라지는 문제가 실제로 있었다. */
 .container {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 var(--sp-gutter);
+  padding-left: var(--sp-gutter);
+  padding-right: var(--sp-gutter);
 }
 
 /* 본문 최대 폭 68ch — 넓은 컨테이너 안에서도 읽기 줄 길이를 제한한다. */

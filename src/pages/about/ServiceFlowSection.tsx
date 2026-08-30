@@ -6,9 +6,9 @@ import { motion } from 'motion/react';
 import styles from './ServiceFlowSection.module.css';
 
 const STEPS = [
-  { title: '업로드 · AI 분석', desc: '포트폴리오를 올리면 10대 원칙으로 즉시 채점합니다.' },
-  { title: '멘토 검증', desc: '현직 멘토가 AI 점수 위에 사람의 판단을 더합니다.' },
-  { title: '통합 리포트', desc: 'AI와 멘토의 결과를 한 장의 HTML 리포트로 받습니다.' },
+  { title: '업로드 · AlignX 1차 검증', desc: '포트폴리오를 올리면 10대 원칙으로 즉시 채점합니다.' },
+  { title: '멘토 2차 검증', desc: '각 분야 현직 실무 멘토가 AI 점수 위에 사람의 판단을 더합니다.' },
+  { title: '통합 리포트', desc: 'AI와 멘토의 결과를 한 장의 리포트로 배포합니다.' },
 ];
 
 export function ServiceFlowSection() {

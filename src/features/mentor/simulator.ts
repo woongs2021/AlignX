@@ -14,14 +14,16 @@ export type StageConfig = {
 
 const FAST_FORWARD_FACTOR = 10; // ?fast=1 — 시연용 10배속
 
+// 전체 합 60초 — "컨펌 프로세스도 1분 정도" 요청에 맞춰 원래 비율(6:12:40:40:50)을 유지한 채
+// 축소했다.
 export const STAGE_CONFIG: StageConfig[] = [
-  { id: 'intake', label: '접수 확인', mentorName: '시스템', workingCopy: '접수를 확인하는 중입니다', durationMs: 6_000 },
+  { id: 'intake', label: '접수 확인', mentorName: '시스템', workingCopy: '접수를 확인하는 중입니다', durationMs: 3_000 },
   {
     id: 'assign',
     label: '멘토 배정',
     mentorName: '운영팀',
     workingCopy: '적합한 멘토를 배정하는 중입니다',
-    durationMs: 12_000,
+    durationMs: 5_000,
   },
   {
     id: 'review1',
@@ -29,7 +31,7 @@ export const STAGE_CONFIG: StageConfig[] = [
     mentorName: '김세연',
     mentorRole: 'UX Lead',
     workingCopy: '구조와 내러티브를 검토하는 중입니다',
-    durationMs: 40_000,
+    durationMs: 16_000,
   },
   {
     id: 'review2',
@@ -37,7 +39,7 @@ export const STAGE_CONFIG: StageConfig[] = [
     mentorName: '박도현',
     mentorRole: 'Product Designer',
     workingCopy: '비주얼과 UX를 검토하는 중입니다',
-    durationMs: 40_000,
+    durationMs: 16_000,
   },
   {
     id: 'synthesis',
@@ -45,7 +47,7 @@ export const STAGE_CONFIG: StageConfig[] = [
     mentorName: '이지우',
     mentorRole: 'Design Director',
     workingCopy: '종합 코멘트를 작성하는 중입니다',
-    durationMs: 50_000,
+    durationMs: 20_000,
   },
   { id: 'complete', label: '검증 완료', durationMs: 0 },
 ];

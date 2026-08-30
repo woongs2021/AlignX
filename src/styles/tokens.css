@@ -16,6 +16,16 @@
   --warning: #ff105c;
   --on-primary: #fcfcff; /* primary/deep 배경 위 텍스트 */
 
+  /*
+   * 톤 고정 텍스트 컬러 — 페이지의 활성 테마와 무관하게 특정 톤을 지정하고 싶을 때 쓴다
+   * (예: 한 화면 안에서 항목마다 다른 색을 줘야 하는 경우). --accent-text와 동일한 라이트=mid /
+   * 다크=soft 원본 공식이라 대비 안전성도 동일하게 보장된다.
+   */
+  --tone-cool-text: #16427c;
+  --tone-mint-text: #156e5c;
+  --tone-warm-text: #754039;
+  --tone-violet-text: #6a2a55;
+
   /* 간격 */
   --sp-xs: 8px;
   --sp-sm: 10px;
@@ -51,6 +61,11 @@
   --fg-muted: rgba(252, 252, 255, 0.6);
   --stroke: rgba(252, 252, 255, 0.16);
   --stroke-strong: rgba(252, 252, 255, 0.4);
+
+  --tone-cool-text: #a1d0f6;
+  --tone-mint-text: #a6e6d4;
+  --tone-warm-text: #c8847d;
+  --tone-violet-text: #c896c0;
 }
 
 /* 4개 톤 세트 — 컴포넌트는 세트 이름을 모른다. var(--primary) 만 참조하면 라우트에 따라 자동으로 바뀐다. */
@@ -60,6 +75,15 @@
  * scripts/contrast-check.mjs 실측)이라 §2.4 규정대로 --mid 로 강등했다. --primary 자체는
  * 차트·프로그레스바 등 텍스트가 얹히지 않는 용도에 그대로 쓰인다.
  */
+/*
+ * --accent-text — 톤 컬러를 그대로 텍스트로 쓸 때 전용 토큰(§2.4 감사에서 추가).
+ * --mid/--primary를 텍스트로 직접 쓰면 라이트에선 --mid가, 다크에선 --soft 원본이 4.5:1을
+ * 만족한다 — 이 둘은 값이 반대라 하나의 리터럴로 겸용할 수 없어 별도 토큰으로 분리했다.
+ * --cta(버튼 배경)와는 무관 — 그쪽은 배경 위 흰 텍스트용이라 값이 바뀌면 안 된다.
+ *
+ * --mute — 원래 다크 배경 전용으로 튜닝된 값이라 라이트 모드에서 텍스트/반전 배경 모두
+ * 대비가 무너진다(실측 1.0~3.1:1). 라이트 모드에서만 --fg 쪽으로 50% 섞어 어둡힌다.
+ */
 [data-theme='cool'] {
   --primary: #4065f8;
   --soft: #a1d0f6;
@@ -67,8 +91,9 @@
   --deep: #001c33;
   --tint: #caf7ff;
   --accent: #9747ff;
-  --mute: #a8bfc1;
+  --mute: color-mix(in oklab, #a8bfc1 50%, var(--fg));
   --cta: var(--primary);
+  --accent-text: var(--mid);
 }
 
 [data-theme='mint'] {
@@ -78,8 +103,9 @@
   --deep: #04221c;
   --tint: #d4f7ec;
   --accent: #00e0be;
-  --mute: #aec4bb;
+  --mute: color-mix(in oklab, #aec4bb 50%, var(--fg));
   --cta: var(--mid);
+  --accent-text: var(--mid);
 }
 
 [data-theme='warm'] {
@@ -89,8 +115,9 @@
   --deep: #771b0e;
   --tint: #eedcd6;
   --accent: #8c3124;
-  --mute: #a38e85;
+  --mute: color-mix(in oklab, #a38e85 50%, var(--fg));
   --cta: var(--mid);
+  --accent-text: var(--mid);
 }
 
 [data-theme='violet'] {
@@ -100,33 +127,48 @@
   --deep: #4c1039;
   --tint: #efdcec;
   --accent: #9b2774;
-  --mute: #a38aa0;
+  --mute: color-mix(in oklab, #a38aa0 50%, var(--fg));
   --cta: var(--primary);
+  --accent-text: var(--mid);
 }
 
-/* 다크 모드 채도 보정 (§2.3) — 라이트 기준 hex를 그대로 쓰면 soft/tint가 눈부시게 뜬다. */
-[data-mode='dark'] [data-theme='cool'] {
+/*
+ * 다크 모드 채도 보정 (§2.3) — 라이트 기준 hex를 그대로 쓰면 soft/tint가 눈부시게 뜬다.
+ * --accent-text는 라이트의 --mid 대신 soft 원본 hex를 쓴다 — 실측상 다크 배경 위에서
+ * --mid(다크 톤)는 2~3:1로 묻히고, soft 원본(라이트 톤)은 7~15:1로 오히려 잘 읽힌다.
+ * --mute는 라이트 전용 보정(위 §2.4)을 취소하고 원본 hex로 되돌린다 — 원본이 다크 배경엔
+ * 이미 충분하다(6.7~11.3:1).
+ */
+[data-mode='dark'][data-theme='cool'] {
   --soft: color-mix(in oklab, #a1d0f6 34%, var(--bg));
   --tint: color-mix(in oklab, #caf7ff 20%, var(--bg));
   --deep: color-mix(in oklab, #001c33 60%, var(--bg));
+  --mute: #a8bfc1;
+  --accent-text: #a1d0f6;
 }
 
-[data-mode='dark'] [data-theme='mint'] {
+[data-mode='dark'][data-theme='mint'] {
   --soft: color-mix(in oklab, #a6e6d4 34%, var(--bg));
   --tint: color-mix(in oklab, #d4f7ec 20%, var(--bg));
   --deep: color-mix(in oklab, #04221c 60%, var(--bg));
+  --mute: #aec4bb;
+  --accent-text: #a6e6d4;
 }
 
-[data-mode='dark'] [data-theme='warm'] {
+[data-mode='dark'][data-theme='warm'] {
   --soft: color-mix(in oklab, #c8847d 34%, var(--bg));
   --tint: color-mix(in oklab, #eedcd6 20%, var(--bg));
   --deep: color-mix(in oklab, #771b0e 60%, var(--bg));
+  --mute: #a38e85;
+  --accent-text: #c8847d;
 }
 
-[data-mode='dark'] [data-theme='violet'] {
+[data-mode='dark'][data-theme='violet'] {
   --soft: color-mix(in oklab, #c896c0 34%, var(--bg));
   --tint: color-mix(in oklab, #efdcec 20%, var(--bg));
   --deep: color-mix(in oklab, #4c1039 60%, var(--bg));
+  --mute: #a38aa0;
+  --accent-text: #c896c0;
 }
 
 /* 라우트 톤 전환(00 §6.1) · 모드 토글(§5.2) 공용 트랜지션. transition: all 은 레이아웃 저크를 유발해 금지. */

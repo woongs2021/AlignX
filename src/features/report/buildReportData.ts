@@ -35,8 +35,9 @@ export type ReportData = {
   requestNote: string;
   mentorOverall: { name: string; role: string; comment: string };
   mentorPanel: ReportMentorCard[];
-  survey: { satisfaction: number; motivation: number; outcome: number };
-  review: string;
+  // 3단계 리포트 확인 후 "최종 포트폴리오 제출"에서 받는다 — 그 전에는 null이다.
+  survey: { satisfaction: number; motivation: number; outcome: number } | null;
+  review: string | null;
   previewDataUrl: string;
 };
 
@@ -86,8 +87,14 @@ export function buildReportData(attempt: Attempt): ReportData | null {
       comment: mentorFeedback.overall,
     },
     mentorPanel,
-    survey: mentorRequest.survey,
-    review: mentorRequest.review,
+    survey: attempt.finalReview
+      ? {
+          satisfaction: attempt.finalReview.satisfaction,
+          motivation: attempt.finalReview.motivation,
+          outcome: attempt.finalReview.outcome,
+        }
+      : null,
+    review: attempt.finalReview?.review ?? null,
     previewDataUrl: attempt.file.previewDataUrl,
   };
 }

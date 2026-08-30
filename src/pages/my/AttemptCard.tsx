@@ -44,7 +44,7 @@ export function AttemptCard({ attempt, sequenceNumber, isBest, onDelete }: Attem
   const topic = attempt.mentorRequest?.topic || attempt.file.name;
   const doneStage1 = attempt.ai !== null;
   const doneStage2 = attempt.mentorFeedback !== null;
-  const doneStage3 = attempt.mentorFeedback !== null;
+  const doneStage3 = attempt.finalReview !== null;
   const doneCount = [doneStage1, doneStage2, doneStage3].filter(Boolean).length;
 
   const reviewStages = stages.filter((s) => s.id !== 'complete');

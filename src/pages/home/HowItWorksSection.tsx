@@ -8,22 +8,22 @@ const STEPS = [
   {
     number: '01',
     labelEn: 'AI ANALYSIS',
-    titleKr: 'AI 분석',
-    description: '포트폴리오를 업로드하면 10대 비주얼·UX 원칙으로 90초 안에 채점합니다.',
+    titleKr: 'AlignX 1차 검증',
+    description: '포트폴리오를 업로드하면 AlignX가 10대 원칙으로 90초 안에 1차 채점합니다.',
     thumbKey: 'step1-loading',
   },
   {
     number: '02',
     labelEn: 'MENTOR REVIEW',
-    titleKr: '멘토 검증',
-    description: '현직 디자이너 멘토가 AI 점수 위에 사람의 관점을 덧댑니다.',
+    titleKr: '멘토 2차 검증',
+    description: '각 분야 현직 실무 멘토가 AI 점수 위에 사람의 판단을 더합니다.',
     thumbKey: 'step2-mentor',
   },
   {
     number: '03',
     labelEn: 'INTEGRATED REPORT',
     titleKr: '통합 리포트',
-    description: 'AI와 사람의 결론을 한 장으로 묶어 HTML로 내려받습니다.',
+    description: 'AI와 사람의 결론을 하나로 묶어 리포트로 배포합니다.',
     thumbKey: 'step3-report',
   },
 ];

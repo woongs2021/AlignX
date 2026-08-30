@@ -21,6 +21,7 @@
 
 .historyNotice {
   margin-top: var(--sp-2xl);
+  margin-bottom: var(--sp-2xl);
   padding-top: var(--sp-xl);
   border-top: 1px solid var(--stroke);
   display: flex;

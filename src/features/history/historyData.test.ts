@@ -52,6 +52,7 @@ function makeAttempt(opts: {
     mentorRequest: null,
     mentorStages: null,
     mentorFeedback,
+    finalReview: null,
   };
 }
 
@@ -126,8 +127,8 @@ describe('buildHistoryData — 성장 요약 · 원칙별 변화 · 해석 코�
   it('해석 코멘트가 실제 데이터와 일치하는 3문장을 만든다', () => {
     const data = buildHistoryData(attempts)!;
     expect(data.insights).toEqual([
-      '가장 크게 오른 항목은 레이아웃 · 그리드 정합성(+4)입니다.',
-      '3회 내내 6점 이하에 머문 항목은 시각적 위계입니다. 다음 회차의 최우선 개선 대상입니다.',
+      '가장 크게 오른 항목은 구조적 정합성(+4)입니다.',
+      '3회 내내 6점 이하에 머문 항목은 정보 위계입니다. 다음 회차의 최우선 개선 대상입니다.',
       '멘토 점수와 AI 점수의 격차가 10점 → 2점으로 좁혀졌습니다.',
     ]);
   });
@@ -135,8 +136,8 @@ describe('buildHistoryData — 성장 요약 · 원칙별 변화 · 해석 코�
   it('멘토 코멘트 아카이브는 최신순이며, 같은 원칙이 critical로 반복되면 2번째 등장부터 표시한다', () => {
     const data = buildHistoryData(attempts)!;
     expect(data.mentorArchive.map((e) => e.attemptId)).toEqual(['a3', 'a2', 'a1']);
-    expect(data.mentorArchive[0].repeatedPrincipleNames).toEqual(['시각적 위계']); // a3 — 3번째 반복
-    expect(data.mentorArchive[1].repeatedPrincipleNames).toEqual(['시각적 위계']); // a2 — 2번째 반복
+    expect(data.mentorArchive[0].repeatedPrincipleNames).toEqual(['정보 위계']); // a3 — 3번째 반복
+    expect(data.mentorArchive[1].repeatedPrincipleNames).toEqual(['정보 위계']); // a2 — 2번째 반복
     expect(data.mentorArchive[2].repeatedPrincipleNames).toEqual([]); // a1 — 최초 등장은 반복 아님
   });
 });

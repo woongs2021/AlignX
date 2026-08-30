@@ -20,12 +20,11 @@ function makeAttempt(submittedAt: string): Attempt {
       name: '홍길동',
       topic: '테스트',
       requestNote: '요청사항입니다 10자 이상',
-      survey: { satisfaction: 5, motivation: 5, outcome: 5 },
-      review: '후기입니다 10자 이상 작성합니다',
       submittedAt,
     },
     mentorStages: null,
     mentorFeedback: null,
+    finalReview: null,
   };
 }
 

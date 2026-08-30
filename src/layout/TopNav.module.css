@@ -95,6 +95,12 @@
   will-change: transform;
 }
 
+/* AlignX AI — 브랜드명의 대소문자(X)를 살려야 해서 이 탭만 uppercase를 끈다 */
+.tabNatural {
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
 .tab:hover {
   color: var(--fg);
 }

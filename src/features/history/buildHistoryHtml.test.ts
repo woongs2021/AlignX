@@ -27,7 +27,7 @@ function makeHistoryData(overrides: Partial<HistoryData> = {}): HistoryData {
     })),
     topImproved: [],
     stagnantPrinciples: [],
-    insights: ['가장 크게 오른 항목은 시각적 위계(+2)입니다.'],
+    insights: ['가장 크게 오른 항목은 정보 위계(+2)입니다.'],
     mentorArchive: [
       {
         attemptId: 'a3',
@@ -88,13 +88,13 @@ describe('buildHistoryHtml', () => {
           mentorName: '이지우',
           mentorRole: 'Design Director',
           comment: '코멘트',
-          repeatedPrincipleNames: ['시각적 위계'],
+          repeatedPrincipleNames: ['정보 위계'],
         },
       ],
     });
     const html = buildHistoryHtml(data, '홍길동');
     expect(html).toContain('반복 지적');
-    expect(html).toContain('시각적 위계');
+    expect(html).toContain('정보 위계');
   });
 
   it('10개 원칙 전부를 표에 담는다', () => {

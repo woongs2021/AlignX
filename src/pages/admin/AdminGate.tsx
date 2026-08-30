@@ -108,6 +108,7 @@ export function AdminGate() {
 
       <Card className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>
+          <p className={styles.hint}>관리자 비밀번호를 입력해주세요.</p>
           <div className={styles.fieldRow}>
             <input
               ref={inputRef}
@@ -121,7 +122,9 @@ export function AdminGate() {
               disabled={isLocked}
               aria-invalid={error ? 'true' : undefined}
               aria-label="암호"
+              placeholder="비밀번호를 입력해주세요"
               autoComplete="off"
+              autoFocus
               className={styles.input}
             />
             <button
