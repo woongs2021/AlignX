@@ -105,7 +105,7 @@ export function MonitoringScreen({ attempt }: MonitoringScreenProps) {
       {done && (
         <div className={styles.doneCard}>
           <p>멘토 검증이 완료되었습니다.</p>
-          <Button variant="secondary" onClick={() => navigate('/portfolio/report')}>
+          <Button variant="primary" onClick={() => navigate('/portfolio/report')}>
             3단계 · 통합 리포트 보기 →
           </Button>
         </div>

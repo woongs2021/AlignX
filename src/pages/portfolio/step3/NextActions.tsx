@@ -7,7 +7,7 @@ export function NextActions() {
 
   return (
     <section className={styles.section}>
-      <Button variant="primary" onClick={() => navigate('/portfolio/analyze', { state: { reanalyze: true } })}>
+      <Button variant="primary" onClick={() => navigate('/portfolio', { state: { openAnalysisModal: true } })}>
         다시 분석하기
       </Button>
       <Button variant="secondary" onClick={() => navigate('/my')}>

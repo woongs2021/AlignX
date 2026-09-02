@@ -18,10 +18,20 @@ export function CtaBandSection() {
           initial="hidden"
           animate={revealed ? 'visible' : 'hidden'}
         >
+          <img
+            src={`${import.meta.env.BASE_URL}images/banner/banner-01.svg`}
+            alt=""
+            className={`${styles.banner} ${styles.bannerTopLeft}`}
+          />
           <p className={styles.headline}>지금 내 포트폴리오는 몇 점일까?</p>
-          <Button variant="secondary" onClick={() => navigate('/portfolio')}>
-            무료로 분석 시작
+          <Button variant="primary" onClick={() => navigate('/portfolio')}>
+            상세 분석 시작
           </Button>
+          <img
+            src={`${import.meta.env.BASE_URL}images/banner/banner-01.svg`}
+            alt=""
+            className={`${styles.banner} ${styles.bannerBottomRight}`}
+          />
         </motion.div>
       </div>
     </section>

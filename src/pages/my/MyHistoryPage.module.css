@@ -1,5 +1,8 @@
 .page {
-  padding: var(--sp-section) 0;
+  /* 좌우 패딩은 container의 몫 — shorthand로 쓰면 그 padding-left/right(0)와 충돌한다.
+   * 상단은 sticky 네브 바로 아래라 sp-section(56~80px)은 과해 — sp-xl(32px)로 줄인다. */
+  padding-top: var(--sp-xl);
+  padding-bottom: var(--sp-section);
   display: flex;
   flex-direction: column;
   gap: var(--sp-2xl);

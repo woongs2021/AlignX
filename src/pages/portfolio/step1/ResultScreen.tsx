@@ -16,11 +16,10 @@ function toneOf(score: number): 'primary' | 'soft' | 'mute' {
 type ResultScreenProps = {
   ai: AiAnalysis;
   previewDataUrl: string;
-  onReanalyze: () => void;
 };
 
 /** result 상태 점수 화면 — 총점 카운트업(1.2s) + 원칙별 바 차트(60ms stagger) (05 §3.4). */
-export function ResultScreen({ ai, previewDataUrl, onReanalyze }: ResultScreenProps) {
+export function ResultScreen({ ai, previewDataUrl }: ResultScreenProps) {
   const navigate = useNavigate();
   const [displayScore, setDisplayScore] = useState(0);
 
@@ -97,7 +96,7 @@ export function ResultScreen({ ai, previewDataUrl, onReanalyze }: ResultScreenPr
         <Button variant="primary" onClick={() => navigate('/portfolio/mentor')}>
           2단계 · 멘토 검증 받기 →
         </Button>
-        <Button variant="ghost" onClick={onReanalyze}>
+        <Button variant="ghost" onClick={() => navigate('/portfolio', { state: { openAnalysisModal: true } })}>
           다시 분석하기
         </Button>
       </div>

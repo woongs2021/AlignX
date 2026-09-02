@@ -47,6 +47,8 @@
   --r-pill: 999px;
 
   --container: 1280px;
+  /* 문서형 페이지(AlignX/ABOUT)용 좁은 컨테이너 — 기본 1280px과 미사용 narrow 720px의 중간값 */
+  --container-narrow: 1000px;
 
   /* 모션 */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

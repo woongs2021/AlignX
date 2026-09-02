@@ -21,7 +21,7 @@
 }
 
 .box[data-final='true'] {
-  fill: var(--primary);
+  fill: var(--cta);
 }
 
 .label {

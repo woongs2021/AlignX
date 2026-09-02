@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { SectionHeader } from '@/components/SectionHeader';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
@@ -72,16 +71,22 @@ function resolveContinuePath(attempt: Attempt): string {
 }
 
 export function PortfolioIntroPage() {
-  usePageMeta({ title: '포트폴리오 분석 — AlignX' });
+  usePageMeta({ title: '포트폴리오 분석 — AlignX', width: 'full' });
   const navigate = useNavigate();
+  const location = useLocation();
   const activeAttempt = useAppStore((s) => s.attempts[0] ?? null);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // "다시 분석하기"(1·3단계) · "새 분석 시작"(MY) 등 다른 화면에서 넘어올 때도 항상 이 팝업으로
+  // 진입해 최초 분석과 동일한 UX를 쓰게 한다.
+  const [isModalOpen, setIsModalOpen] = useState(
+    () => (location.state as { openAnalysisModal?: boolean } | null)?.openAnalysisModal === true,
+  );
 
   return (
-    <div className={`container ${styles.page}`}>
+    <div className={`container-narrow ${styles.page}`}>
       <div className={styles.header}>
-        <SectionHeader eyebrow="PORTFOLIO ANALYSIS" title="3단계로 검증하는 내 포트폴리오" />
+        <span className="label">PORTFOLIO ANALYSIS</span>
+        <h1 className={styles.title}>3단계로 검증하는 내 포트폴리오</h1>
         <p className={styles.lead}>
           AI가 10대 원칙으로 채점하고, 현직 멘토가 그 위에 사람의 판단을 얹습니다. 두 결과를 한 장의
           리포트로 받습니다.
@@ -127,7 +132,7 @@ export function PortfolioIntroPage() {
         <p className={styles.stepTitle}>준비물</p>
         <ul className={styles.requirementsList}>
           <li>지원 포맷 — PDF, PNG, JPEG, GIF</li>
-          <li>최대 용량 — 50MB</li>
+          <li>최대 용량 — 100MB</li>
           <li>권장 페이지 수 — 10~30페이지</li>
         </ul>
       </Card>

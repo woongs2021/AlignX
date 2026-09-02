@@ -49,8 +49,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--fg);
-  color: var(--bg);
+  background: var(--cta);
+  color: var(--on-primary);
   font-size: 18px;
   line-height: 1;
 }
@@ -60,8 +60,8 @@
 }
 
 .item[open] .badge {
-  background: var(--cta);
-  color: var(--on-primary);
+  background: var(--fg);
+  color: var(--bg);
 }
 
 .item[open] .badgeIconPlus {

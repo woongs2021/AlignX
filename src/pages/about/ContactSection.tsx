@@ -8,7 +8,7 @@ const CONTACT_EMAIL = 'hello@alignx.io';
 export function ContactSection() {
   return (
     <SectionAnchor id="contact">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="CONTACT" title="문의하기" className={styles.header} />
         <div className={styles.note}>
           <Badge variant="outline">B2B 서비스</Badge>

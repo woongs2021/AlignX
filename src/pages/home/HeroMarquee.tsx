@@ -19,11 +19,10 @@ const MOBILE_ROWS: RowConfig[] = [
   { direction: 'right', duration: 80 * MOBILE_SLOWDOWN, cardWidth: 220, isCenter: true },
 ];
 
-function rotate<T>(arr: T[], offset: number): T[] {
-  const n = arr.length;
-  if (n === 0) return arr;
-  const o = ((offset % n) + n) % n;
-  return [...arr.slice(o), ...arr.slice(0, o)];
+/** 이미지 풀을 행 수만큼 균등 분할 — 데스크톱 3행 × 6장, 모바일 2행 × 9장 (18장 기준). */
+function splitIntoRows<T>(arr: T[], rowCount: number): T[][] {
+  const size = Math.ceil(arr.length / rowCount);
+  return Array.from({ length: rowCount }, (_, i) => arr.slice(i * size, i * size + size));
 }
 
 type HeroMarqueeProps = {
@@ -35,14 +34,15 @@ type HeroMarqueeProps = {
   sideOpacity: MotionValue<number>;
 };
 
-/** 3행(모바일 2행) 무한 마퀴 — 행당 이미지 10장 + 복제본 1세트 = 20장 (DOM 노드 상한 60개). */
+/** 3행(모바일 2행) 무한 마퀴 — 행당 이미지 6장(18장 기준) + 복제본 1세트 = 12장 (DOM 노드 상한 60개). */
 export function HeroMarquee({ images, isMobile, playing, rowGap, scale, sideOpacity }: HeroMarqueeProps) {
   const rows = isMobile ? MOBILE_ROWS : DESKTOP_ROWS;
+  const rowChunks = splitIntoRows(images, rows.length);
 
   return (
-    <motion.div className={styles.rows} style={{ scale, gap: rowGap }}>
+    <motion.div className={styles.rows} style={{ scale, gap: rowGap, y: -20 }}>
       {rows.map((row, rowIndex) => {
-        const rowImages = rotate(images, rowIndex * 3);
+        const rowImages = rowChunks[rowIndex];
         const cards = [...rowImages, ...rowImages];
         const trackStyle = {
           '--card-width': `${row.cardWidth}px`,

@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { SectionHeader } from '@/components/SectionHeader';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { useAppStore } from '@/store/useAppStore';
@@ -103,8 +102,11 @@ export function AdminGate() {
   }
 
   return (
-    <div className={`container ${styles.page}`}>
-      <SectionHeader eyebrow="ADMIN" title="관리자 인증" />
+    <div className={`container-narrow ${styles.page}`}>
+      <div>
+        <span className="label">ADMIN</span>
+        <h1 className={styles.title}>관리자 인증</h1>
+      </div>
 
       <Card className={styles.card}>
         <form onSubmit={handleSubmit} className={styles.form}>

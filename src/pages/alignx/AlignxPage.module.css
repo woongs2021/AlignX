@@ -1,15 +1,32 @@
+/* 본문 폭은 다른 문서형 페이지(ABOUT 등)의 좁은 컨테이너 폭(--container-narrow)과 항상 동일하게
+ * 고정한다 — 목차 때문에 폭이 넓어지는 일이 없다. 목차는 그 표준 폭 바깥, 화면의 진짜 여백에만
+ * 얹는다. 그 여백이 목차+간격을 담기에 부족하면(계산: (뷰포트-1000)/2 < 200+48) 목차는 아예
+ * 숨긴다. */
 .layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-2xl);
-}
-
-@media (min-width: 1024px) {
-  .layout {
-    grid-template-columns: 1fr 200px;
-  }
+  position: relative;
+  width: 100%;
 }
 
 .content {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding-left: var(--sp-gutter);
+  padding-right: var(--sp-gutter);
   min-width: 0;
+}
+
+.tocSlot {
+  display: none;
+}
+
+/* (--container-narrow + 2 * (목차 200px + 간격 48px)) = 1000 + 496 = 1496 — 여유를 두고 1520px */
+@media (min-width: 1520px) {
+  .tocSlot {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% + (var(--container-narrow) / 2) + var(--sp-2xl));
+    width: 200px;
+  }
 }

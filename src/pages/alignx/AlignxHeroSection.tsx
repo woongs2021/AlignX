@@ -4,7 +4,7 @@ import styles from './AlignxHeroSection.module.css';
 
 export function AlignxHeroSection() {
   return (
-    <section className={`container ${styles.section}`}>
+    <section className={`container-narrow ${styles.section}`}>
       <div className={styles.headline}>
         <span className="label">ALIGNX AI</span>
         <h1 className={styles.titleKr}>모든 직무를 읽는 10개의 눈</h1>

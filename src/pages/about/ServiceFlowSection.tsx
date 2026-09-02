@@ -16,7 +16,7 @@ export function ServiceFlowSection() {
 
   return (
     <SectionAnchor id="flow">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="SERVICE FLOW" title="3단계로 끝나는 검증" className={styles.header} />
         <motion.ol
           ref={ref}

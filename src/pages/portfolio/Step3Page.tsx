@@ -15,7 +15,7 @@ import { NextActions } from './step3/NextActions';
  * 리포트를 다 확인한 뒤 최종 제출(만족도+후기)을 받는다 — 제출 전엔 FinalReviewForm(입력),
  * 제출 후엔 SatisfactionSummary(본인이 남긴 응답 표시)로 갈아 끼운다. */
 export function Step3Page() {
-  usePageMeta({ title: '3단계 · 통합 리포트 — AlignX' });
+  usePageMeta({ title: '3단계 · 통합 리포트 — AlignX', width: 'full' });
   const activeAttempt = useAppStore((s) => s.attempts[0] ?? null);
   const report = activeAttempt ? buildReportData(activeAttempt) : null;
 
@@ -28,7 +28,7 @@ export function Step3Page() {
   }
 
   return (
-    <div className="container">
+    <div className="container-narrow">
       <ReportHeader report={report} onDownload={handleDownload} />
       <ScoreSummary report={report} />
       <PrincipleComparisonTable report={report} />

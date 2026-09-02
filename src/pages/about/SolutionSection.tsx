@@ -22,7 +22,7 @@ export function SolutionSection() {
 
   return (
     <SectionAnchor id="solution">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="SOLUTION" title="AI와 사람, 두 축으로 본다" className={styles.header} />
         <motion.div
           ref={ref}

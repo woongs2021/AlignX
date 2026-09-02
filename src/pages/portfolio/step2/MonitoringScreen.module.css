@@ -28,30 +28,21 @@
 }
 
 .timeline {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--sp-lg);
-  padding-left: var(--sp-2xl);
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 11px;
-  top: 12px;
-  bottom: 12px;
-  width: 1px;
-  background: var(--stroke);
 }
 
 .stageItem {
   position: relative;
+  /* 좌측 여백은 여기서 준다 — ol[class]의 전역 리셋(padding:0)이 .timeline보다 우선순위가
+   * 높아 ol에 직접 주면 무시된다. li는 그 리셋 대상이 아니라 여기서는 그대로 적용된다. */
+  padding-left: var(--sp-2xl);
 }
 
 .node {
   position: absolute;
-  left: calc(var(--sp-2xl) * -1);
+  left: 0;
   top: 0;
   width: 24px;
   height: 24px;
@@ -74,7 +65,6 @@
 .stageItem[data-status='active'] .node {
   border-color: var(--primary);
   color: var(--accent-text);
-  position: relative;
 }
 
 .stageItem[data-status='active'] .node::before {
@@ -159,8 +149,8 @@
 }
 
 .doneCard {
-  background: var(--cta);
-  color: var(--on-primary);
+  background: var(--soft);
+  color: var(--fg);
   border-radius: var(--r-frame);
   padding: var(--sp-xl);
   display: flex;

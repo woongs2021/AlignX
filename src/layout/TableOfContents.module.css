@@ -1,14 +1,8 @@
+/* 보이거나 숨기는 브레이크포인트는 AlignxPage.module.css의 .tocSlot이 정한다(본문 폭 바깥
+ * 여백에 목차+간격이 들어갈 수 있는지 계산) — 여기서는 그 안에서의 sticky 위치만 잡는다. */
 .toc {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .toc {
-    display: block;
-    position: sticky;
-    top: 96px;
-    align-self: start;
-  }
+  position: sticky;
+  top: 96px;
 }
 
 .list {

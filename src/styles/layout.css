@@ -12,6 +12,14 @@
   padding-right: var(--sp-gutter);
 }
 
+/* 좁은 컨테이너 — AlignX/ABOUT처럼 문서형·프로즈 위주 페이지용 (Plans/03-layout-navigation.md §6 확장). */
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding-left: var(--sp-gutter);
+  padding-right: var(--sp-gutter);
+}
+
 /* 본문 최대 폭 68ch — 넓은 컨테이너 안에서도 읽기 줄 길이를 제한한다. */
 .prose {
   max-width: 68ch;

@@ -25,7 +25,7 @@ const ROADMAP_ITEMS: { title: string; desc: string; status: 'active' | 'pending'
 export function VisionSection() {
   return (
     <SectionAnchor id="vision">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="VISION" title="개인을 넘어, 기관과 국경 너머로" className={styles.header} />
         <p className={`prose ${styles.body}`}>
           AlignX의 검증 프로세스를 전부 거치면, 개인에게는 자신에게 최적화된 성장 솔루션이 남습니다.

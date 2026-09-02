@@ -87,7 +87,7 @@ export function AdminFeedbackPage() {
 
   if (!attempt) {
     return (
-      <div className="container">
+      <div className="container-narrow">
         <p>찾을 수 없는 제출물입니다.</p>
         <Button variant="ghost" onClick={() => navigate('/admin')}>
           ← 목록으로
@@ -149,7 +149,7 @@ export function AdminFeedbackPage() {
   }
 
   return (
-    <div className="container">
+    <div className="container-narrow">
       <Button variant="ghost" onClick={() => navigate('/admin')} className={styles.backLink}>
         ← 목록으로
       </Button>

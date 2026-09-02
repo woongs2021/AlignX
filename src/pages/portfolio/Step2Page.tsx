@@ -9,13 +9,13 @@ import { MonitoringScreen } from './step2/MonitoringScreen';
  * 컴포넌트가 var(--primary) 등 토큰만 참조하면 자동으로 웜톤이 된다.
  */
 export function Step2Page() {
-  usePageMeta({ title: '2단계 · 멘토 검증 — AlignX' });
+  usePageMeta({ title: '2단계 · 멘토 검증 — AlignX', width: 'full' });
   const activeAttempt = useAppStore((s) => s.attempts[0] ?? null);
 
   if (!activeAttempt || !activeAttempt.ai) return null;
 
   return (
-    <div className="container">
+    <div className="container-narrow">
       {activeAttempt.mentorRequest ? (
         <MonitoringScreen attempt={activeAttempt} />
       ) : (

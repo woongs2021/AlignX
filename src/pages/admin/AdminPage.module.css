@@ -1,5 +1,8 @@
 .page {
-  padding: var(--sp-section) 0;
+  /* 좌우 패딩은 container-narrow의 몫 — shorthand로 쓰면 그 padding-left/right(0)와 충돌한다.
+   * 상단은 sticky 네브 바로 아래라 sp-section(56~80px)은 과해 — 다른 탭과 동일하게 sp-xl(32px). */
+  padding-top: var(--sp-xl);
+  padding-bottom: var(--sp-section);
   display: flex;
   flex-direction: column;
   gap: var(--sp-xl);
@@ -13,9 +16,12 @@
   flex-wrap: wrap;
 }
 
+/* 다른 탭의 히어로 타이틀과 동일한 크기·마진. */
 .title {
   margin-top: var(--sp-sm);
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--t-kr-1);
+  font-weight: 400;
 }
 
 .banner {

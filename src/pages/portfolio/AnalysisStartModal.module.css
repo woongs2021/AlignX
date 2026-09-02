@@ -5,6 +5,29 @@
   gap: var(--sp-md);
 }
 
+/* 로딩 단계만 더 넓게 — Modal의 기본 폭(420px)은 --dialog-max-width로 이 단계에서만 덮어쓴다. */
+.loadingDialog {
+  --dialog-max-width: 640px;
+}
+
+.loadingNote {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+/* 로딩 단계 내용은 높이를 고정해두고, 진행되면서 체크리스트가 넘치면 이 안에서 스크롤한다.
+ * 스크롤은 자동(진행 상태를 따라가며 위로 올라감)으로만 일어나므로 스크롤바는 감춘다. */
+.loadingBody {
+  height: 520px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.loadingBody::-webkit-scrollbar {
+  display: none;
+}
+
 .modalClose {
   position: absolute;
   top: -8px;
@@ -201,169 +224,4 @@
 .meta {
   font-size: var(--t-caption);
   color: var(--fg-muted);
-}
-
-/* 전체화면 로딩 연출 — Modal 다이얼로그 폭(420px) 밖으로 나가는 별도 오버레이다.
- * --deep 배경은 라이트/다크 모드와 무관하게 항상 어둡다 — 그 위에 얹는 ProgressBar가 쓰는
- * --stroke(모드별로 어두운 색/밝은 색이 바뀜)를 여기서 밝은 값으로 고정해, 라이트 모드에서
- * 트랙이 어두운 배경에 묻히지 않게 한다. */
-.fullscreen {
-  --stroke: rgba(252, 252, 255, 0.16);
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-sm);
-  padding: var(--sp-xl);
-  background: var(--deep);
-  color: var(--on-primary);
-  text-align: center;
-}
-
-.fullscreenClose {
-  position: absolute;
-  top: var(--sp-lg);
-  right: var(--sp-lg);
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(252, 252, 255, 0.24);
-  border-radius: var(--r-pill);
-  background: transparent;
-  color: var(--on-primary);
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.fullscreenClose:focus-visible {
-  outline: 2px solid var(--on-primary);
-  outline-offset: 2px;
-}
-
-.fullscreenEyebrow {
-  color: rgba(252, 252, 255, 0.6);
-}
-
-.fullscreenTitle {
-  font-family: var(--font-body);
-  font-size: var(--t-kr-1);
-  font-weight: 400;
-  margin-top: var(--sp-xs);
-}
-
-.fullscreenDesc {
-  color: rgba(252, 252, 255, 0.7);
-  margin-bottom: var(--sp-lg);
-}
-
-.chart {
-  width: 100%;
-  max-width: 480px;
-  height: 96px;
-  margin-bottom: var(--sp-lg);
-  overflow: visible;
-}
-
-.chartBar {
-  fill: rgba(252, 252, 255, 0.14);
-  transition:
-    height var(--dur-base) var(--ease-out),
-    y var(--dur-base) var(--ease-out),
-    fill var(--dur-base) var(--ease-out);
-}
-
-.chartBar[data-cleared='true'] {
-  fill: var(--primary);
-}
-
-.chartLine {
-  stroke: var(--on-primary);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.chartDot {
-  fill: var(--on-primary);
-}
-
-.principleGrid {
-  width: 100%;
-  max-width: 640px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--sp-sm);
-  margin-bottom: var(--sp-xl);
-}
-
-@media (min-width: 640px) {
-  .principleGrid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-}
-
-.principleChip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-xs);
-  padding: var(--sp-md) var(--sp-sm);
-  border-radius: var(--r-lg);
-  border: 1px solid rgba(252, 252, 255, 0.16);
-  transition:
-    background-color var(--dur-base) var(--ease-out),
-    border-color var(--dur-base) var(--ease-out);
-}
-
-.principleChip[data-cleared='true'] {
-  background: rgba(252, 252, 255, 0.08);
-  border-color: var(--primary);
-}
-
-.principleMark {
-  font-family: var(--font-mono);
-  font-size: var(--t-caption);
-  color: rgba(252, 252, 255, 0.5);
-}
-
-.principleChip[data-cleared='true'] .principleMark {
-  color: var(--primary);
-}
-
-.principleName {
-  font-size: var(--t-caption);
-  line-height: 1.3;
-}
-
-.fullscreenFooter {
-  width: 100%;
-  max-width: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-xs);
-}
-
-.fullscreenMeta {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.fullscreenElapsed,
-.fullscreenPercent {
-  font-family: var(--font-mono);
-  font-size: var(--t-caption);
-  color: rgba(252, 252, 255, 0.6);
-}
-
-.fullscreenPercent {
-  color: var(--on-primary);
-  font-weight: 600;
 }

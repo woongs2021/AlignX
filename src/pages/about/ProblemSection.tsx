@@ -13,7 +13,7 @@ const STATS = [
 export function ProblemSection() {
   return (
     <SectionAnchor id="problem">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="THE PROBLEM" title="포트폴리오는 있는데, 피드백이 없다" className={styles.header} />
         <p className={styles.body}>
           기획자든, 마케터든, 디자이너든 — 취업 준비생 대부분은 포트폴리오를 여러 번 고쳐 쓰면서도

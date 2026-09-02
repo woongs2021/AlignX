@@ -1,5 +1,7 @@
 .backLink {
-  margin: var(--sp-lg) 0;
+  /* 상단은 다른 탭과 동일하게 sp-xl(32px). */
+  margin-top: var(--sp-xl);
+  margin-bottom: var(--sp-lg);
 }
 
 .layout {

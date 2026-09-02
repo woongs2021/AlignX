@@ -50,12 +50,12 @@ describe('validateFile', () => {
     if (!result.ok) expect(result.message).toContain('PDF, PNG, JPEG, GIF');
   });
 
-  it('50MB 초과 시 용량 에러를 반환한다', async () => {
+  it('100MB 초과 시 용량 에러를 반환한다', async () => {
     const bigFile = makeFile([0x25, 0x50, 0x44, 0x46], 'big.pdf');
     Object.defineProperty(bigFile, 'size', { value: MAX_FILE_SIZE + 1 });
     const result = await validateFile(bigFile);
     expect(result.ok).toBe(false);
-    if (!result.ok) expect(result.message).toContain('50MB');
+    if (!result.ok) expect(result.message).toContain('100MB');
   });
 
   it('정상 PDF는 통과하고 MIME을 함께 반환한다', async () => {

@@ -6,12 +6,18 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
+  /** 타이틀 우측에 보조로 띄우는 내용(예: 실시간 경과 시간) — 계속 바뀌는 값이라
+   * aria-labelledby가 가리키는 접근 가능한 이름에는 포함하지 않는다. */
+  titleMeta?: ReactNode;
   children: ReactNode;
   actions?: ReactNode;
+  /** 다이얼로그 크기를 개별 호출부에서 조정해야 할 때(예: 더 넓은 폭)만 쓴다 — 기본 크기는
+   * 이 prop 없이 .dialog가 그대로 결정한다. */
+  className?: string;
 };
 
 /** 접근성 기본기를 갖춘 확인 모달 — 포커스 트랩·Esc·스크롤 잠금 (MobileNav와 동일 패턴). */
-export function Modal({ isOpen, onClose, title, children, actions }: ModalProps) {
+export function Modal({ isOpen, onClose, title, titleMeta, children, actions, className }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
 
@@ -78,14 +84,15 @@ export function Modal({ isOpen, onClose, title, children, actions }: ModalProps)
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className={styles.dialog}
+            className={[styles.dialog, className].filter(Boolean).join(' ')}
             initial={{ opacity: 0, y: 8, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             onClick={(event) => event.stopPropagation()}
           >
-            <h2 id={titleId} className={styles.title}>
-              {title}
+            <h2 className={styles.title}>
+              <span id={titleId}>{title}</span>
+              {titleMeta && <span className={styles.titleMeta}>{titleMeta}</span>}
             </h2>
             <div className={styles.body}>{children}</div>
             {actions && <div className={styles.actions}>{actions}</div>}

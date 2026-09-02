@@ -7,9 +7,12 @@
   margin-bottom: var(--sp-2xl);
 }
 
+/* ABOUT/AlignX 히어로 타이틀과 동일한 크기·마진 (탭별 상단 타이틀 통일). */
 .title {
   margin-top: var(--sp-sm);
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--t-kr-1);
+  font-weight: 400;
 }
 
 .actions {

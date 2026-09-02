@@ -12,6 +12,7 @@ export function AboutPage() {
   usePageMeta({
     title: 'ABOUT — AlignX',
     description: '데이터로 만드는, 모두의 합격 포트폴리오 — AlignX가 만들어진 이유를 소개합니다.',
+    width: 'full',
   });
 
   return (

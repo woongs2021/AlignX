@@ -12,7 +12,7 @@ import styles from './MyPage.module.css';
 
 /** MY — 회차 수(0/1/2/3+)에 따라 4가지 레이아웃으로 분기한다 (Plans/09-my.md §1). */
 export function MyPage() {
-  usePageMeta({ title: 'MY — AlignX' });
+  usePageMeta({ title: 'MY — AlignX', width: 'full' });
   const navigate = useNavigate();
   const attempts = useAppStore((s) => s.attempts); // 최신순
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,7 +30,7 @@ export function MyPage() {
   const remaining = Math.max(0, HISTORY_UNLOCK_THRESHOLD - attempts.length);
 
   return (
-    <div className="container">
+    <div className={`container-narrow ${styles.page}`}>
       <MyHeader name={name} totalCount={attempts.length} bestScore={bestScore} latestDate={latestDate} />
 
       {attempts.length === 0 && <EmptyState />}
