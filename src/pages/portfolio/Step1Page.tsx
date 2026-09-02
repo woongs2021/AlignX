@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { usePageMeta } from '@/layout/usePageMeta';
 import { useAppStore } from '@/store/useAppStore';
 import { validateFile, VALIDATION_MESSAGES } from '@/lib/file';
@@ -15,19 +14,13 @@ type Phase = 'idle' | 'validating' | 'analyzing' | 'result' | 'error';
 
 /** 1단계 — idle → validating → analyzing → result 상태 머신 (Plans/05-portfolio-step1.md §3). */
 export function Step1Page() {
-  usePageMeta({ title: '1단계 · AI 분석 — AlignX' });
+  usePageMeta({ title: '1단계 · AI 분석 — AlignX', width: 'full' });
 
   const activeAttempt = useAppStore((s) => s.attempts[0] ?? null);
   const createAttempt = useAppStore((s) => s.createAttempt);
   const setAiAnalysis = useAppStore((s) => s.setAiAnalysis);
-  const location = useLocation();
 
-  // "다시 분석하기"(3단계 NextActions 등)는 navigate(..., { state: { reanalyze: true } })로 들어와
-  // 완료된 회차가 있어도 결과 화면 대신 새 업로드 존에서 시작하게 한다.
-  const forceReanalyze = (location.state as { reanalyze?: boolean } | null)?.reanalyze === true;
-  const [phase, setPhase] = useState<Phase>(() =>
-    activeAttempt?.ai && !forceReanalyze ? 'result' : 'idle',
-  );
+  const [phase, setPhase] = useState<Phase>(() => (activeAttempt?.ai ? 'result' : 'idle'));
   const [errorMessage, setErrorMessage] = useState('');
   const [stageIndex, setStageIndex] = useState(0);
 
@@ -88,7 +81,7 @@ export function Step1Page() {
   }
 
   return (
-    <div className={`container ${styles.page}`}>
+    <div className={`container-narrow ${styles.page}`}>
       {phase === 'idle' && (
         <UploadZone onFileSelected={handleFileSelected} onMultipleRejected={handleMultipleRejected} />
       )}
@@ -115,14 +108,7 @@ export function Step1Page() {
       )}
 
       {phase === 'result' && activeAttempt?.ai && (
-        <ResultScreen
-          ai={activeAttempt.ai}
-          previewDataUrl={activeAttempt.file.previewDataUrl}
-          onReanalyze={() => {
-            setPhase('idle');
-            setErrorMessage('');
-          }}
-        />
+        <ResultScreen ai={activeAttempt.ai} previewDataUrl={activeAttempt.file.previewDataUrl} />
       )}
     </div>
   );

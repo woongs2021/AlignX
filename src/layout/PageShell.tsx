@@ -63,17 +63,15 @@ export function PageShell() {
     } else {
       window.scrollTo(0, 0);
     }
-    mainRef.current?.focus();
+    // preventScroll 필수 — 없으면 포커스가 main을 뷰포트로 끌어오면서 네이티브 스크롤이
+    // 발동해 방금 lenis.scrollTo(0)로 맞춘 위치를 sticky 헤더 높이(64px)만큼 다시 밀어낸다.
+    mainRef.current?.focus({ preventScroll: true });
   }, [location.pathname, lenis]);
 
   const widthClass = styles[`width-${meta.width ?? 'default'}`];
 
   return (
     <div className={styles.shell}>
-      <a href="#content" className={styles.skipLink}>
-        본문 바로가기
-      </a>
-
       <TopNav />
       <StorageWarningBanner />
 

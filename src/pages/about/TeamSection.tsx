@@ -32,7 +32,7 @@ export function TeamSection() {
 
   return (
     <SectionAnchor id="team">
-      <section className={`container ${styles.section}`}>
+      <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="TEAM" title="검증에 참여하는 멘토" className={styles.header} />
         <p className={`prose ${styles.body}`}>
           아래 멘토 프로필은 서비스 소개를 위한 가상의 인물입니다. 실제 검증은 이 역할군에 준하는

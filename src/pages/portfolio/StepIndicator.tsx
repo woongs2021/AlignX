@@ -26,7 +26,7 @@ export function StepIndicator() {
 
   return (
     <div className={styles.wrap}>
-      <div className="container">
+      <div className="container-narrow">
         <ol className={styles.list}>
           {STEPS.map((step, i) => {
             const status = statuses[i];

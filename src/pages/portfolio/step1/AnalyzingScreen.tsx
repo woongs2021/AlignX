@@ -15,12 +15,15 @@ function statusOf(index: number, stageIndex: number): StageStatus {
 type AnalyzingScreenProps = {
   previewDataUrl: string;
   stageIndex: number;
+  /** 좁은 컨테이너(예: 팝업)에 넣을 때 — 뷰포트 기준 2단 레이아웃 대신 항상 1단으로 쌓는다. */
+  compact?: boolean;
 };
 
 /** analyzing 상태 로딩 화면 — 6단계 체크리스트 + 스캔선 + 경과 시간 (05 §3.3). */
-export function AnalyzingScreen({ previewDataUrl, stageIndex }: AnalyzingScreenProps) {
+export function AnalyzingScreen({ previewDataUrl, stageIndex, compact = false }: AnalyzingScreenProps) {
   const [elapsedMs, setElapsedMs] = useState(0);
   const startRef = useRef<number>(0);
+  const activeStageRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     startRef.current = performance.now();
@@ -30,10 +33,17 @@ export function AnalyzingScreen({ previewDataUrl, stageIndex }: AnalyzingScreenP
     return () => window.clearInterval(id);
   }, []);
 
+  // compact(팝업)에서는 스크롤바를 숨기는 대신, 진행 단계가 바뀔 때마다 자동으로
+  // 그 단계가 보이는 위치까지 스크롤한다 — 사용자가 직접 스크롤할 필요가 없다.
+  useEffect(() => {
+    if (!compact) return;
+    activeStageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [stageIndex, compact]);
+
   const progressValue = stageIndex + 1;
 
   return (
-    <div className={styles.layout} role="status" aria-live="polite">
+    <div className={styles.layout} data-compact={compact} role="status" aria-live="polite">
       <div className={styles.previewWrap}>
         {previewDataUrl ? (
           <img src={previewDataUrl} alt="" className={styles.previewImg} />
@@ -48,7 +58,12 @@ export function AnalyzingScreen({ previewDataUrl, stageIndex }: AnalyzingScreenP
           {STAGE_LABELS.map((label, i) => {
             const status = statusOf(i, stageIndex);
             return (
-              <li key={label} className={styles.stage} data-status={status}>
+              <li
+                key={label}
+                className={styles.stage}
+                data-status={status}
+                ref={status === 'active' ? activeStageRef : undefined}
+              >
                 <span className={styles.stageMark} aria-hidden="true">
                   {status === 'done' && '✓'}
                   {status === 'active' && (

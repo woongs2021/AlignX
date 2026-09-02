@@ -3,8 +3,10 @@
 }
 
 .band {
-  background: var(--primary);
-  color: var(--on-primary);
+  position: relative;
+  overflow: hidden;
+  background: var(--soft);
+  color: var(--fg);
   border-radius: var(--r-frame);
   padding: var(--sp-2xl);
   display: flex;
@@ -18,6 +20,23 @@
   .band {
     padding: 64px;
   }
+}
+
+.banner {
+  position: absolute;
+  width: 72px;
+  height: auto;
+}
+
+.bannerTopLeft {
+  top: 0;
+  left: 0;
+}
+
+.bannerBottomRight {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
 }
 
 .headline {

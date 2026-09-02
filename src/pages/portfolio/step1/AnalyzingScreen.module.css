@@ -10,12 +10,23 @@
   }
 }
 
+/* 뷰포트 기준 미디어쿼리라 좁은 컨테이너(팝업)에 넣으면 뷰포트가 넓어도 2단이 강제된다 —
+ * compact는 그 경우 항상 1단으로 고정한다. */
+.layout[data-compact='true'] {
+  grid-template-columns: 1fr;
+}
+
 .previewWrap {
   position: relative;
   aspect-ratio: 4 / 5;
   border-radius: var(--r-frame);
   overflow: hidden;
   background: var(--soft);
+}
+
+/* 팝업(compact)에서는 썸네일을 16:10으로 크롭한다 — Step1Page 원래 화면은 4:5 그대로 유지. */
+.layout[data-compact='true'] .previewWrap {
+  aspect-ratio: 16 / 10;
 }
 
 .previewImg {
@@ -141,6 +152,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* compact(팝업)에서는 경과 시간을 타이틀 쪽에서 이미 보여주므로 여기서는 중복 표시하지 않는다. */
+.layout[data-compact='true'] .footerRow {
+  display: none;
 }
 
 .copy {

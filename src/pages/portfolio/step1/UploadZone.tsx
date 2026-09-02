@@ -88,7 +88,7 @@ export function UploadZone({ onFileSelected, onMultipleRejected }: UploadZonePro
           onChange={handleInputChange}
         />
       </label>
-      <p className={styles.meta}>PDF · PNG · JPEG · GIF · 최대 50MB · 1개 파일</p>
+      <p className={styles.meta}>PDF · PNG · JPEG · GIF · 최대 100MB · 1개 파일</p>
     </div>
   );
 }

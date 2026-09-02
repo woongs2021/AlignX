@@ -1,5 +1,6 @@
 .section {
-  padding-top: var(--sp-section);
+  /* 상단은 sticky 네브 바로 아래라 sp-section(56~80px)은 과해 — sp-xl(32px)로 줄인다. */
+  padding-top: var(--sp-xl);
   padding-bottom: var(--sp-section);
   display: flex;
   flex-direction: column;

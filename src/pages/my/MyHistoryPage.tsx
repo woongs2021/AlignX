@@ -14,7 +14,7 @@ import styles from './MyHistoryPage.module.css';
 
 /** 전체 이력 분석 — 3회 이상일 때만 접근 가능(라우트 가드는 router.tsx) (Plans/09-my.md §6). */
 export function MyHistoryPage() {
-  usePageMeta({ title: '전체 이력 분석 — AlignX' });
+  usePageMeta({ title: '전체 이력 분석 — AlignX', width: 'full' });
   const navigate = useNavigate();
   const attempts = useAppStore((s) => s.attempts);
   const data = buildHistoryData(attempts);
@@ -22,7 +22,7 @@ export function MyHistoryPage() {
 
   if (!data) {
     return (
-      <div className="container">
+      <div className="container-narrow">
         <button type="button" className={styles.backLink} onClick={() => navigate('/my')}>
           ← MY로 돌아가기
         </button>
@@ -38,7 +38,7 @@ export function MyHistoryPage() {
   }
 
   return (
-    <div className={`container ${styles.page}`}>
+    <div className={`container-narrow ${styles.page}`}>
       <button type="button" className={styles.backLink} onClick={() => navigate('/my')}>
         ← MY로 돌아가기
       </button>

@@ -78,11 +78,11 @@ export function AdminPage() {
   }, [withStatus, statusFilter, search, sort]);
 
   return (
-    <div className={`container ${styles.page}`}>
+    <div className={`container-narrow ${styles.page}`}>
       <div className={styles.header}>
         <div>
           <span className="label">ADMIN</span>
-          <h1 className={`kr-2 ${styles.title}`}>제출 현황 · 멘토 피드백</h1>
+          <h1 className={styles.title}>제출 현황 · 멘토 피드백</h1>
         </div>
         <Button variant="ghost" onClick={() => lockAdmin()}>
           로그아웃

@@ -28,7 +28,7 @@ export function MyHeader({ name, totalCount, bestScore, latestDate }: MyHeaderPr
     <div className={styles.header}>
       <div>
         <span className="label">MY PORTFOLIO</span>
-        <h1 className={`kr-2 ${styles.title}`}>{name}님의 포트폴리오 기록</h1>
+        <h1 className={styles.title}>{name}님의 포트폴리오 기록</h1>
         {totalCount > 0 && (
           <p className="meta">
             총 {totalCount}회 분석
@@ -43,7 +43,7 @@ export function MyHeader({ name, totalCount, bestScore, latestDate }: MyHeaderPr
             초기화
           </Button>
         )}
-        <Button variant="primary" onClick={() => navigate('/portfolio/analyze')}>
+        <Button variant="primary" onClick={() => navigate('/portfolio', { state: { openAnalysisModal: true } })}>
           새 분석 시작
         </Button>
       </div>

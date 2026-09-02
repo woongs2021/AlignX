@@ -18,12 +18,6 @@ afterEach(() => {
 });
 
 describe('PageShell', () => {
-  it('Skip to content 링크가 #content를 가리킨다', () => {
-    renderAt('/');
-    const skipLink = screen.getByText('본문 바로가기');
-    expect(skipLink).toHaveAttribute('href', '#content');
-  });
-
   it('main#content가 포커스 대상(tabIndex=-1)으로 존재한다', () => {
     renderAt('/');
     const main = document.getElementById('content');

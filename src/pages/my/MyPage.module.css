@@ -1,3 +1,9 @@
+/* 다른 탭(포트폴리오 분석·AlignX·ABOUT)과 동일한 상단 여백 — sticky 네브 바로 아래라 sp-xl(32px). */
+.page {
+  padding-top: var(--sp-xl);
+  padding-bottom: var(--sp-section);
+}
+
 .detail {
   display: flex;
   flex-direction: column;

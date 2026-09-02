@@ -12,7 +12,7 @@ export function EmptyState() {
       <span className={styles.number}>00</span>
       <p className={`kr-3 ${styles.title}`}>아직 분석한 포트폴리오가 없습니다</p>
       <p className="meta">첫 분석은 90초면 끝납니다</p>
-      <Button variant="primary" onClick={() => navigate('/portfolio/analyze')}>
+      <Button variant="primary" onClick={() => navigate('/portfolio', { state: { openAnalysisModal: true } })}>
         포트폴리오 분석 시작하기
       </Button>
     </div>

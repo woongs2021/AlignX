@@ -4,24 +4,6 @@
   min-height: 100dvh;
 }
 
-.skipLink {
-  position: absolute;
-  left: var(--sp-md);
-  top: -48px;
-  z-index: 300;
-  background: var(--bg);
-  color: var(--fg);
-  padding: var(--sp-sm) var(--sp-md);
-  border-radius: var(--r-sm);
-  border: 1px solid var(--stroke-strong);
-  text-decoration: none;
-  transition: top var(--dur-fast) var(--ease-out);
-}
-
-.skipLink:focus {
-  top: var(--sp-md);
-}
-
 .main {
   flex: 1;
 }

@@ -4,7 +4,7 @@
 export const ACCEPTED_MIME_TYPES = ['application/pdf', 'image/png', 'image/jpeg', 'image/gif'] as const;
 export type AcceptedMimeType = (typeof ACCEPTED_MIME_TYPES)[number];
 
-export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+export const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 
 const MAGIC_NUMBERS: { mime: AcceptedMimeType; bytes: number[] }[] = [
   { mime: 'application/pdf', bytes: [0x25, 0x50, 0x44, 0x46] }, // %PDF
@@ -25,7 +25,7 @@ export type FileValidationResult = { ok: true; mime: AcceptedMimeType } | { ok: 
 
 export const VALIDATION_MESSAGES = {
   unsupportedType: 'PDF, PNG, JPEG, GIF 파일만 분석할 수 있습니다.',
-  tooLarge: '파일이 너무 큽니다. 50MB 이하로 줄여주세요.',
+  tooLarge: '파일이 너무 큽니다. 100MB 이하로 줄여주세요.',
   multipleFiles: '한 번에 한 개 파일만 분석합니다.',
   corrupted: '파일을 열 수 없습니다. 손상되었는지 확인해주세요.',
 } as const;

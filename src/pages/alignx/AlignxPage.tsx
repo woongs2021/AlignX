@@ -29,15 +29,15 @@ export function AlignxPage() {
     <>
       <AlignxHeroSection />
 
-      <div className="container">
-        <div className={styles.layout}>
-          <div className={styles.content}>
-            <WhySection />
-            <PrinciplesSection />
-            <PipelineSection />
-            <HumanInLoopSection />
-            <AlignxFaqSection />
-          </div>
+      <div className={styles.layout}>
+        <div className={styles.content}>
+          <WhySection />
+          <PrinciplesSection />
+          <PipelineSection />
+          <HumanInLoopSection />
+          <AlignxFaqSection />
+        </div>
+        <div className={styles.tocSlot}>
           <TableOfContents items={TOC_ITEMS} />
         </div>
       </div>

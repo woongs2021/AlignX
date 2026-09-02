@@ -11,7 +11,7 @@
 
 .dialog {
   width: 100%;
-  max-width: 420px;
+  max-width: var(--dialog-max-width, 420px);
   background: var(--bg);
   color: var(--fg);
   border-radius: var(--r-frame);
@@ -25,6 +25,18 @@
   font-family: var(--font-body);
   font-size: var(--t-kr-3);
   font-weight: 500;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+}
+
+.titleMeta {
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  font-weight: 400;
+  color: var(--fg-muted);
+  white-space: nowrap;
 }
 
 .body {
