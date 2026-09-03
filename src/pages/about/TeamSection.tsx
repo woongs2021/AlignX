@@ -35,8 +35,8 @@ export function TeamSection() {
       <section className={`container-narrow ${styles.section}`}>
         <SectionHeader eyebrow="TEAM" title="검증에 참여하는 멘토" className={styles.header} />
         <p className={`prose ${styles.body}`}>
-          아래 멘토 프로필은 서비스 소개를 위한 가상의 인물입니다. 실제 검증은 이 역할군에 준하는
-          각 분야 현직 실무자가 맡습니다. 카드를 클릭하면 학력·경력 예시를 볼 수 있습니다.
+          아래 프로필은 서비스 소개를 위해 현직 멘토를 가명으로 소개합니다. 실제 검증은 이 역할군에
+          준하는 각 분야 현직 실무자가 맡으며, 카드를 클릭하면 학력·경력 예시를 볼 수 있습니다.
         </p>
         <motion.div
           ref={ref}

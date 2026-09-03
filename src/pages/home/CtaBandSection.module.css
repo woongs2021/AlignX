@@ -9,6 +9,7 @@
   color: var(--fg);
   border-radius: var(--r-frame);
   padding: var(--sp-2xl);
+  padding-top: calc(var(--sp-2xl) - 20px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,6 +20,7 @@
 @media (min-width: 768px) {
   .band {
     padding: 64px;
+    padding-top: 44px;
   }
 }
 

@@ -37,7 +37,12 @@ export function TopNav() {
     <>
       <header className={navClass}>
         <div className={styles.container}>
-          <NavLink to="/" className={styles.logoLink} aria-label="AlignX 홈">
+          <NavLink
+            to="/"
+            className={styles.logoLink}
+            aria-label="AlignX 홈"
+            onClick={() => window.dispatchEvent(new Event('alignx:hero-reset'))}
+          >
             <AlignXLogo className={styles.logo} />
           </NavLink>
 

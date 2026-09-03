@@ -18,6 +18,11 @@
   align-items: flex-start;
 }
 
+/* Badge 자체 좌우 padding(6px 14px)만큼 당겨서, 안의 텍스트가 아래 문단과 같은 좌측 기준선에 맞게 한다. */
+.badge {
+  margin-left: -14px;
+}
+
 .text {
   font-size: var(--t-body-sm);
   max-width: 60ch;

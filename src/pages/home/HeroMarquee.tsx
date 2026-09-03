@@ -12,14 +12,15 @@ const DESKTOP_ROWS: RowConfig[] = [
   { direction: 'left', duration: 70, cardWidth: 320, isCenter: false },
 ];
 
-// 모바일: 3행 → 2행, 카드 폭 220px, 속도 20% 감속 (04 §2.3)
+// 모바일: 3행 유지, 카드 폭 220px, 속도 20% 감속 (04 §2.3)
 const MOBILE_SLOWDOWN = 1.2;
 const MOBILE_ROWS: RowConfig[] = [
   { direction: 'left', duration: 60 * MOBILE_SLOWDOWN, cardWidth: 220, isCenter: false },
   { direction: 'right', duration: 80 * MOBILE_SLOWDOWN, cardWidth: 220, isCenter: true },
+  { direction: 'left', duration: 70 * MOBILE_SLOWDOWN, cardWidth: 220, isCenter: false },
 ];
 
-/** 이미지 풀을 행 수만큼 균등 분할 — 데스크톱 3행 × 6장, 모바일 2행 × 9장 (18장 기준). */
+/** 이미지 풀을 행 수만큼 균등 분할 — 데스크톱·모바일 모두 3행 × 6장(18장 기준). */
 function splitIntoRows<T>(arr: T[], rowCount: number): T[][] {
   const size = Math.ceil(arr.length / rowCount);
   return Array.from({ length: rowCount }, (_, i) => arr.slice(i * size, i * size + size));
