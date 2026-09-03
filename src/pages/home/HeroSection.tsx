@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+  animate,
   motion,
+  useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -54,11 +56,24 @@ function ScrollHint() {
 /** HOME 히어로 — 무한 마퀴 + 스크롤 확산 (Plans/04-home.md §2). */
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
-  const isMobile = useMediaQuery('(max-width: 767px)');
+  // 사이트 공통 767px 대신 599px 사용 — iPad mini(744px) 등 좁은 태블릿도 3행 마퀴를 유지하게 함.
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const prefersReducedMotion = useReducedMotion();
   const documentVisible = useDocumentVisibility();
   const [images, setImages] = useState<ResolvedImage[]>([]);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [isRevealed, setIsRevealed] = useState(false);
+  const revealStrength = useMotionValue(0);
+
+  // 클릭(토글)/호버가 스크롤 진행도 위로 덮어씌우는 강도 — 0↔1 부드럽게 트윈, 꺼질 땐 스크롤 값으로 자연 복귀(max 합성).
+  // 나타남·사라짐 동일하게 천천히(1.3s).
+  useEffect(() => {
+    const controls = animate(revealStrength, isRevealed ? 1 : 0, {
+      duration: 1.3,
+      ease: [0.22, 1, 0.36, 1],
+    });
+    return () => controls.stop();
+  }, [isRevealed, revealStrength]);
 
   useEffect(() => {
     let cancelled = false;
@@ -70,12 +85,27 @@ export function HeroSection() {
     };
   }, []);
 
+  // 로고 클릭(TopNav) 시 헤드라인 리셋 — "/"에서 "/"로 재이동해도 라우트가 리마운트되지 않아 직접 이벤트로 받는다.
+  useEffect(() => {
+    const reset = () => setIsRevealed(false);
+    window.addEventListener('alignx:hero-reset', reset);
+    return () => window.removeEventListener('alignx:hero-reset', reset);
+  }, []);
+
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const rowGap = useTransform(scrollYProgress, [0, 0.5], ['12px', '40px']);
   const scale = useTransform(scrollYProgress, [0, 0.5], [1.12, 0.94]);
   const sideOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.35]);
-  const headlineOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
-  const dimOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 0.55]);
+  const scrollHeadlineOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
+  const scrollDimOpacity = useTransform(scrollYProgress, [0, 0.5], [0, 0.55]);
+  const headlineOpacity = useTransform(
+    [scrollHeadlineOpacity, revealStrength],
+    ([scroll, reveal]) => Math.max(scroll as number, reveal as number),
+  );
+  const dimOpacity = useTransform(
+    [scrollDimOpacity, revealStrength],
+    ([scroll, reveal]) => Math.max(scroll as number, (reveal as number) * 0.55),
+  );
 
   useMotionValueEvent(scrollYProgress, 'change', (value) => {
     if (value > 0.01 && !hasScrolled) setHasScrolled(true);
@@ -96,7 +126,7 @@ export function HeroSection() {
   }
 
   return (
-    <section ref={heroRef} className={styles.hero}>
+    <section ref={heroRef} className={styles.hero} onClick={() => setIsRevealed((prev) => !prev)}>
       <HeroMarquee
         images={images}
         isMobile={isMobile}
