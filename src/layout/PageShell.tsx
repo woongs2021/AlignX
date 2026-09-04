@@ -58,15 +58,43 @@ export function PageShell() {
   useEffect(() => {
     if (lastPathname.current === location.pathname) return;
     lastPathname.current = location.pathname;
+
+    // 먼저 top으로 리셋 — Lenis의 scrollTo(엘리먼트)는 rect.top에 내부 animatedScroll을 더해
+    // 절대 좌표를 구하는데, 리셋 없이 바로 타깃으로 스크롤하면 이전 페이지의 스크롤 위치가
+    // 그대로 더해져 엉뚱한 곳으로 튄다(예: /about#team인데 맨 아래 CONTACT 근처로 오버슈트).
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
     } else {
       window.scrollTo(0, 0);
     }
+
+    let cancelled = false;
+    const hash = location.hash;
+    if (hash) {
+      // 다른 페이지의 섹션 앵커로 넘어온 경우(예: /about#team) — 라우트가 lazy 청크라
+      // 타깃 엘리먼트가 이 시점엔 아직 없을 수 있어, 나타날 때까지 rAF로 짧게 재시도한다.
+      let attempts = 0;
+      const tryScroll = () => {
+        if (cancelled) return;
+        const target = document.getElementById(hash.slice(1));
+        if (target) {
+          if (lenis) lenis.scrollTo(target, { immediate: true });
+          else target.scrollIntoView();
+          return;
+        }
+        attempts += 1;
+        if (attempts < 60) requestAnimationFrame(tryScroll);
+      };
+      tryScroll();
+    }
     // preventScroll 필수 — 없으면 포커스가 main을 뷰포트로 끌어오면서 네이티브 스크롤이
-    // 발동해 방금 lenis.scrollTo(0)로 맞춘 위치를 sticky 헤더 높이(64px)만큼 다시 밀어낸다.
+    // 발동해 방금 맞춘 스크롤 위치를 sticky 헤더 높이(64px)만큼 다시 밀어낸다.
     mainRef.current?.focus({ preventScroll: true });
-  }, [location.pathname, lenis]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [location.pathname, location.hash, lenis]);
 
   const widthClass = styles[`width-${meta.width ?? 'default'}`];
 

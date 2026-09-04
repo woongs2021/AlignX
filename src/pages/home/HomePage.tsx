@@ -4,6 +4,7 @@ import { ValueSection } from './ValueSection';
 import { HowItWorksSection } from './HowItWorksSection';
 import { PrinciplesSection } from './PrinciplesSection';
 import { ShowcaseSection } from './ShowcaseSection';
+import { CeoIntroSection } from './CeoIntroSection';
 import { CtaBandSection } from './CtaBandSection';
 
 export function HomePage() {
@@ -20,6 +21,7 @@ export function HomePage() {
       <HowItWorksSection />
       <PrinciplesSection />
       <ShowcaseSection />
+      <CeoIntroSection />
       <CtaBandSection />
     </>
   );

@@ -104,7 +104,7 @@ export function TeamSection() {
             </div>
 
             <p className={`meta ${styles.detailNotice}`}>
-              위 프로필은 서비스 소개를 위한 가상의 예시입니다.
+              실제 멘토들의 경력에 준하는 이력을 예시로 보여드립니다.
             </p>
           </div>
         )}
