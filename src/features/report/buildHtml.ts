@@ -81,21 +81,6 @@ function principleRows(report: ReportData): string {
     .join('');
 }
 
-function mentorCards(report: ReportData): string {
-  return report.mentorPanel
-    .map(
-      (m) => `
-      <div class="mentor-card">
-        <div class="mentor-head">
-          <span class="avatar">${escapeHtml(m.initial)}</span>
-          <div><div class="mentor-name">${escapeHtml(m.name)}</div><div class="meta">${escapeHtml(m.role)}</div></div>
-        </div>
-        <p>${escapeHtml(m.comment)}</p>
-      </div>`,
-    )
-    .join('');
-}
-
 function satisfactionGauge(label: string, score: number): string {
   const cells = Array.from({ length: 7 }, (_, i) => i + 1)
     .map((n) => `<div class="cell" style="background:${n <= score ? '#4065F8' : '#E5E5EA'}"></div>`)
@@ -150,8 +135,7 @@ export function buildReportHtml(report: ReportData): string {
   .mentor-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: #16427C; margin-bottom: 2px; }
   blockquote { margin: 0 0 20px; padding: 16px; border-left: 2px solid rgba(1,1,2,0.4); color: rgba(1,1,2,0.6); font-size: 14px; }
   .quote-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #16427C; margin-bottom: 6px; }
-  .mentor-cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
-  .mentor-card { flex: 1; min-width: 220px; background: #A1D0F6; border-radius: 28px; padding: 20px; }
+  .mentor-card { background: #A1D0F6; border-radius: 28px; padding: 20px; }
   .mentor-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .avatar { width: 36px; height: 36px; border-radius: 999px; background: #A8BFC1; color: #FCFCFF; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0; }
   .mentor-name { font-weight: 600; font-size: 14px; }
@@ -192,7 +176,6 @@ export function buildReportHtml(report: ReportData): string {
 
     <h2>멘토 종합 코멘트</h2>
     <blockquote><span class="quote-label">멘토에게 요청한 사항</span>${escapeHtml(report.requestNote)}</blockquote>
-    <div class="mentor-cards">${mentorCards(report)}</div>
     <div class="mentor-card">
       <div class="mentor-head">
         <span class="avatar">${escapeHtml(report.mentorOverall.name[0] ?? '')}</span>

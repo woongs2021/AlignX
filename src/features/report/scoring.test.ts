@@ -10,13 +10,13 @@ describe('computeFinalScore', () => {
 });
 
 describe('scoreGapNote', () => {
-  it('5점 미만 차이면 해석 문구가 없다', () => {
-    expect(scoreGapNote(80, 76)).toBeNull();
-    expect(scoreGapNote(80, 84)).toBeNull();
+  it('3점 미만 차이면 해석 문구가 없다', () => {
+    expect(scoreGapNote(80, 78)).toBeNull();
+    expect(scoreGapNote(80, 82)).toBeNull();
   });
 
-  it('5점 이상 차이면 해석 문구를 반환한다', () => {
-    expect(scoreGapNote(87, 82 - 3)).not.toBeNull();
+  it('3점 이상 차이면 해석 문구를 반환하고, 문구에 기준(3점)을 명시한다', () => {
+    expect(scoreGapNote(83, 80)).toContain('3점');
     expect(scoreGapNote(90, 80)).not.toBeNull();
     expect(scoreGapNote(80, 90)).not.toBeNull();
   });

@@ -30,7 +30,7 @@ export function Step2Page() {
       {activeAttempt.mentorRequest ? (
         <MonitoringScreen attempt={activeAttempt} />
       ) : (
-        <MentorRequestForm attempt={activeAttempt} />
+        <MentorRequestForm attempt={activeAttempt} accountName={account?.name} />
       )}
     </div>
   );

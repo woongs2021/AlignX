@@ -5,7 +5,7 @@ import { PRINCIPLES } from '@/data/principles';
 import { useLiveMentorProgress } from '@/features/mentor/useLiveMentorProgress';
 import { buildReportData } from '@/features/report/buildReportData';
 import { buildReportHtml, reportFileName } from '@/features/report/buildHtml';
-import { computeFinalScore } from '@/features/report/scoring';
+import { computeFinalScore, scoreGapNote } from '@/features/report/scoring';
 import { downloadHtmlFile } from '@/lib/download';
 import type { AiAnalysis, Attempt } from '@/types';
 import styles from './SingleAttemptView.module.css';
@@ -45,6 +45,10 @@ function topBottom(ai: AiAnalysis) {
   }));
   const sorted = [...named].sort((a, b) => b.score - a.score);
   return { top: sorted.slice(0, 3), bottom: sorted.slice(-3).reverse() };
+}
+
+function truncate(text: string, max: number): string {
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 }
 
 type SingleAttemptViewProps = {
@@ -165,10 +169,28 @@ function MentorCard({ attempt, status, isActive }: { attempt: Attempt; status: S
         </>
       )}
       {status === 'done' && attempt.mentorFeedback && (
-        <p className={styles.cardScore}>
-          {attempt.mentorFeedback.mentorScore}
-          <span className={styles.cardScoreMax}> / 100</span>
-        </p>
+        <>
+          <p className={styles.cardScore}>
+            {attempt.mentorFeedback.mentorScore}
+            <span className={styles.cardScoreMax}> / 100</span>
+          </p>
+          {attempt.mentorFeedback.perPrinciple.some((p) => p.score !== undefined) && (
+            <div className={styles.miniBars} aria-hidden="true">
+              {PRINCIPLES.map((principle) => {
+                const score = attempt.mentorFeedback!.perPrinciple.find((p) => p.principleId === principle.id)?.score ?? 0;
+                return (
+                  <span
+                    key={principle.id}
+                    className={styles.miniBar}
+                    data-tone={toneOf(score)}
+                    style={{ height: `${8 + score * 2.4}px` }}
+                  />
+                );
+              })}
+            </div>
+          )}
+          <p className="meta">{truncate(attempt.mentorFeedback.overall, 80)}</p>
+        </>
       )}
     </Card>
   );
@@ -183,19 +205,46 @@ function ReportCard({ attempt, status, isActive }: { attempt: Attempt; status: S
     downloadHtmlFile(buildReportHtml(report), reportFileName(report.name));
   }
 
+  const aiScore = attempt.ai?.totalScore;
+  const mentorScore = attempt.mentorFeedback?.mentorScore;
+  const finalScore =
+    aiScore !== undefined && mentorScore !== undefined ? computeFinalScore(aiScore, mentorScore) : null;
+  const gapNote = aiScore !== undefined && mentorScore !== undefined ? scoreGapNote(aiScore, mentorScore) : null;
+
   return (
     <Card className={styles.card}>
       <p className={styles.cardTitle}>③ 통합 리포트</p>
       {status === 'locked' && <p className="meta">멘토 검증 완료 후 열립니다.</p>}
-      {(status === 'active' || status === 'done') && attempt.ai && attempt.mentorFeedback && (
+      {(status === 'active' || status === 'done') && aiScore !== undefined && mentorScore !== undefined && finalScore !== null && (
         <>
           <p className={styles.cardScore}>
-            {computeFinalScore(attempt.ai.totalScore, attempt.mentorFeedback.mentorScore)}
+            {finalScore}
             <span className={styles.cardScoreMax}> / 100</span>
           </p>
+          <div className={styles.miniBars} aria-hidden="true">
+            <span
+              className={styles.miniBar}
+              data-tone={toneOf(aiScore / 10)}
+              style={{ height: `${8 + (aiScore / 100) * 24}px` }}
+            />
+            <span
+              className={styles.miniBar}
+              data-tone={toneOf(mentorScore / 10)}
+              style={{ height: `${8 + (mentorScore / 100) * 24}px` }}
+            />
+            <span
+              className={styles.miniBar}
+              data-tone={toneOf(finalScore / 10)}
+              style={{ height: `${8 + (finalScore / 100) * 24}px` }}
+            />
+          </div>
+          <p className="meta">
+            AI {aiScore} · 멘토 {mentorScore} · 최종 {finalScore}
+          </p>
+          {gapNote && <p className="meta">{gapNote}</p>}
           {status === 'active' && <p className="meta">리포트를 확인하고 최종 제출해주세요.</p>}
           {isActive ? (
-            <Button variant="ghost" className={styles.cardAction} onClick={() => navigate('/portfolio/report')}>
+            <Button variant="primary" className={styles.cardAction} onClick={() => navigate('/portfolio/report')}>
               리포트 보기 →
             </Button>
           ) : (

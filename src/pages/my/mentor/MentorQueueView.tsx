@@ -26,7 +26,7 @@ export function MentorQueueView() {
   }, [rows]);
 
   return (
-    <div className={styles.page}>
+    <div className={`container-narrow ${styles.page}`}>
       <div className={styles.header}>
         <span className="label">MY · 검증 요청</span>
         <h1 className={styles.title}>배정된 검증 요청</h1>
@@ -45,6 +45,7 @@ export function MentorQueueView() {
         <SubmissionsTable
           rows={rows}
           actionLabel="검증하기"
+          actionVariant="primary"
           onOpenFeedback={(id) => navigate(`/my/review/${id}`)}
         />
       )}

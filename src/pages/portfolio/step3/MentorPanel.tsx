@@ -17,24 +17,7 @@ export function MentorPanel({ report }: MentorPanelProps) {
         {report.requestNote}
       </blockquote>
 
-      <div className={styles.cards}>
-        {report.mentorPanel.map((mentor) => (
-          <div key={mentor.id} className={styles.card}>
-            <div className={styles.head}>
-              <span className={styles.avatar} aria-hidden="true">
-                {mentor.initial}
-              </span>
-              <div>
-                <p className={styles.name}>{mentor.name}</p>
-                <p className="meta">{mentor.role}</p>
-              </div>
-            </div>
-            <p className={styles.comment}>{mentor.comment}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className={`${styles.card} ${styles.overall}`}>
+      <div className={styles.card}>
         <div className={styles.head}>
           <span className={styles.avatar} aria-hidden="true">
             {report.mentorOverall.name[0]}

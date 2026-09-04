@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useLenis } from 'lenis/react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Avatar } from '@/components/Avatar';
-import { useCurrentAccount, useRole } from '@/features/auth/useSession';
+import { Badge } from '@/components/Badge';
+import { useCurrentAccount, useMentorRequestCounts, useRole } from '@/features/auth/useSession';
 import { ACCOUNTS } from '@/data/accounts';
 import { useAppStore } from '@/store/useAppStore';
 import { navItemsFor } from './navItems';
@@ -46,12 +47,14 @@ type MobileNavProps = {
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const lenis = useLenis();
   const role = useRole();
   const navItems = navItemsFor(role);
   const account = useCurrentAccount();
   const login = useAppStore((s) => s.login);
   const logout = useAppStore((s) => s.logout);
+  const requestCounts = useMentorRequestCounts();
   const isHome = location.pathname === '/';
 
   // 라우트 변경 시 자동 닫힘
@@ -153,10 +156,21 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     <p className={styles.accountName}>{account.name}</p>
                     <p className="meta">{account.title}</p>
                   </div>
+                  <Badge variant={requestCounts[account.id] > 0 ? 'warning' : 'outline'}>
+                    {requestCounts[account.id]}건
+                  </Badge>
                 </div>
                 <div className={styles.accountActions}>
                   {ACCOUNTS.filter((a) => a.id !== account.id).map((a) => (
-                    <button key={a.id} type="button" className={styles.accountActionBtn} onClick={() => login(a.id)}>
+                    <button
+                      key={a.id}
+                      type="button"
+                      className={styles.accountActionBtn}
+                      onClick={() => {
+                        login(a.id);
+                        navigate('/');
+                      }}
+                    >
                       {a.name}({a.role === 'mentee' ? '멘티' : a.role === 'mentor' ? '멘토' : '관리자'})으로 전환
                     </button>
                   ))}
@@ -170,7 +184,15 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 <p className={styles.accountLabel}>데모 계정으로 로그인</p>
                 <div className={styles.accountActions}>
                   {ACCOUNTS.map((a) => (
-                    <button key={a.id} type="button" className={styles.accountActionBtn} onClick={() => login(a.id)}>
+                    <button
+                      key={a.id}
+                      type="button"
+                      className={styles.accountActionBtn}
+                      onClick={() => {
+                        login(a.id);
+                        navigate('/');
+                      }}
+                    >
                       <Avatar src={a.avatarSrc} initial={a.initial} alt="" size={24} /> {a.name}
                     </button>
                   ))}

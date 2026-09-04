@@ -71,6 +71,10 @@
   gap: var(--sp-sm);
 }
 
+.accountRow > :last-child {
+  margin-left: auto;
+}
+
 .accountName {
   font-weight: 600;
 }

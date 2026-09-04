@@ -1,6 +1,6 @@
 // 로그인 상태·역할 파생 — MyPage/router/TopNav가 전부 이 훅만 본다(Plans/14 §3.2).
 import { useAppStore } from '@/store/useAppStore';
-import { ACCOUNTS, accountById, type Account, type AccountRole } from '@/data/accounts';
+import { ACCOUNTS, accountById, countMentorRequests, type Account, type AccountRole } from '@/data/accounts';
 import type { Attempt } from '@/types';
 
 export function useCurrentAccount(): Account | null {
@@ -23,6 +23,17 @@ export function useMyAttempts(): Attempt[] {
   if (account.role === 'mentee') return attempts.filter((a) => (a.ownerId ?? null) === account.id);
   if (account.role === 'mentor') return attempts.filter((a) => (a.assignedMentorId ?? null) === account.id);
   return [];
+}
+
+/** 계정별로 멘토 검증 요청이 몇 건 있는지(진행 중 + 완료 모두 포함) — 계정 메뉴에서 로그인한
+ * 본인에게 몇 건이 들어와 있는지 보여주기 위함. admin은 항상 0건. */
+export function useMentorRequestCounts(): Record<string, number> {
+  const attempts = useAppStore((s) => s.attempts);
+  const counts: Record<string, number> = {};
+  for (const account of ACCOUNTS) {
+    counts[account.id] = countMentorRequests(attempts, account);
+  }
+  return counts;
 }
 
 export { ACCOUNTS };
