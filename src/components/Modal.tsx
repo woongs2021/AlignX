@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { useLenis } from 'lenis/react';
 import styles from './Modal.module.css';
 
 type ModalProps = {
@@ -20,6 +21,7 @@ type ModalProps = {
 export function Modal({ isOpen, onClose, title, titleMeta, children, actions, className }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
+  const lenis = useLenis();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -60,20 +62,26 @@ export function Modal({ isOpen, onClose, title, titleMeta, children, actions, cl
     };
   }, [isOpen, onClose]);
 
+  // 열림 중 body 스크롤 잠금 + Lenis 정지 (MobileNav와 동일 패턴) — Lenis는 body overflow와
+  // 무관하게 전역 휠 이벤트를 가로채므로, 정지시키지 않으면 모달 내부를 스크롤해도 뒤 페이지가
+  // 대신 스크롤된다.
   useEffect(() => {
     if (!isOpen) return;
     const original = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    lenis?.stop();
     return () => {
       document.body.style.overflow = original;
+      lenis?.start();
     };
-  }, [isOpen]);
+  }, [isOpen, lenis]);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
           className={styles.backdrop}
+          data-lenis-prevent
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

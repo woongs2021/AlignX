@@ -29,7 +29,7 @@
 
 .step:hover,
 .step:focus-visible {
-  background: var(--soft);
+  background: var(--tint);
 }
 
 .step:focus-visible {

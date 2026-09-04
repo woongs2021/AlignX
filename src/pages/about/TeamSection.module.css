@@ -38,7 +38,7 @@
 }
 
 .cardButton:hover {
-  background: var(--soft);
+  background: var(--tint);
 }
 
 .cardButton:focus-visible {

@@ -91,6 +91,12 @@
   gap: var(--sp-lg);
 }
 
+/* 라이트 모드의 --soft(#a1d0f6)는 채도가 높아 이 큰 CTA 배경엔 과하다 — bg와 섞어 옅게 눌러준다.
+ * 다크 모드는 tokens.css가 이미 --bg와 섞어 낮춰둔 값이라 그대로 둔다. */
+[data-mode='light'] .ctaBand {
+  background: color-mix(in oklab, var(--soft) 40%, var(--bg));
+}
+
 .ctaTitle {
   font-family: var(--font-body);
   font-size: var(--t-kr-2);
