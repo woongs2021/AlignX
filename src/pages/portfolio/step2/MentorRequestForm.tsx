@@ -67,18 +67,29 @@ const FIELD_ORDER: (keyof Draft)[] = ['name', 'topic', 'requestNote'];
 
 type MentorRequestFormProps = {
   attempt: Attempt;
+  accountName?: string;
 };
 
 /** 2단계 제출 양식 — 1단계 파일 자동 첨부(교체 불가) + 이름/주제/요청사항 3개 필수 항목만 받는다.
- * 교육 만족도·주관식 후기는 3단계 리포트 확인 후 "최종 포트폴리오 제출"에서 별도로 받는다. */
-export function MentorRequestForm({ attempt }: MentorRequestFormProps) {
+ * 교육 만족도·주관식 후기는 3단계 리포트 확인 후 "최종 포트폴리오 제출"에서 별도로 받는다.
+ * 이름은 로그인 계정이 있으면 계정 이름으로 고정되고 수정할 수 없다 — 검증 대상이 실제 요청자와 달라지는 것을 막기 위함. */
+export function MentorRequestForm({ attempt, accountName }: MentorRequestFormProps) {
   const setMentorRequest = useAppStore((s) => s.setMentorRequest);
 
-  const [draft, setDraft] = useState<Draft>(() => loadDraft(attempt.id));
+  const [draft, setDraft] = useState<Draft>(() => {
+    const loaded = loadDraft(attempt.id);
+    return accountName ? { ...loaded, name: accountName } : loaded;
+  });
   const [errors, setErrors] = useState<Errors>({});
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const fieldRefs = useRef<Partial<Record<keyof Draft, HTMLDivElement | null>>>({});
+
+  // 계정 전환(로그인 없이 즉시 전환 가능) 시에도 이름을 최신 계정과 동기화한다.
+  useEffect(() => {
+    if (!accountName) return;
+    setDraft((prev) => (prev.name === accountName ? prev : { ...prev, name: accountName }));
+  }, [accountName]);
 
   // 자동 임시저장 — 입력 300ms 디바운스로 로컬 초안 보관 (06 §2.5)
   useEffect(() => {
@@ -148,6 +159,7 @@ export function MentorRequestForm({ attempt }: MentorRequestFormProps) {
           id="mentor-name"
           value={draft.name}
           onChange={(e) => update('name', e.target.value)}
+          disabled={Boolean(accountName)}
           aria-invalid={errors.name ? 'true' : undefined}
           aria-describedby={errors.name ? 'mentor-name-error' : undefined}
         />

@@ -18,6 +18,10 @@
 
 .score {
   line-height: 0.9;
+  /* 카운트업 도중 자릿수 폭이 바뀌면서 "/100"이 다음 줄로 밀렸다 돌아왔다 하면(2줄↔1줄) 이
+   * 컬럼과 옆 바 차트 컬럼이 grid align-items:stretch로 높이를 맞추느라 섹션 전체가
+   * 200px씩 흔들렸다 — 줄바꿈 자체를 막아 근본 원인을 제거한다. */
+  white-space: nowrap;
 }
 
 .scoreMax {

@@ -34,7 +34,9 @@ describe('2단계 자동 임시저장', () => {
     useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: 'portfolio.pdf', size: 1_000_000 }));
 
     renderAt('/portfolio/mentor');
-    fireEvent.change(screen.getByLabelText('이름'), { target: { value: '임시저장테스트' } });
+    // 이름은 로그인 계정 이름으로 고정되어 수정할 수 없으므로(자동 임시저장 대상에서 제외),
+    // 자유 입력이 가능한 다른 필드(주제)로 임시저장/복구를 확인한다.
+    fireEvent.change(screen.getByLabelText('주제'), { target: { value: '임시저장테스트' } });
 
     // 300ms 디바운스 이후 localStorage에 기록된다
     await vi.advanceTimersByTimeAsync(400);
@@ -42,7 +44,7 @@ describe('2단계 자동 임시저장', () => {
 
     cleanup();
     renderAt('/portfolio/mentor');
-    expect(screen.getByLabelText('이름')).toHaveValue('임시저장테스트');
+    expect(screen.getByLabelText('주제')).toHaveValue('임시저장테스트');
   });
 
   it('제출에 성공하면 초안이 삭제된다', async () => {

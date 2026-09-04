@@ -1,5 +1,5 @@
-// 더미 멘토 3인 프로필 — 검증 타임라인(Phase06)과 리포트 멘토 카드(Phase07)가 공유하는 단일 소스.
-// 원칙별 담당은 역할과 맞춘다: 구조/내러티브 → UX Lead, 비주얼/UX → Product Designer, 종합 → Design Director.
+// 더미 멘토 3인 프로필 — ADMIN 대행 피드백에서 어느 멘토 명의로 제출할지 고를 때(FeedbackComposer)와
+// 샘플 데이터(sampleStudents)가 공유하는 단일 소스.
 
 export type Mentor = {
   id: string;
@@ -14,22 +14,3 @@ export const MENTORS: Mentor[] = [
   { id: 'dohyun', name: '박도현', role: 'Product Designer', initial: '박' },
   { id: 'jiwoo', name: '이지우', role: 'Design Director', initial: '이' },
 ];
-
-/** 원칙 id → 담당 멘토 id. 10개 원칙을 3인에게 배분한다. */
-export const PRINCIPLE_MENTOR: Record<string, string> = {
-  grid: 'seyeon',
-  consistency: 'seyeon',
-  narrative: 'seyeon',
-  research: 'seyeon',
-  hierarchy: 'dohyun',
-  typography: 'dohyun',
-  color: 'dohyun',
-  whitespace: 'dohyun',
-  interaction: 'dohyun',
-  impact: 'jiwoo',
-};
-
-export function mentorFor(principleId: string): Mentor {
-  const id = PRINCIPLE_MENTOR[principleId] ?? MENTORS[0].id;
-  return MENTORS.find((m) => m.id === id) ?? MENTORS[0];
-}

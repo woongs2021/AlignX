@@ -22,18 +22,6 @@
   color: var(--accent-text);
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-lg);
-}
-
-@media (min-width: 768px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 .card {
   background: var(--soft);
   border: none;
@@ -72,8 +60,4 @@
 .comment {
   font-size: var(--t-body-sm);
   color: var(--fg);
-}
-
-.overall {
-  margin-top: var(--sp-lg);
 }

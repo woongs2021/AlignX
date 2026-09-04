@@ -68,7 +68,7 @@ describe('MyPage — 회차 수에 따른 4가지 상태 분기 (09 §1)', () =>
     expect(screen.queryByText(/전체 이력 분석/)).not.toBeInTheDocument();
   });
 
-  it('1회 — 단일 상세 뷰(1·2·3단계가 한 화면에 보인다), 이력 안내는 "2회 더"', () => {
+  it('1회 — 회차가 1개여도 다회차와 동일한 카드 그리드 UI("#01"), 이력 잠금 안내는 없다', () => {
     const id = useAppStore.getState().createAttempt({
       name: 'a.pdf',
       mime: 'application/pdf',
@@ -78,22 +78,17 @@ describe('MyPage — 회차 수에 따른 4가지 상태 분기 (09 §1)', () =>
     useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: 'a.pdf', size: 1_000_000 }));
     renderAt('/my');
 
-    expect(screen.getByText('① AI 분석')).toBeInTheDocument();
-    expect(screen.getByText('② 멘토 검증')).toBeInTheDocument();
-    expect(screen.getByText('③ 통합 리포트')).toBeInTheDocument();
-    expect(screen.queryByText('AI 분석 완료 후 열립니다.')).not.toBeInTheDocument(); // ① AI 분석은 이미 완료
-    expect(screen.getByText('멘토 검증 완료 후 열립니다.')).toBeInTheDocument(); // ③은 아직 잠김
-    expect(screen.getByText(/2회 더 하면 열립니다/)).toBeInTheDocument();
+    expect(screen.getByText('#01')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '전체 이력 분석 보기 →' })).not.toBeInTheDocument();
   });
 
-  it('2회 — 카드 그리드, 이력 안내는 "1회 더"이고 버튼은 없다', () => {
+  it('2회 — 카드 그리드, 이력 분석 버튼은 아직 없다', () => {
     createCompletedAttempt('a.pdf');
     createCompletedAttempt('b.pdf');
     renderAt('/my');
 
     expect(screen.getByText('#01')).toBeInTheDocument();
     expect(screen.getByText('#02')).toBeInTheDocument();
-    expect(screen.getByText(/1회 더 하면 열립니다/)).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '전체 이력 분석 보기 →' })).not.toBeInTheDocument();
   });
 
@@ -143,8 +138,8 @@ describe('MyPage — 카드 그리드 상세 진입/삭제 (09 §5)', () => {
     fireEvent.click(within(dialog).getByRole('button', { name: '삭제' }));
 
     await waitFor(() => expect(useAppStore.getState().attempts).toHaveLength(1));
-    // 1회로 줄었으니 단일 상세 뷰로 전환된다
-    expect(await screen.findByText('① AI 분석')).toBeInTheDocument();
+    // 1회로 줄어도 카드 그리드 UI는 그대로 유지되고, 남은 회차 하나가 "#01"로 보인다.
+    expect(await screen.findByText('#01')).toBeInTheDocument();
   });
 });
 
@@ -161,7 +156,7 @@ describe('MyPage — 2단계 진행 중 회차의 실시간 갱신 (09 §4, Plan
 
     renderAt('/my?fast=1');
 
-    expect(screen.getByText(/단계 진행 중/)).toBeInTheDocument();
+    expect(screen.getByText('멘토 검증 진행 중')).toBeInTheDocument();
 
     // 접수·배정 단계는 곧 끝나지만(연출용 타이머), 멘토 검토는 실제 멘토가 확정 제출하기
     // 전까지 절대 끝나지 않는다 — 자동 완료 경로가 삭제됐다(Plans/14 §6.1 핵심 변경).
@@ -180,7 +175,8 @@ describe('MyPage — 2단계 진행 중 회차의 실시간 갱신 (09 §4, Plan
     useAppStore.getState().setMentorRequest(id, makeMentorRequest());
 
     renderAt('/my');
-    expect(screen.getByText(/단계 진행 중/)).toBeInTheDocument();
+    expect(screen.getByText('멘토 검증 진행 중')).toBeInTheDocument();
+    expect(screen.getByText('1단계 완료')).toBeInTheDocument();
 
     const attempt = useAppStore.getState().attempts.find((a) => a.id === id)!;
     const feedback = makeMentorFeedback(attempt);
@@ -188,8 +184,9 @@ describe('MyPage — 2단계 진행 중 회차의 실시간 갱신 (09 §4, Plan
       useAppStore.getState().setMentorFeedback(id, feedback);
     });
 
-    // 멘토 검증 카드가 done 상태로 바뀌며 멘토 점수를 보여준다 — 리렌더 없이도(같은 화면을
-    // 열어둔 채) 스토어 변경만으로 반영됐는지 확인한다.
-    expect(await screen.findByText(String(feedback.mentorScore))).toBeInTheDocument();
+    // 카드가 진행 중 → 완료 상태로 바뀐다 — 리렌더 없이도(같은 화면을 열어둔 채) 스토어
+    // 변경만으로 반영됐는지 확인한다. 멘토 검증까지 끝나면 진행 바가 사라지고 완료 단계 수가 늘어난다.
+    expect(await screen.findByText('2단계 완료')).toBeInTheDocument();
+    expect(screen.queryByText('멘토 검증 진행 중')).not.toBeInTheDocument();
   });
 });

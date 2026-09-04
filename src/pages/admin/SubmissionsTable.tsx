@@ -25,11 +25,19 @@ type SubmissionsTableProps = {
   onOpenFeedback: (id: string) => void;
   /** 멘토 큐에서는 "검증하기"로 바꿔 쓴다 — 기본값은 ADMIN 문구 그대로 유지한다. */
   actionLabel?: string;
+  /** 멘토 큐에서는 액션 버튼이 눈에 잘 띄어야 해서 secondary로 바꿔 쓴다 — 기본값은 ADMIN
+   * 문구 그대로(ghost) 유지한다. */
+  actionVariant?: 'primary' | 'secondary' | 'ghost' | 'link';
 };
 
 /** 제출 현황 — 데스크톱 테이블 / 모바일 카드 리스트(CSS로만 전환) (Plans/10-admin.md §2.2).
  * ADMIN 대시보드와 멘토 검증 큐(Plans/14 §7.1)가 이 컴포넌트를 공유한다. */
-export function SubmissionsTable({ rows, onOpenFeedback, actionLabel = '피드백 작성' }: SubmissionsTableProps) {
+export function SubmissionsTable({
+  rows,
+  onOpenFeedback,
+  actionLabel = '피드백 작성',
+  actionVariant = 'ghost',
+}: SubmissionsTableProps) {
   if (rows.length === 0) {
     return <p className={styles.noResult}>조건에 맞는 제출물이 없습니다.</p>;
   }
@@ -82,7 +90,7 @@ export function SubmissionsTable({ rows, onOpenFeedback, actionLabel = '피드�
                 </td>
                 <td>
                   {row.attempt.mentorRequest ? (
-                    <Button variant="ghost" onClick={() => onOpenFeedback(row.attempt.id)}>
+                    <Button variant={actionVariant} onClick={() => onOpenFeedback(row.attempt.id)}>
                       {actionLabel}
                     </Button>
                   ) : (
@@ -118,7 +126,7 @@ export function SubmissionsTable({ rows, onOpenFeedback, actionLabel = '피드�
               </span>
             </div>
             {row.attempt.mentorRequest ? (
-              <Button variant="ghost" onClick={() => onOpenFeedback(row.attempt.id)}>
+              <Button variant={actionVariant} onClick={() => onOpenFeedback(row.attempt.id)}>
                 피드백 작성
               </Button>
             ) : (

@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Popover } from '@/components/Popover';
 import { Avatar } from '@/components/Avatar';
+import { Badge } from '@/components/Badge';
 import { ACCOUNTS } from '@/data/accounts';
-import { useCurrentAccount } from '@/features/auth/useSession';
+import { useCurrentAccount, useMentorRequestCounts } from '@/features/auth/useSession';
 import { useAppStore } from '@/store/useAppStore';
 import styles from './AccountMenu.module.css';
 
@@ -26,6 +27,7 @@ export function AccountMenu() {
   const login = useAppStore((s) => s.login);
   const logout = useAppStore((s) => s.logout);
   const [switching, setSwitching] = useState(false);
+  const requestCounts = useMentorRequestCounts();
 
   return (
     <Popover
@@ -56,6 +58,7 @@ export function AccountMenu() {
                   onClick={() => {
                     login(a.id);
                     close();
+                    navigate('/');
                   }}
                 >
                   <Avatar src={a.avatarSrc} initial={a.initial} alt="" size={32} />
@@ -86,6 +89,7 @@ export function AccountMenu() {
                     login(a.id);
                     setSwitching(false);
                     close();
+                    navigate('/');
                   }}
                 >
                   <Avatar src={a.avatarSrc} initial={a.initial} alt="" size={32} />
@@ -109,6 +113,9 @@ export function AccountMenu() {
                 <span className={styles.accountRowName}>{account.name}</span>
                 <span className={styles.accountRowRole}>{ROLE_LABEL[account.role]} · {account.title}</span>
               </span>
+              <Badge variant={requestCounts[account.id] > 0 ? 'warning' : 'outline'}>
+                {requestCounts[account.id]}건
+              </Badge>
             </div>
             <button type="button" role="menuitem" className={styles.menuItemBtn} onClick={() => setSwitching(true)}>
               계정 전환
