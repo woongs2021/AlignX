@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/Button';
 import { ProgressBar } from '@/components/ProgressBar';
 import { useLiveMentorProgress } from '@/features/mentor/useLiveMentorProgress';
-import { STAGE_CONFIG, isAllDone, isFastMode, totalDurationMs } from '@/features/mentor/simulator';
-import { formatDateTime, formatRemaining } from '@/lib/format';
+import { STAGE_CONFIG, isAllDone, isFastMode } from '@/features/mentor/simulator';
+import { formatDateTime } from '@/lib/format';
 import type { Attempt } from '@/types';
 import styles from './MonitoringScreen.module.css';
 
@@ -15,7 +15,7 @@ type MonitoringScreenProps = {
 /** 실시간 검증 모니터 — 절대 시각 기반이라 탭을 닫았다 열어도 정확히 복원된다 (06 §3). */
 export function MonitoringScreen({ attempt }: MonitoringScreenProps) {
   const navigate = useNavigate();
-  const { stages, now } = useLiveMentorProgress(attempt);
+  const { stages } = useLiveMentorProgress(attempt);
   const [announcement, setAnnouncement] = useState('');
   const announcedRef = useRef(attempt.mentorFeedback != null);
 
@@ -28,14 +28,12 @@ export function MonitoringScreen({ attempt }: MonitoringScreenProps) {
 
   const reviewStages = stages.filter((s) => s.id !== 'complete');
   const doneCount = reviewStages.filter((s) => s.status === 'done').length;
-  // mentorFeedback이 있으면 무조건 완료다 — ADMIN이 단계 진행을 건너뛰고 바로 피드백을 확정
-  // 제출해도(10 §3) 학생 화면이 즉시 완료로 보여야 한다. isAllDone(stages)는 더미 자동완성
-  // 경로(단계가 다 끝나야 피드백이 생기는 경우)의 보조 신호일 뿐이다.
+  // mentorFeedback이 있으면 무조건 완료다 — ADMIN/멘토가 실제로 확정 제출해야만 여기가 true가
+  // 된다(Plans/14 §6.1) — 더 이상 타이머만으로는 완료되지 않는다.
   const done = attempt.mentorFeedback !== null || isAllDone(stages);
   const fast = isFastMode();
-
-  const submittedAtMs = attempt.mentorRequest ? new Date(attempt.mentorRequest.submittedAt).getTime() : now;
-  const etaMs = submittedAtMs + totalDurationMs(fast) - now;
+  const activeStage = reviewStages.find((s) => s.status === 'active');
+  const waitingOnMentor = !done && activeStage?.id === 'mentor_review';
 
   return (
     <div className={styles.page}>
@@ -45,9 +43,12 @@ export function MonitoringScreen({ attempt }: MonitoringScreenProps) {
           {attempt.mentorRequest?.name}님의 포트폴리오를 멘토들이 검증하고 있습니다
         </h1>
         {attempt.mentorRequest && (
+          <p className="meta">제출 {formatDateTime(attempt.mentorRequest.submittedAt)}</p>
+        )}
+        {waitingOnMentor && (
           <p className="meta">
-            제출 {formatDateTime(attempt.mentorRequest.submittedAt)}
-            {!done && ` · 예상 완료 ${formatRemaining(etaMs)}`}
+            {activeStage?.mentorName ? `${activeStage.mentorName} 멘토가` : '배정된 멘토가'} 검토 중입니다 · 검토가
+            끝나면 알림으로 알려드립니다
           </p>
         )}
         <p role="status" aria-live="polite" className={styles.announcement}>

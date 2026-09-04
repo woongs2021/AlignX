@@ -1,0 +1,112 @@
+.loginTrigger,
+.avatarTrigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  padding: 0;
+}
+
+.loginTrigger:hover,
+.avatarTrigger:hover {
+  background: var(--soft);
+  border-color: var(--stroke-strong);
+}
+
+.loginTrigger:focus-visible,
+.avatarTrigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.panelBody {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-sm);
+}
+
+.panelHead {
+  padding: var(--sp-sm) var(--sp-md);
+  font-size: var(--t-label);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.backBtn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: var(--t-body-sm);
+  padding: var(--sp-xs) var(--sp-md);
+  cursor: pointer;
+}
+
+.accountRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  width: 100%;
+  text-align: left;
+  padding: var(--sp-sm) var(--sp-md);
+  background: none;
+  border: none;
+  color: var(--fg);
+  border-radius: var(--r-sm);
+  cursor: default;
+}
+
+button.accountRow {
+  cursor: pointer;
+}
+
+button.accountRow:hover {
+  background: var(--soft);
+}
+
+button.accountRow:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.accountRowText {
+  display: flex;
+  flex-direction: column;
+}
+
+.accountRowName {
+  font-weight: 600;
+  font-size: var(--t-body-sm);
+}
+
+.accountRowRole {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.menuItemBtn {
+  text-align: left;
+  padding: var(--sp-sm) var(--sp-md);
+  background: none;
+  border: none;
+  border-top: 1px solid var(--stroke);
+  color: var(--fg);
+  font-size: var(--t-body-sm);
+  cursor: pointer;
+}
+
+.menuItemBtn:hover {
+  background: var(--soft);
+}
+
+.menuItemBtn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}

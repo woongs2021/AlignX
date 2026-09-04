@@ -73,7 +73,7 @@ describe('createAttempt', () => {
     });
 
     expect(rehydratedStore.getState().attempts).toEqual([]);
-    expect(rehydratedStore.getState().version).toBe(1);
+    expect(rehydratedStore.getState().version).toBe(2);
   });
 
   it('21번째 회차 생성 시 가장 오래된 회차의 프리뷰만 제거된다', () => {
@@ -113,8 +113,28 @@ describe('deleteAttempt', () => {
 });
 
 describe('localStorage 용량 가드', () => {
-  it('QuotaExceededError 발생 시 프리뷰를 비우고 1회 재시도해 성공하면 경고를 띄우지 않는다', () => {
-    useAppStore.getState().createAttempt(sampleFile);
+  it('QuotaExceededError 발생 시 완료된 회차의 pages부터 비우고(1단계) 재시도해 성공하면 경고를 띄우지 않는다', () => {
+    const id = useAppStore.getState().createAttempt(sampleFile);
+    // 검증까지 끝난(mentorFeedback 있음) 회차만 pages가 먼저 비워진다 — 검증 대기 중인 회차의
+    // 페이지는 멘토 화면에 필요하므로 최대한 남긴다(Plans/14 §7.3).
+    useAppStore.setState((state) => ({
+      attempts: state.attempts.map((a) =>
+        a.id === id
+          ? {
+              ...a,
+              mentorFeedback: {
+                mentorName: '이지우',
+                mentorRole: 'Design Director',
+                overall: '완료',
+                perPrinciple: [],
+                mentorScore: 80,
+                completedAt: new Date().toISOString(),
+              },
+              file: { ...a.file, pages: ['data:image/jpeg;base64,PAGE1', 'data:image/jpeg;base64,PAGE2'] },
+            }
+          : a,
+      ),
+    }));
 
     const original = Storage.prototype.setItem.bind(localStorage);
     let calls = 0;
@@ -132,9 +152,10 @@ describe('localStorage 용량 가드', () => {
     expect(useStorageWarningStore.getState().message).toBeNull();
 
     const parsed = JSON.parse(localStorage.getItem('alignx.v1')!);
-    expect(
-      parsed.state.attempts.every((a: Attempt) => a.file.previewDataUrl === ''),
-    ).toBe(true);
+    const completed = parsed.state.attempts.find((a: Attempt) => a.id === id);
+    expect(completed.file.pages).toEqual([]);
+    // 1단계는 previewDataUrl까지는 건드리지 않는다 — 기존처럼 전부 비우는 건 3단계뿐이다.
+    expect(completed.file.previewDataUrl).toBe(sampleFile.previewDataUrl);
 
     spy.mockRestore();
   });

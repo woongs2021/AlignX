@@ -49,23 +49,25 @@ describe('resumeMentorProgress', () => {
     expect(first).toEqual(second);
   });
 
-  it('전체 소요시간이 지나면 모든 단계가 done이다', () => {
+  it('mentor_review는 지속시간이 없어(Infinity) 시간이 아무리 지나도 active에 머문다 — 타이머만으로는 완료되지 않는다 (Plans/14 §6.1)', () => {
     const submittedAt = new Date('2026-01-01T00:00:00.000Z').toISOString();
     const attempt = makeAttempt(submittedAt);
-    const now = new Date(submittedAt).getTime() + totalDurationMs(false) + 1000;
+    const now = new Date(submittedAt).getTime() + 999 * 24 * 60 * 60 * 1000; // 999일 후
     const stages = resumeMentorProgress(attempt, now, false);
 
-    expect(isAllDone(stages)).toBe(true);
-    expect(stages.every((s) => s.status === 'done')).toBe(true);
+    expect(isAllDone(stages)).toBe(false);
+    expect(stages.find((s) => s.id === 'mentor_review')?.status).toBe('active');
+    expect(stages.find((s) => s.id === 'complete')?.status).toBe('pending');
   });
 
-  it('탭을 3분 뒤 다시 열어도(경과 시간만 반영) 완료 상태로 정확히 복원된다', () => {
+  it('탭을 3분 뒤 다시 열어도(경과 시간만 반영) 접수·배정은 끝나 있고 멘토 검토는 여전히 진행 중이다', () => {
     const submittedAt = new Date('2026-01-01T00:00:00.000Z').toISOString();
     const attempt = makeAttempt(submittedAt);
-    // 전체 소요는 약 2분 30초 — 3분 뒤라면 이미 끝나 있어야 한다.
     const now = new Date(submittedAt).getTime() + 3 * 60 * 1000;
     const stages = resumeMentorProgress(attempt, now, false);
-    expect(isAllDone(stages)).toBe(true);
+    expect(stages.find((s) => s.id === 'intake')?.status).toBe('done');
+    expect(stages.find((s) => s.id === 'assign')?.status).toBe('done');
+    expect(stages.find((s) => s.id === 'mentor_review')?.status).toBe('active');
   });
 
   it('중간 시점에는 정확히 하나의 단계만 active다', () => {
@@ -77,12 +79,14 @@ describe('resumeMentorProgress', () => {
     expect(activeStages.length).toBe(1);
   });
 
-  it('완료된 단계는 completedAt을 갖는다', () => {
+  it('완료된 단계(접수·배정)는 completedAt을 갖는다', () => {
     const submittedAt = new Date('2026-01-01T00:00:00.000Z').toISOString();
     const attempt = makeAttempt(submittedAt);
-    const now = new Date(submittedAt).getTime() + totalDurationMs(false) + 1000;
+    const now = new Date(submittedAt).getTime() + 3 * 60 * 1000;
     const stages = resumeMentorProgress(attempt, now, false);
-    for (const stage of stages) {
+    const doneStages = stages.filter((s) => s.status === 'done');
+    expect(doneStages.length).toBeGreaterThan(0);
+    for (const stage of doneStages) {
       expect(stage.completedAt).toBeTruthy();
     }
   });
@@ -107,11 +111,9 @@ describe('totalDurationMs', () => {
 });
 
 describe('STAGE_CONFIG', () => {
-  it('review1/review2/synthesis 단계에 실제 멘토 이름·역할이 배정되어 있다', () => {
-    const named = STAGE_CONFIG.filter((c) => c.mentorRole);
-    expect(named).toHaveLength(3);
-    for (const stage of named) {
-      expect(stage.mentorName).toBeTruthy();
-    }
+  it('mentor_review 단계에 역할이 배정되어 있고, 지속시간이 없다(Infinity) — 타이머만으론 끝나지 않는다', () => {
+    const reviewStage = STAGE_CONFIG.find((c) => c.id === 'mentor_review');
+    expect(reviewStage?.mentorRole).toBeTruthy();
+    expect(reviewStage?.durationMs).toBe(Infinity);
   });
 });

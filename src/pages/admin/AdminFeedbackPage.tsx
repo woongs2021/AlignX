@@ -15,8 +15,8 @@ import { isSampleAttemptId, SAMPLE_ID_PREFIX } from '@/data/sampleStudents';
 import type { MentorFeedback } from '@/types';
 import { SubmissionPreview } from './feedback/SubmissionPreview';
 import { StageControl } from './feedback/StageControl';
-import { PrincipleCommentList } from './feedback/PrincipleCommentList';
-import { FeedbackComposer } from './feedback/FeedbackComposer';
+import { PrincipleScoreList } from '@/features/review/PrincipleScoreList';
+import { FeedbackComposer } from '@/features/review/FeedbackComposer';
 import { ConfirmedFeedbackCard } from './feedback/ConfirmedFeedbackCard';
 import styles from './AdminFeedbackPage.module.css';
 
@@ -180,10 +180,10 @@ export function AdminFeedbackPage() {
                 <ConfirmedFeedbackCard feedback={attempt.mentorFeedback!} />
               ) : (
                 <>
-                  <PrincipleCommentList
+                  <PrincipleScoreList
                     ai={attempt.ai}
                     comments={draft.perPrinciple}
-                    onChange={(principleId, value) =>
+                    onCommentChange={(principleId, value) =>
                       setDraft((prev) => ({
                         ...prev,
                         perPrinciple: { ...prev.perPrinciple, [principleId]: value },

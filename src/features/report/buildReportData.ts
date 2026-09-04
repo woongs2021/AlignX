@@ -11,6 +11,8 @@ export type ReportPrincipleRow = {
   nameKr: string;
   nameEn: string;
   aiScore: number;
+  /** 멘토가 로그인해 직접 채점한 경우만 있다(Plans/14 §7.4) — ADMIN 대행 피드백은 없다. */
+  mentorScore?: number;
   mentorComment: string;
   isGap: boolean;
 };
@@ -48,7 +50,8 @@ export function buildReportData(attempt: Attempt): ReportData | null {
 
   const principles: ReportPrincipleRow[] = PRINCIPLES.map((principle) => {
     const aiScore = ai.principles.find((p) => p.id === principle.id)?.score ?? 0;
-    const comment = mentorFeedback.perPrinciple.find((p) => p.principleId === principle.id)?.comment ?? '';
+    const mentorEntry = mentorFeedback.perPrinciple.find((p) => p.principleId === principle.id);
+    const comment = mentorEntry?.comment ?? '';
     const sentiment = sentimentOfComment(principle.id, comment);
     const isGap = sentiment ? isPerspectiveGap(aiScore, sentiment) : false;
     return {
@@ -57,6 +60,7 @@ export function buildReportData(attempt: Attempt): ReportData | null {
       nameKr: principle.nameKr,
       nameEn: principle.nameEn,
       aiScore,
+      mentorScore: mentorEntry?.score,
       mentorComment: comment,
       isGap,
     };

@@ -56,3 +56,51 @@
   outline: 2px solid var(--primary);
   outline-offset: 4px;
 }
+
+.accountBlock {
+  border-top: 1px solid var(--stroke);
+  padding-top: var(--sp-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.accountRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.accountName {
+  font-weight: 600;
+}
+
+.accountLabel {
+  font-size: var(--t-label);
+  color: var(--fg-muted);
+}
+
+.accountActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+}
+
+.accountActionBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-xs);
+  text-align: left;
+  padding: var(--sp-xs) 0;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  cursor: pointer;
+}
+
+.accountActionBtn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}

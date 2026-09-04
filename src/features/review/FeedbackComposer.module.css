@@ -1,0 +1,52 @@
+.sectionLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-sm);
+}
+
+.errorText {
+  font-size: var(--t-caption);
+  color: var(--warning);
+  margin-top: var(--sp-xs);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+
+.slider {
+  flex: 1;
+}
+
+.scoreValue {
+  font-family: var(--font-display);
+  font-size: var(--t-kr-3);
+  min-width: 3ch;
+  text-align: right;
+}
+
+.mentorOptions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.mentorOption {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+  font-size: var(--t-body-sm);
+}
+
+.submitRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}

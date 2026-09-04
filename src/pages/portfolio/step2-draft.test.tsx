@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { AppRouter, BASENAME } from '@/router';
 import { useAppStore } from '@/store/useAppStore';
+import { MENTEE_ACCOUNT } from '@/data/accounts';
 import { generateAnalysis } from '@/features/analysis/dummyEngine';
 
 function renderAt(path: string) {
@@ -12,6 +13,8 @@ function renderAt(path: string) {
 beforeEach(() => {
   localStorage.clear();
   useAppStore.getState().resetAll();
+  // 2단계(멘토 요청)부터는 로그인이 필요하다(Plans/14 §3.4 Q3, RequireLogin 가드).
+  useAppStore.getState().login(MENTEE_ACCOUNT.id);
   vi.useFakeTimers({ shouldAdvanceTime: true });
 });
 

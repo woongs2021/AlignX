@@ -58,12 +58,16 @@ export function Step1Page() {
         return;
       }
       const previewDataUrl = preview.ok ? preview.previewDataUrl : '';
+      const pages = preview.ok ? preview.pages : [];
+      const pageCount = preview.ok ? preview.pageCount : 0;
 
       const id = createAttempt({
         name: file.name,
         mime: validation.mime,
         size: file.size,
         previewDataUrl,
+        pages,
+        pageCount,
       });
 
       setPhase('analyzing');

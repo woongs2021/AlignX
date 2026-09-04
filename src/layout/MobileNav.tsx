@@ -3,7 +3,11 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, type Variants } from 'motion/react';
 import { useLenis } from 'lenis/react';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { NAV_ITEMS } from './navItems';
+import { Avatar } from '@/components/Avatar';
+import { useCurrentAccount, useRole } from '@/features/auth/useSession';
+import { ACCOUNTS } from '@/data/accounts';
+import { useAppStore } from '@/store/useAppStore';
+import { navItemsFor } from './navItems';
 import styles from './MobileNav.module.css';
 
 function CloseIcon() {
@@ -43,6 +47,12 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const lenis = useLenis();
+  const role = useRole();
+  const navItems = navItemsFor(role);
+  const account = useCurrentAccount();
+  const login = useAppStore((s) => s.login);
+  const logout = useAppStore((s) => s.logout);
+  const isHome = location.pathname === '/';
 
   // 라우트 변경 시 자동 닫힘
   useEffect(() => {
@@ -119,13 +129,13 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           variants={overlayVariants}
         >
           <div className={styles.topRow}>
-            <ThemeToggle />
+            {!isHome && <ThemeToggle />}
             <button type="button" className={styles.closeButton} onClick={onClose} aria-label="메뉴 닫기">
               <CloseIcon />
             </button>
           </div>
           <nav className={styles.menu} aria-label="주 메뉴">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <motion.div key={item.to} variants={itemVariants}>
                 <NavLink to={item.to} className={styles.menuLink}>
                   {item.label}
@@ -133,6 +143,41 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               </motion.div>
             ))}
           </nav>
+
+          <motion.div className={styles.accountBlock} variants={itemVariants}>
+            {account ? (
+              <>
+                <div className={styles.accountRow}>
+                  <Avatar src={account.avatarSrc} initial={account.initial} alt="" size={36} />
+                  <div>
+                    <p className={styles.accountName}>{account.name}</p>
+                    <p className="meta">{account.title}</p>
+                  </div>
+                </div>
+                <div className={styles.accountActions}>
+                  {ACCOUNTS.filter((a) => a.id !== account.id).map((a) => (
+                    <button key={a.id} type="button" className={styles.accountActionBtn} onClick={() => login(a.id)}>
+                      {a.name}({a.role === 'mentee' ? '멘티' : a.role === 'mentor' ? '멘토' : '관리자'})으로 전환
+                    </button>
+                  ))}
+                  <button type="button" className={styles.accountActionBtn} onClick={() => logout()}>
+                    로그아웃
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className={styles.accountLabel}>데모 계정으로 로그인</p>
+                <div className={styles.accountActions}>
+                  {ACCOUNTS.map((a) => (
+                    <button key={a.id} type="button" className={styles.accountActionBtn} onClick={() => login(a.id)}>
+                      <Avatar src={a.avatarSrc} initial={a.initial} alt="" size={24} /> {a.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

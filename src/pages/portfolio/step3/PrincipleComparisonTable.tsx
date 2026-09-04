@@ -75,7 +75,9 @@ export function PrincipleComparisonTable({ report }: PrincipleComparisonTablePro
                     관점 차이
                   </Badge>
                 )}
-                <p className={styles.mentorLabel}>MENTOR</p>
+                <p className={styles.mentorLabel}>
+                  MENTOR{row.mentorScore !== undefined && ` · ${row.mentorScore}/10`}
+                </p>
                 <p>{row.mentorComment}</p>
               </td>
             </tr>

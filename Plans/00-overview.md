@@ -31,6 +31,7 @@
 | 11 | [11-responsive-a11y-perf.md](11-responsive-a11y-perf.md) | 반응형·접근성·성능 통과 기준 | 04–10 |
 | 12 | [12-code-review.md](12-code-review.md) | **최종 코드 검수** 체크리스트·게이트 | 11 |
 | 13 | [13-deploy-docs.md](13-deploy-docs.md) | GitHub Pages 배포 + README | 12 |
+| 14 | [14-accounts-notifications.md](14-accounts-notifications.md) | 계정(멘티·멘토·관리자) · 알림 · 멘티↔멘토 실연동 | 13 |
 
 권장 진행 순서: `01 → 02 → 03 → 04 → 05 → 06 → 07 → 09 → 08 → 10 → 11 → 12 → 13`
 (08 AlignX/ABOUT은 03 이후 언제든 병행 가능한 독립 트랙)

@@ -1,10 +1,11 @@
+import { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { AppRouter, BASENAME } from '@/router';
 import { useAppStore } from '@/store/useAppStore';
 import { generateAnalysis } from '@/features/analysis/dummyEngine';
-import { generateMentorFeedback } from '@/features/mentor/dummyFeedback';
-import type { MentorRequest } from '@/types';
+import { PRINCIPLES } from '@/data/principles';
+import type { Attempt, MentorFeedback, MentorRequest } from '@/types';
 
 function renderAt(path: string) {
   window.history.pushState({}, '', BASENAME + path);
@@ -21,6 +22,21 @@ function makeMentorRequest(overrides: Partial<MentorRequest> = {}): MentorReques
   };
 }
 
+/** 더 이상 타이머 자동완료가 없으므로(Plans/14 §6.1) 테스트에서는 고정 피드백을 직접 만들어
+ * setMentorFeedback을 호출한다 — 실제 멘토가 확정 제출한 것과 동일한 모양이면 충분하다. */
+function makeMentorFeedback(attempt: Attempt): MentorFeedback {
+  return {
+    mentorName: '이지우',
+    mentorRole: 'Design Director',
+    overall: '전체적으로 준수한 완성도입니다.',
+    perPrinciple: PRINCIPLES.map((p) => ({ principleId: p.id, comment: `${p.nameKr} 코멘트` })),
+    // AI 총점과 일부러 다르게 둔다 — 화면에 AI 점수와 멘토 점수가 각자 다른 곳에 표시되므로,
+    // 값이 같으면 getByText가 어느 쪽을 찾았는지 테스트에서 구분할 수 없다.
+    mentorScore: Math.max(0, Math.min(100, (attempt.ai?.totalScore ?? 80) - 3)),
+    completedAt: new Date().toISOString(),
+  };
+}
+
 /** AI 분석 + 멘토 검증까지 즉시 끝낸 회차를 만든다(라이브 시뮬레이터는 거치지 않는다). */
 function createCompletedAttempt(fileName: string): string {
   const id = useAppStore.getState().createAttempt({
@@ -32,7 +48,7 @@ function createCompletedAttempt(fileName: string): string {
   useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: fileName, size: 1_000_000 }));
   useAppStore.getState().setMentorRequest(id, makeMentorRequest());
   const attempt = useAppStore.getState().attempts.find((a) => a.id === id)!;
-  useAppStore.getState().setMentorFeedback(id, generateMentorFeedback(attempt));
+  useAppStore.getState().setMentorFeedback(id, makeMentorFeedback(attempt));
   return id;
 }
 
@@ -132,28 +148,48 @@ describe('MyPage — 카드 그리드 상세 진입/삭제 (09 §5)', () => {
   });
 });
 
-describe('MyPage — 2단계 진행 중 회차의 실시간 갱신 (09 §4)', () => {
-  it(
-    '멘토 검증 진행 중인 회차를 열어두면 완료까지 자동으로 갱신된다(?fast=1)',
-    async () => {
-      const id = useAppStore.getState().createAttempt({
-        name: 'live.pdf',
-        mime: 'application/pdf',
-        size: 1_000_000,
-        previewDataUrl: '',
-      });
-      useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: 'live.pdf', size: 1_000_000 }));
-      useAppStore.getState().setMentorRequest(id, makeMentorRequest());
+describe('MyPage — 2단계 진행 중 회차의 실시간 갱신 (09 §4, Plans/14 §6.1)', () => {
+  it('멘토 검토 단계는 무기한 대기라 시간이 지나도(?fast=1) 저절로 완료되지 않는다', async () => {
+    const id = useAppStore.getState().createAttempt({
+      name: 'live.pdf',
+      mime: 'application/pdf',
+      size: 1_000_000,
+      previewDataUrl: '',
+    });
+    useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: 'live.pdf', size: 1_000_000 }));
+    useAppStore.getState().setMentorRequest(id, makeMentorRequest());
 
-      renderAt('/my?fast=1');
+    renderAt('/my?fast=1');
 
-      expect(screen.getByText(/단계 진행 중/)).toBeInTheDocument();
+    expect(screen.getByText(/단계 진행 중/)).toBeInTheDocument();
 
-      await waitFor(
-        () => expect(useAppStore.getState().attempts.find((a) => a.id === id)?.mentorFeedback).not.toBeNull(),
-        { timeout: 20_000 },
-      );
-    },
-    25_000,
-  );
+    // 접수·배정 단계는 곧 끝나지만(연출용 타이머), 멘토 검토는 실제 멘토가 확정 제출하기
+    // 전까지 절대 끝나지 않는다 — 자동 완료 경로가 삭제됐다(Plans/14 §6.1 핵심 변경).
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    expect(useAppStore.getState().attempts.find((a) => a.id === id)?.mentorFeedback).toBeNull();
+  });
+
+  it('멘토가 다른 곳(검증 화면)에서 확정 제출하면, MY를 열어둔 채로도 즉시 완료 상태로 갱신된다', async () => {
+    const id = useAppStore.getState().createAttempt({
+      name: 'live.pdf',
+      mime: 'application/pdf',
+      size: 1_000_000,
+      previewDataUrl: '',
+    });
+    useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: 'live.pdf', size: 1_000_000 }));
+    useAppStore.getState().setMentorRequest(id, makeMentorRequest());
+
+    renderAt('/my');
+    expect(screen.getByText(/단계 진행 중/)).toBeInTheDocument();
+
+    const attempt = useAppStore.getState().attempts.find((a) => a.id === id)!;
+    const feedback = makeMentorFeedback(attempt);
+    act(() => {
+      useAppStore.getState().setMentorFeedback(id, feedback);
+    });
+
+    // 멘토 검증 카드가 done 상태로 바뀌며 멘토 점수를 보여준다 — 리렌더 없이도(같은 화면을
+    // 열어둔 채) 스토어 변경만으로 반영됐는지 확인한다.
+    expect(await screen.findByText(String(feedback.mentorScore))).toBeInTheDocument();
+  });
 });

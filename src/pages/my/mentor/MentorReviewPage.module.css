@@ -1,0 +1,78 @@
+.backLink {
+  margin-top: var(--sp-xl);
+  margin-bottom: var(--sp-lg);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-xl);
+  padding-bottom: var(--sp-2xl);
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(280px, 380px) 1fr;
+    align-items: start;
+  }
+
+  .left {
+    position: sticky;
+    top: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-md);
+    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+  }
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-md);
+}
+
+.previewCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.sectionLabel {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--sp-sm);
+}
+
+.studentName {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: var(--t-kr-3);
+}
+
+.quote {
+  margin: 0;
+  font-size: var(--t-body-sm);
+  color: var(--fg-muted);
+}
+
+.totalScore {
+  font-family: var(--font-display);
+  font-size: var(--t-kr-2);
+  font-weight: 300;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-sm);
+}

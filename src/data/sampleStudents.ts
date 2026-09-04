@@ -2,9 +2,52 @@
 // 전부 가상이다(실존 인물 사칭 금지). 원본 PDF 파일명의 기업명은 지원 목표 기업 맥락이므로
 // 주제 컬럼에서는 일반화해 표기한다 (Plans/10-admin.md §2.3, §4).
 import { generateAnalysis } from '@/features/analysis/dummyEngine';
-import { generateMentorFeedback } from '@/features/mentor/dummyFeedback';
 import { STAGE_CONFIG } from '@/features/mentor/simulator';
-import type { Attempt, FinalReview, MentorStage } from '@/types';
+import { MENTOR_ACCOUNT } from '@/data/accounts';
+import { PRINCIPLES } from '@/data/principles';
+import { getMentorComment, type MentorSentiment } from '@/data/mentorComments';
+import { MENTORS } from '@/data/mentors';
+import { hashString, mulberry32 } from '@/lib/seededRandom';
+import type { Attempt, FinalReview, MentorFeedback, MentorStage } from '@/types';
+
+const MENTOR_SCORE_SPREAD = 8; // 멘토 총점 = AI 총점 ± 8
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}
+
+/** 샘플 학생용 정적 멘토 피드백 — 과거엔 features/mentor/dummyFeedback.ts를 공유했지만, 그 모듈은
+ * "타이머가 끝나면 자동으로 피드백을 만드는" 용도였고 Phase14에서 삭제됐다(실제 멘토가 확정
+ * 제출해야만 완료되도록 바뀌었다 — Plans/14 §6.1). 샘플 10건은 화면 데모용으로 항상 같은 값이
+ * 나와야 하므로, 같은 시드 로직을 이 파일 안에 그대로 유지한다. */
+function buildSampleMentorFeedback(attempt: Attempt): MentorFeedback {
+  const ai = attempt.ai;
+  if (!ai) throw new Error('AI 분석이 없는 샘플은 멘토 피드백을 만들 수 없습니다.');
+
+  const rand = mulberry32(hashString(`sample-mentor:${attempt.id}`));
+
+  const perPrinciple = PRINCIPLES.map((principle) => {
+    const aiScore = ai.principles.find((p) => p.id === principle.id)?.score ?? 5;
+    const positiveProbability = clamp((aiScore - 4) / 6, 0.15, 0.85);
+    const sentiment: MentorSentiment = rand() < positiveProbability ? 'positive' : 'critical';
+    return { principleId: principle.id, comment: getMentorComment(principle.id, sentiment) };
+  });
+
+  const delta = Math.round((rand() * 2 - 1) * MENTOR_SCORE_SPREAD);
+  const mentorScore = clamp(ai.totalScore + delta, 0, 100);
+  const lead = MENTORS.find((m) => m.id === 'jiwoo') ?? MENTORS[0];
+  const topic = attempt.mentorRequest?.topic ?? '이번 작업';
+
+  return {
+    mentorName: lead.name,
+    mentorRole: lead.role,
+    mentorId: MENTOR_ACCOUNT.id,
+    overall: `AI 분석과 대체로 결이 비슷합니다. 종합 ${mentorScore}점으로 평가했고, 세부 코멘트는 원칙별로 남겨두었습니다. ${topic}의 방향은 좋으니 지적된 부분 위주로 다듬어보세요.`,
+    perPrinciple,
+    mentorScore,
+    completedAt: attempt.mentorRequest?.submittedAt ?? new Date().toISOString(),
+  };
+}
 
 export const SAMPLE_ID_PREFIX = 'sample_';
 
@@ -24,10 +67,10 @@ export type SampleStudent = {
 
 export const SAMPLE_STUDENTS: SampleStudent[] = [
   { id: '001', name: '김하늘', topic: '커머스 앱 UX 리디자인', preview: '001.jpg', pageCount: 21, sourceFile: '001.pdf', baseStatus: 'completed' },
-  { id: '002', name: '이도윤', topic: '리테일 서비스 UX', preview: '002.jpg', pageCount: 22, sourceFile: '002.pdf', baseStatus: 'reviewing', reviewProgress: 3 },
+  { id: '002', name: '이도윤', topic: '리테일 서비스 UX', preview: '002.jpg', pageCount: 22, sourceFile: '002.pdf', baseStatus: 'reviewing', reviewProgress: 1 },
   { id: '003', name: '박서연', topic: '브랜드 아이덴티티', preview: '003.jpg', pageCount: 42, sourceFile: '003.pdf', baseStatus: 'submitted' },
   { id: '004', name: '최민준', topic: 'B2B 대시보드 UX', preview: '004.jpg', pageCount: 30, sourceFile: '004.pdf', baseStatus: 'completed' },
-  { id: '005', name: '정하은', topic: '배달 서비스 UX', preview: '005.jpg', pageCount: 18, sourceFile: '005.pdf', baseStatus: 'reviewing', reviewProgress: 4 },
+  { id: '005', name: '정하은', topic: '배달 서비스 UX', preview: '005.jpg', pageCount: 18, sourceFile: '005.pdf', baseStatus: 'reviewing', reviewProgress: 2 },
   { id: '006', name: '강지호', topic: '메신저 UX 개선', preview: '006.jpg', pageCount: 18, sourceFile: '006.pdf', baseStatus: 'submitted' },
   { id: '007', name: '윤채원', topic: '커머스 브랜드 디자인', preview: '007.jpg', pageCount: 43, sourceFile: '007.pdf', baseStatus: 'completed' },
   { id: '008', name: '임태양', topic: '사내 시스템 UX', preview: '008.jpg', pageCount: 22, sourceFile: '008.pdf', baseStatus: 'analyzing' },
@@ -112,6 +155,8 @@ export function buildSampleAttempt(student: SampleStudent): Attempt {
     createdAt: submittedAt,
     currentStep: student.baseStatus === 'analyzing' ? 1 : student.baseStatus === 'completed' ? 3 : 2,
     status: student.baseStatus,
+    ownerId: null, // 샘플은 특정 계정 소유가 아니다 — ADMIN 대시보드에서만 보인다
+    assignedMentorId: mentorRequest ? MENTOR_ACCOUNT.id : null,
     file: {
       name: student.sourceFile,
       mime: 'application/pdf',
@@ -133,9 +178,7 @@ export function buildSampleAttempt(student: SampleStudent): Attempt {
   };
 
   if (student.baseStatus === 'completed') {
-    // generateMentorFeedback은 completedAt에 실행 시각(new Date())을 쓴다 — 실제 회차라면 맞는
-    // 동작이지만, 샘플은 호출할 때마다 값이 달라지면 안 되므로 시드 시각으로 고정한다.
-    attempt.mentorFeedback = { ...generateMentorFeedback(attempt), completedAt: submittedAt };
+    attempt.mentorFeedback = buildSampleMentorFeedback(attempt);
   }
 
   return attempt;
