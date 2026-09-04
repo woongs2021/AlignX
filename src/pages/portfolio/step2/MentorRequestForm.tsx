@@ -85,11 +85,14 @@ export function MentorRequestForm({ attempt, accountName }: MentorRequestFormPro
 
   const fieldRefs = useRef<Partial<Record<keyof Draft, HTMLDivElement | null>>>({});
 
-  // 계정 전환(로그인 없이 즉시 전환 가능) 시에도 이름을 최신 계정과 동기화한다.
-  useEffect(() => {
-    if (!accountName) return;
-    setDraft((prev) => (prev.name === accountName ? prev : { ...prev, name: accountName }));
-  }, [accountName]);
+  // 계정 전환(로그인 없이 즉시 전환 가능) 시에도 이름을 최신 계정과 동기화한다 — effect 대신
+  // 렌더 중 상태 조정 패턴을 쓴다(react-hooks/set-state-in-effect가 effect 안 동기 setState를
+  // 금지한다: https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes).
+  const [syncedAccountName, setSyncedAccountName] = useState(accountName);
+  if (accountName !== syncedAccountName) {
+    setSyncedAccountName(accountName);
+    if (accountName) setDraft((prev) => ({ ...prev, name: accountName }));
+  }
 
   // 자동 임시저장 — 입력 300ms 디바운스로 로컬 초안 보관 (06 §2.5)
   useEffect(() => {
