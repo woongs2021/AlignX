@@ -73,7 +73,7 @@ function principleRows(report: ReportData): string {
         </td>
         <td>
           ${p.isGap ? '<span class="badge">관점 차이</span>' : ''}
-          <div class="mentor-label">MENTOR</div>
+          <div class="mentor-label">MENTOR${p.mentorScore !== undefined ? ` · ${p.mentorScore}/10` : ''}</div>
           <div>${escapeHtml(p.mentorComment)}</div>
         </td>
       </tr>`,

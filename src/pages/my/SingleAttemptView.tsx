@@ -3,12 +3,10 @@ import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { PRINCIPLES } from '@/data/principles';
 import { useLiveMentorProgress } from '@/features/mentor/useLiveMentorProgress';
-import { isAllDone, totalDurationMs } from '@/features/mentor/simulator';
 import { buildReportData } from '@/features/report/buildReportData';
 import { buildReportHtml, reportFileName } from '@/features/report/buildHtml';
 import { computeFinalScore } from '@/features/report/scoring';
 import { downloadHtmlFile } from '@/lib/download';
-import { formatRemaining } from '@/lib/format';
 import type { AiAnalysis, Attempt } from '@/types';
 import styles from './SingleAttemptView.module.css';
 
@@ -130,7 +128,7 @@ function AiCard({ attempt, status, isActive }: { attempt: Attempt; status: Stage
 
 function MentorCard({ attempt, status, isActive }: { attempt: Attempt; status: StageStatus; isActive: boolean }) {
   const navigate = useNavigate();
-  const { stages, now } = useLiveMentorProgress(attempt);
+  const { stages } = useLiveMentorProgress(attempt);
   const reviewStages = stages.filter((s) => s.id !== 'complete');
   const doneCount = reviewStages.filter((s) => s.status === 'done').length;
   const activeStage = reviewStages.find((s) => s.status === 'active');
@@ -156,10 +154,8 @@ function MentorCard({ attempt, status, isActive }: { attempt: Attempt; status: S
             {doneCount} / {reviewStages.length} 단계 진행 중
           </p>
           {activeStage && <p className={styles.cardScore}>현재 · {activeStage.label}</p>}
-          {!isAllDone(stages) && (
-            <p className="meta">
-              예상 완료 {formatRemaining(new Date(attempt.mentorRequest.submittedAt).getTime() + totalDurationMs() - now)}
-            </p>
+          {activeStage?.id === 'mentor_review' && (
+            <p className="meta">검토가 끝나면 알림으로 알려드립니다</p>
           )}
           {isActive && (
             <Button variant="ghost" className={styles.cardAction} onClick={() => navigate('/portfolio/mentor')}>

@@ -16,11 +16,13 @@ type MyHeaderProps = {
 /** 회차 수와 무관하게 항상 보이는 공통 헤드 (09 §2). */
 export function MyHeader({ name, totalCount, bestScore, latestDate }: MyHeaderProps) {
   const navigate = useNavigate();
-  const resetAll = useAppStore((s) => s.resetAll);
+  // 계정 도입 이후에는 "전체 초기화"가 아니라 "내(로그인 계정 또는 게스트) 회차만 초기화"다 —
+  // 다른 계정의 기록·세션·알림까지 지우면 안 된다(Plans/14 §3.1).
+  const clearOwnAttempts = useAppStore((s) => s.clearOwnAttempts);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   function handleResetConfirm() {
-    resetAll();
+    clearOwnAttempts();
     setConfirmOpen(false);
   }
 

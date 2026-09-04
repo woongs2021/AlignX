@@ -120,36 +120,37 @@ describe('AdminFeedbackPage — 검증 단계 수동 제어 (10 §3.3)', () => {
     const id = createSubmittedAttempt();
     await renderFeedbackPage(id);
 
-    // 제출 직후에도 절대시각 계산상 1번째 단계가 이미 active라 "검증중 0/5"로 시작한다.
-    expect(screen.getByText(/현재 검증중 0\/5/)).toBeInTheDocument();
+    // 제출 직후에도 절대시각 계산상 1번째 단계가 이미 active라 "검증중 0/3"으로 시작한다.
+    // (Plans/14 §6.1 — review1/review2/synthesis 3단계가 mentor_review 1단계로 통합됐다.)
+    expect(screen.getByText(/현재 검증중 0\/3/)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '다음 단계로' }));
-    expect(screen.getByText(/현재 검증중 1\/5/)).toBeInTheDocument();
+    expect(screen.getByText(/현재 검증중 1\/3/)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: '다음 단계로' }));
-    expect(screen.getByText(/현재 검증중 2\/5/)).toBeInTheDocument();
+    expect(screen.getByText(/현재 검증중 2\/3/)).toBeInTheDocument();
   });
 
-  it('"즉시 완료 처리"를 누르면 5단계가 한 번에 끝난다', async () => {
+  it('"즉시 완료 처리"를 누르면 3단계가 한 번에 끝난다', async () => {
     const id = createSubmittedAttempt();
     await renderFeedbackPage(id);
 
     fireEvent.click(screen.getByRole('button', { name: '즉시 완료 처리' }));
 
-    expect(screen.getByText(/현재 검증중 5\/5/)).toBeInTheDocument();
+    expect(screen.getByText(/현재 검증중 3\/3/)).toBeInTheDocument();
   });
 
   it('샘플 학생도 동일하게 단계 제어와 피드백 확정이 가능하다', async () => {
     renderAt('/admin');
     await screen.findByRole('heading', { name: /제출 현황/ });
-    // 002 이도윤은 검증중 3/6(계획서 표기 기준) 상태의 샘플이다.
+    // 002 이도윤은 검증중 상태의 샘플이다.
     const card = screen.getAllByText('이도윤')[0].closest('tr') ?? screen.getAllByText('이도윤')[0].closest('div');
     const feedbackButtons = within(card as HTMLElement).queryAllByRole('button', { name: '피드백 작성' });
     fireEvent.click(feedbackButtons[0]);
 
     await screen.findByText(/검증 단계 제어/);
     fireEvent.click(screen.getByRole('button', { name: '즉시 완료 처리' }));
-    expect(screen.getByText(/현재 검증중 5\/5/)).toBeInTheDocument();
+    expect(screen.getByText(/현재 검증중 3\/3/)).toBeInTheDocument();
 
     const overallBox = document.querySelector('textarea')!;
     fireEvent.change(overallBox, { target: { value: '샘플 학생 피드백입니다.' } });

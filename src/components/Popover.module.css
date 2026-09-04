@@ -1,0 +1,24 @@
+.wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 150;
+  min-width: 280px;
+  max-width: min(360px, calc(100vw - 2 * var(--sp-gutter)));
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--stroke);
+  border-radius: var(--r-lg);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--deep) 20%, transparent);
+  overflow: hidden;
+}
+
+.alignLeft {
+  right: auto;
+  left: 0;
+}

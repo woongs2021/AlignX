@@ -3,8 +3,8 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { AppRouter, BASENAME } from '@/router';
 import { useAppStore } from '@/store/useAppStore';
 import { generateAnalysis } from '@/features/analysis/dummyEngine';
-import { generateMentorFeedback } from '@/features/mentor/dummyFeedback';
-import type { MentorRequest } from '@/types';
+import { PRINCIPLES } from '@/data/principles';
+import type { Attempt, MentorFeedback, MentorRequest } from '@/types';
 
 function renderAt(path: string) {
   window.history.pushState({}, '', BASENAME + path);
@@ -21,6 +21,18 @@ function makeMentorRequest(overrides: Partial<MentorRequest> = {}): MentorReques
   };
 }
 
+/** 더 이상 타이머 자동완료가 없으므로(Plans/14 §6.1) 테스트에서는 고정 피드백을 직접 만든다. */
+function makeMentorFeedback(attempt: Attempt): MentorFeedback {
+  return {
+    mentorName: '이지우',
+    mentorRole: 'Design Director',
+    overall: '전체적으로 준수한 완성도입니다.',
+    perPrinciple: PRINCIPLES.map((p) => ({ principleId: p.id, comment: `${p.nameKr} 코멘트` })),
+    mentorScore: attempt.ai?.totalScore ?? 80,
+    completedAt: new Date().toISOString(),
+  };
+}
+
 function createCompletedAttempt(fileName: string): string {
   const id = useAppStore.getState().createAttempt({
     name: fileName,
@@ -31,7 +43,7 @@ function createCompletedAttempt(fileName: string): string {
   useAppStore.getState().setAiAnalysis(id, generateAnalysis({ name: fileName, size: 1_000_000 }));
   useAppStore.getState().setMentorRequest(id, makeMentorRequest());
   const attempt = useAppStore.getState().attempts.find((a) => a.id === id)!;
-  useAppStore.getState().setMentorFeedback(id, generateMentorFeedback(attempt));
+  useAppStore.getState().setMentorFeedback(id, makeMentorFeedback(attempt));
   return id;
 }
 

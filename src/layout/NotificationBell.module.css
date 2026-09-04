@@ -1,0 +1,123 @@
+.bell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--stroke);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.bell:hover {
+  background: var(--soft);
+  border-color: var(--stroke-strong);
+}
+
+.bell:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--r-pill);
+  background: var(--warning);
+  color: var(--on-primary);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panelBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-md) var(--sp-lg);
+  font-weight: 600;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.markAllBtn,
+.viewAllBtn {
+  background: none;
+  border: none;
+  color: var(--accent-text);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.emptyText {
+  padding: var(--sp-lg);
+  color: var(--fg-muted);
+  font-size: var(--t-body-sm);
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-sm);
+  width: 100%;
+  text-align: left;
+  padding: var(--sp-sm) var(--sp-lg);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--stroke);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--soft);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--primary);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.itemTitle {
+  font-size: var(--t-body-sm);
+}
+
+.itemMeta {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.viewAllBtn {
+  padding: var(--sp-md) var(--sp-lg);
+  text-align: center;
+}

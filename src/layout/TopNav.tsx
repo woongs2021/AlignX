@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { AlignXLogo } from '@/components/AlignXLogo';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { NAV_ITEMS } from './navItems';
+import { NotificationBell } from './NotificationBell';
+import { AccountMenu } from './AccountMenu';
+import { useRole } from '@/features/auth/useSession';
+import { navItemsFor } from './navItems';
 import { MobileNav } from './MobileNav';
 import { useTopNavScroll } from './useTopNavScroll';
 import styles from './TopNav.module.css';
@@ -28,6 +31,10 @@ function HamburgerIcon() {
 export function TopNav() {
   const { scrolled, hidden } = useTopNavScroll();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const role = useRole();
+  const navItems = navItemsFor(role);
+  // HOME의 다크모드 dim 토글은 제거 대상이었다(Plans/14 §4.1) — 아예 렌더하지 않는다.
+  const isHome = useLocation().pathname === '/';
 
   const navClass = [styles.nav, scrolled && styles.scrolled, hidden && styles.hidden]
     .filter(Boolean)
@@ -47,7 +54,7 @@ export function TopNav() {
           </NavLink>
 
           <nav className={styles.tabs} aria-label="주 메뉴">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -63,7 +70,9 @@ export function TopNav() {
           </nav>
 
           <div className={styles.actions}>
-            <ThemeToggle />
+            {!isHome && <ThemeToggle />}
+            <NotificationBell />
+            <AccountMenu />
             <button
               type="button"
               className={styles.hamburger}

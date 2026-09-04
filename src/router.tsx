@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactElement } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { useAppStore } from '@/store/useAppStore';
+import { useCurrentAccount, useRole } from '@/features/auth/useSession';
 import { HISTORY_UNLOCK_THRESHOLD } from '@/data/constants';
 import { HomePage } from '@/pages/home/HomePage';
 import { PortfolioIntroPage } from '@/pages/portfolio/PortfolioIntroPage';
@@ -26,6 +27,12 @@ const AboutPage = lazy(() =>
 );
 const MyHistoryPage = lazy(() =>
   import('@/pages/my/MyHistoryPage').then((m) => ({ default: m.MyHistoryPage })),
+);
+const NotificationsPage = lazy(() =>
+  import('@/pages/my/NotificationsPage').then((m) => ({ default: m.NotificationsPage })),
+);
+const MentorReviewPage = lazy(() =>
+  import('@/pages/my/mentor/MentorReviewPage').then((m) => ({ default: m.MentorReviewPage })),
 );
 const AdminPage = lazy(() =>
   import('@/pages/admin/AdminPage').then((m) => ({ default: m.AdminPage })),
@@ -66,6 +73,22 @@ function RequireHistoryUnlock({ children }: { children: ReactElement }) {
   if (attemptCount < HISTORY_UNLOCK_THRESHOLD) {
     return <Navigate to="/my" replace />;
   }
+  return children;
+}
+
+/** 로그인이 필요한 라우트(현재는 알림함) 전용 가드. 멘토 요청 제출 자체의 로그인 요구는
+ * Step2Page 내부에서 처리한다 — 이미 제출된 요청의 모니터링 화면은 로그인 여부와 무관하게
+ * 계속 보여야 하기 때문이다(폼만 게이트한다, Plans/14 §3.4 Q3). */
+function RequireLogin({ children }: { children: ReactElement }) {
+  const account = useCurrentAccount();
+  if (!account) return <Navigate to="/portfolio" replace />;
+  return children;
+}
+
+/** 검증 화면은 멘토 계정 전용이다 — 다른 역할이 접근하면 홈으로 돌려보낸다. */
+function RequireMentorRole({ children }: { children: ReactElement }) {
+  const role = useRole();
+  if (role !== 'mentor') return <Navigate to="/" replace />;
   return children;
 }
 
@@ -119,6 +142,22 @@ export function AppRouter() {
                 <RequireHistoryUnlock>
                   <MyHistoryPage />
                 </RequireHistoryUnlock>
+              }
+            />
+            <Route
+              path="/my/notifications"
+              element={
+                <RequireLogin>
+                  <NotificationsPage />
+                </RequireLogin>
+              }
+            />
+            <Route
+              path="/my/review/:id"
+              element={
+                <RequireMentorRole>
+                  <MentorReviewPage />
+                </RequireMentorRole>
               }
             />
 

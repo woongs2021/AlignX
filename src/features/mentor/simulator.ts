@@ -1,6 +1,11 @@
 // 실시간 검증 모니터 시뮬레이터 — 절대 시각 기준으로 단계를 역산한다 (Plans/06-portfolio-step2.md §3.3).
 // setInterval 카운터를 상태로 들면 탭을 닫았다 열 때 진행이 멈추거나 튄다 — 그래서 매 tick마다
 // mentorRequest.submittedAt + 현재 시각으로 전체를 다시 계산한다.
+//
+// Plans/14-accounts-notifications.md §6.1 — "접수 확인"·"멘토 배정"까지는 여전히 타이머 연출이지만,
+// 그 이후(mentor_review)는 지속시간이 없다(Infinity) — 실제 멘토가 확정 제출하기 전까지는 시간이
+// 아무리 지나도 완료되지 않는다. "검증 완료" 단계도 마찬가지로 타이머만으로는 done이 되지 않는다.
+import { accountById } from '@/data/accounts';
 import type { Attempt, MentorStage } from '@/types';
 
 export type StageConfig = {
@@ -14,8 +19,6 @@ export type StageConfig = {
 
 const FAST_FORWARD_FACTOR = 10; // ?fast=1 — 시연용 10배속
 
-// 전체 합 60초 — "컨펌 프로세스도 1분 정도" 요청에 맞춰 원래 비율(6:12:40:40:50)을 유지한 채
-// 축소했다.
 export const STAGE_CONFIG: StageConfig[] = [
   { id: 'intake', label: '접수 확인', mentorName: '시스템', workingCopy: '접수를 확인하는 중입니다', durationMs: 3_000 },
   {
@@ -26,28 +29,11 @@ export const STAGE_CONFIG: StageConfig[] = [
     durationMs: 5_000,
   },
   {
-    id: 'review1',
-    label: '1차 리뷰 — 구조 · 내러티브',
-    mentorName: '김세연',
-    mentorRole: 'UX Lead',
-    workingCopy: '구조와 내러티브를 검토하는 중입니다',
-    durationMs: 16_000,
-  },
-  {
-    id: 'review2',
-    label: '2차 리뷰 — 비주얼 · UX',
-    mentorName: '박도현',
-    mentorRole: 'Product Designer',
-    workingCopy: '비주얼과 UX를 검토하는 중입니다',
-    durationMs: 16_000,
-  },
-  {
-    id: 'synthesis',
-    label: '종합 코멘트 작성',
-    mentorName: '이지우',
-    mentorRole: 'Design Director',
-    workingCopy: '종합 코멘트를 작성하는 중입니다',
-    durationMs: 20_000,
+    id: 'mentor_review',
+    label: '멘토 검토',
+    mentorRole: '현직 멘토',
+    workingCopy: '멘토가 직접 검토하는 중입니다',
+    durationMs: Infinity,
   },
   { id: 'complete', label: '검증 완료', durationMs: 0 },
 ];
@@ -64,9 +50,12 @@ export function totalDurationMs(fast = isFastMode()): number {
   return STAGE_CONFIG.reduce((sum, c) => sum + scaled(c.durationMs, fast), 0);
 }
 
-/** mentorRequest.submittedAt을 기준 삼아 현재 시각에서의 각 단계 상태를 절대시간으로 계산한다. */
+/** mentorRequest.submittedAt을 기준 삼아 현재 시각에서의 각 단계 상태를 절대시간으로 계산한다.
+ * mentor_review는 durationMs가 Infinity라 시간이 아무리 지나도 'active'에 머문다 — 실제로
+ * 멘토가 확정 제출(setMentorFeedback)해야만 완료로 취급된다(호출부는 mentorFeedback 유무를 본다). */
 export function resumeMentorProgress(attempt: Attempt, now = Date.now(), fast = isFastMode()): MentorStage[] {
   const submittedAt = attempt.mentorRequest?.submittedAt;
+  const mentorName = accountById(attempt.assignedMentorId)?.name;
   let cursor = submittedAt ? new Date(submittedAt).getTime() : now;
 
   return STAGE_CONFIG.map((config) => {
@@ -76,7 +65,7 @@ export function resumeMentorProgress(attempt: Attempt, now = Date.now(), fast = 
 
     let status: MentorStage['status'];
     if (config.id === 'complete') {
-      status = now >= cursor ? 'done' : 'pending';
+      status = Number.isFinite(cursor) && now >= cursor ? 'done' : 'pending';
     } else if (now >= endsAt) {
       status = 'done';
     } else if (now >= startedAt) {
@@ -85,11 +74,13 @@ export function resumeMentorProgress(attempt: Attempt, now = Date.now(), fast = 
       status = 'pending';
     }
 
+    const resolvedMentorName = config.id === 'mentor_review' ? mentorName : config.mentorName;
+
     const stage: MentorStage = {
       id: config.id,
       label: config.label,
       status,
-      ...(config.mentorName ? { mentorName: config.mentorName } : {}),
+      ...(resolvedMentorName ? { mentorName: resolvedMentorName } : {}),
       ...(status !== 'pending' ? { startedAt: new Date(startedAt).toISOString() } : {}),
       ...(status === 'done' ? { completedAt: new Date(config.id === 'complete' ? cursor : endsAt).toISOString() } : {}),
     };
@@ -112,6 +103,17 @@ export function advanceStages(stages: MentorStage[], now: string = new Date().to
     next[nextIdx] = { ...next[nextIdx], status: 'active', startedAt: now };
   }
   return next;
+}
+
+/** advanceStages를 전 단계 수만큼 반복해 모두 done으로 만든다 — 멘토가 실제로 확정 제출했을 때
+ * (setMentorFeedback) 화면상 타임라인도 즉시 "검증 완료"로 맞추는 데 쓴다. ADMIN의 "즉시 완료
+ * 처리"·샘플 데이터 완료 처리와 동일한 로직을 공유한다. */
+export function completeAllStages(stages: MentorStage[], now: string = new Date().toISOString()): MentorStage[] {
+  let result = stages;
+  for (let i = 0; i < STAGE_CONFIG.length; i += 1) {
+    result = advanceStages(result, now);
+  }
+  return result;
 }
 
 export function isAllDone(stages: MentorStage[]): boolean {
