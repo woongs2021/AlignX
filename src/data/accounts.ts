@@ -53,14 +53,15 @@ export const MENTEE_ACCOUNT = ACCOUNTS[0];
 export const MENTOR_ACCOUNT = ACCOUNTS[1];
 export const ADMIN_ACCOUNT = ACCOUNTS[2];
 
-/** 이 계정에 멘토 검증 요청이 몇 건 있는지 — 진행 중이든 이미 멘토 피드백까지 끝난 완료
- * 건이든 모두 센다(멘토 검증을 신청한 적이 있는지가 기준). 계정 메뉴의 본인 배지가 쓴다.
- * admin은 항상 0건. */
-export function countMentorRequests(attempts: Attempt[], account: Account): number {
+/** 이 계정에 걸린 멘토 검증 요청 attempt들 — 진행 중이든 이미 멘토 피드백까지 끝난 완료
+ * 건이든 모두 포함한다(멘토 검증을 신청한 적이 있는지가 기준). 계정 메뉴의 본인 배지 개수와,
+ * 배지를 클릭했을 때 어디로 이동할지(단건이면 상세, 복수면 목록)를 정하는 데 쓴다.
+ * admin은 항상 빈 배열. */
+export function mentorRequestAttempts(attempts: Attempt[], account: Account): Attempt[] {
   return attempts.filter((a) => {
     if (a.mentorRequest === null) return false;
     if (account.role === 'mentee') return (a.ownerId ?? null) === account.id;
     if (account.role === 'mentor') return (a.assignedMentorId ?? null) === account.id;
     return false;
-  }).length;
+  });
 }

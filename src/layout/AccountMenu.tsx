@@ -4,7 +4,7 @@ import { Popover } from '@/components/Popover';
 import { Avatar } from '@/components/Avatar';
 import { Badge } from '@/components/Badge';
 import { ACCOUNTS } from '@/data/accounts';
-import { useCurrentAccount, useMentorRequestCounts } from '@/features/auth/useSession';
+import { useCurrentAccount, useMyMentorRequestAttempts } from '@/features/auth/useSession';
 import { useAppStore } from '@/store/useAppStore';
 import styles from './AccountMenu.module.css';
 
@@ -27,7 +27,7 @@ export function AccountMenu() {
   const login = useAppStore((s) => s.login);
   const logout = useAppStore((s) => s.logout);
   const [switching, setSwitching] = useState(false);
-  const requestCounts = useMentorRequestCounts();
+  const myRequests = useMyMentorRequestAttempts();
 
   return (
     <Popover
@@ -113,9 +113,27 @@ export function AccountMenu() {
                 <span className={styles.accountRowName}>{account.name}</span>
                 <span className={styles.accountRowRole}>{ROLE_LABEL[account.role]} · {account.title}</span>
               </span>
-              <Badge variant={requestCounts[account.id] > 0 ? 'warning' : 'outline'}>
-                {requestCounts[account.id]}건
-              </Badge>
+              {myRequests.length > 0 ? (
+                <button
+                  type="button"
+                  role="menuitem"
+                  className={styles.requestBadgeBtn}
+                  aria-label="요청 현황 보기"
+                  onClick={() => {
+                    close();
+                    if (myRequests.length === 1) {
+                      const id = myRequests[0].id;
+                      navigate(account.role === 'mentor' ? `/my/review/${id}` : `/my?attempt=${id}`);
+                    } else {
+                      navigate('/my');
+                    }
+                  }}
+                >
+                  <Badge variant="warning">{myRequests.length}건</Badge>
+                </button>
+              ) : (
+                <Badge variant="outline">0건</Badge>
+              )}
             </div>
             <button type="button" role="menuitem" className={styles.menuItemBtn} onClick={() => setSwitching(true)}>
               계정 전환

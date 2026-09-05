@@ -1,6 +1,6 @@
 // 로그인 상태·역할 파생 — MyPage/router/TopNav가 전부 이 훅만 본다(Plans/14 §3.2).
 import { useAppStore } from '@/store/useAppStore';
-import { ACCOUNTS, accountById, countMentorRequests, type Account, type AccountRole } from '@/data/accounts';
+import { ACCOUNTS, accountById, mentorRequestAttempts, type Account, type AccountRole } from '@/data/accounts';
 import type { Attempt } from '@/types';
 
 export function useCurrentAccount(): Account | null {
@@ -25,15 +25,14 @@ export function useMyAttempts(): Attempt[] {
   return [];
 }
 
-/** 계정별로 멘토 검증 요청이 몇 건 있는지(진행 중 + 완료 모두 포함) — 계정 메뉴에서 로그인한
- * 본인에게 몇 건이 들어와 있는지 보여주기 위함. admin은 항상 0건. */
-export function useMentorRequestCounts(): Record<string, number> {
+/** 로그인한 본인에게 걸린 멘토 검증 요청 attempt 목록(진행 중 + 완료 모두 포함) — 계정 메뉴
+ * 배지의 개수 표시와, 배지를 클릭했을 때 이동할 곳(단건이면 상세, 복수면 목록)을 정하는 데
+ * 쓴다. 로그아웃 상태거나 admin이면 빈 배열. */
+export function useMyMentorRequestAttempts(): Attempt[] {
+  const account = useCurrentAccount();
   const attempts = useAppStore((s) => s.attempts);
-  const counts: Record<string, number> = {};
-  for (const account of ACCOUNTS) {
-    counts[account.id] = countMentorRequests(attempts, account);
-  }
-  return counts;
+  if (!account) return [];
+  return mentorRequestAttempts(attempts, account);
 }
 
 export { ACCOUNTS };

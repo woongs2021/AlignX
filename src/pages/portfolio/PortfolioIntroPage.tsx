@@ -140,7 +140,10 @@ export function PortfolioIntroPage() {
       <Card variant="soft" className={styles.ctaBand}>
         <div>
           <p className={styles.ctaTitle}>지금 바로 시작해보세요</p>
-          <p className="meta">직군을 선택하면 그에 맞는 채점 기준과 전문 멘토가 배정됩니다. 약 90초면 1차 결과가 나옵니다.</p>
+          <p className="meta">
+            직군을 선택하면 그에 맞는 채점 기준과 전문 멘토가 배정됩니다. 정교하게 설계된 AlignX AI가 1차
+            검수를 시작합니다. 포트폴리오에 따라 1분에서 최대 수 분까지 분석 시간이 걸릴 수 있습니다.
+          </p>
         </div>
         <div className={styles.actions}>
           <Button variant="primary" onClick={() => setIsModalOpen(true)}>
