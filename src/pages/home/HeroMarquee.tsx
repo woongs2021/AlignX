@@ -41,7 +41,10 @@ export function HeroMarquee({ images, isMobile, playing, rowGap, scale, sideOpac
   const rowChunks = splitIntoRows(images, rows.length);
 
   return (
-    <motion.div className={styles.rows} style={{ scale, gap: rowGap, y: -20 }}>
+    <motion.div
+      className={[styles.rows, isMobile && styles.rowsMobile].filter(Boolean).join(' ')}
+      style={{ scale, gap: rowGap, y: -20 }}
+    >
       {rows.map((row, rowIndex) => {
         const rowImages = rowChunks[rowIndex];
         const cards = [...rowImages, ...rowImages];

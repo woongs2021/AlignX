@@ -3,6 +3,13 @@
   padding: var(--sp-section) 0;
 }
 
+/* 모바일 히어로 하단이 비어 보이는 문제 — 이 섹션을 히어로 바로 아래 20px만 띄우고 붙인다. */
+@media (max-width: 767px) {
+  .section {
+    padding-top: 20px;
+  }
+}
+
 .inner {
   display: flex;
   flex-direction: column;

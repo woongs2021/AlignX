@@ -5,7 +5,7 @@ import { useLenis } from 'lenis/react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Avatar } from '@/components/Avatar';
 import { Badge } from '@/components/Badge';
-import { useCurrentAccount, useMentorRequestCounts, useRole } from '@/features/auth/useSession';
+import { useCurrentAccount, useMyMentorRequestAttempts, useRole } from '@/features/auth/useSession';
 import { ACCOUNTS } from '@/data/accounts';
 import { useAppStore } from '@/store/useAppStore';
 import { navItemsFor } from './navItems';
@@ -54,7 +54,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const account = useCurrentAccount();
   const login = useAppStore((s) => s.login);
   const logout = useAppStore((s) => s.logout);
-  const requestCounts = useMentorRequestCounts();
+  const myRequests = useMyMentorRequestAttempts();
   const isHome = location.pathname === '/';
 
   // 라우트 변경 시 자동 닫힘
@@ -156,9 +156,25 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     <p className={styles.accountName}>{account.name}</p>
                     <p className="meta">{account.title}</p>
                   </div>
-                  <Badge variant={requestCounts[account.id] > 0 ? 'warning' : 'outline'}>
-                    {requestCounts[account.id]}건
-                  </Badge>
+                  {myRequests.length > 0 ? (
+                    <button
+                      type="button"
+                      className={styles.requestBadgeBtn}
+                      aria-label="요청 현황 보기"
+                      onClick={() => {
+                        if (myRequests.length === 1) {
+                          const id = myRequests[0].id;
+                          navigate(account.role === 'mentor' ? `/my/review/${id}` : `/my?attempt=${id}`);
+                        } else {
+                          navigate('/my');
+                        }
+                      }}
+                    >
+                      <Badge variant="warning">{myRequests.length}건</Badge>
+                    </button>
+                  ) : (
+                    <Badge variant="outline">0건</Badge>
+                  )}
                 </div>
                 <div className={styles.accountActions}>
                   {ACCOUNTS.filter((a) => a.id !== account.id).map((a) => (

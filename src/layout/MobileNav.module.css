@@ -84,6 +84,19 @@
   color: var(--fg-muted);
 }
 
+.requestBadgeBtn {
+  display: inline-flex;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.requestBadgeBtn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 .accountActions {
   display: flex;
   flex-direction: column;
