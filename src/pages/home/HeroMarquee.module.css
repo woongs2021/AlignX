@@ -17,6 +17,13 @@
   padding-top: 86px; /* 모바일 내비 56px + 30px */
 }
 
+/* 큰 모니터(1920px+)에서는 상단 여백을 20px 더 준다. */
+@media (min-width: 1920px) {
+  .rows {
+    padding-top: 114px;
+  }
+}
+
 .row {
   overflow: hidden;
   width: 100%;

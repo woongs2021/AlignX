@@ -6,6 +6,7 @@ import { TopNav } from './TopNav';
 import { Footer } from './Footer';
 import { ErrorBoundary } from './ErrorBoundary';
 import { StorageWarningBanner } from './StorageWarningBanner';
+import { Toast } from './Toast';
 import { PageMetaContext, type PageMeta } from './pageMetaContext';
 import styles from './PageShell.module.css';
 
@@ -102,6 +103,7 @@ export function PageShell() {
     <div className={styles.shell}>
       <TopNav />
       <StorageWarningBanner />
+      <Toast />
 
       <main id="content" tabIndex={-1} ref={mainRef} className={styles.main}>
         <AnimatePresence mode="wait">

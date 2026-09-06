@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, type StateStorage } from 'zustand/middleware';
 import { advanceStages, completeAllStages, resumeMentorProgress } from '@/features/mentor/simulator';
-import { ADMIN_ACCOUNT, MENTOR_ACCOUNT, accountById } from '@/data/accounts';
+import { ADMIN_ACCOUNT, MENTOR_ACCOUNT, accountById, mentorRequestAttempts } from '@/data/accounts';
 import { buildSeedNotifications } from '@/data/seedNotifications';
+import { showToast } from './useToastStore';
 import type {
   AiAnalysis,
   AppNotification,
@@ -327,6 +328,11 @@ export const useAppStore = create<Store>()(
       login: (accountId) => {
         set({ session: { accountId }, admin: { unlockedAt: null } });
         get().seedNotificationsIfNeeded(accountId);
+        const account = accountById(accountId);
+        if (account) {
+          const count = mentorRequestAttempts(get().attempts, account).length;
+          showToast(`${account.name}님이 로그인하였습니다.\n진행 중인 요청 ${count}건`);
+        }
       },
 
       logout: () => {

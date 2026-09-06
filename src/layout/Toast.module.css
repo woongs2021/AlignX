@@ -1,0 +1,24 @@
+.wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--sp-2xl);
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.toast {
+  margin: 0;
+  padding: var(--sp-sm) var(--sp-lg);
+  border-radius: var(--r-lg);
+  background: var(--deep);
+  color: var(--on-primary);
+  font-size: var(--t-body-sm);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--deep) 20%, transparent);
+  /* 로그인 토스트가 "OOO님이 로그인하였습니다" + "진행 중인 요청 N건" 두 줄이라 줄바꿈은
+   * 살리고(pre-line), 다른 공백은 평소처럼 접는다. */
+  white-space: pre-line;
+  text-align: center;
+}
